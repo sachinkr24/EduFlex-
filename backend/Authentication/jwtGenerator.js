@@ -5,14 +5,18 @@ import jwt from 'jsonwebtoken'
 
 
 const app = express();
-dotenv.config({path: "backend/.env"})
+dotenv.config({path: 'backend/.env'})
 
 
 function createUserToken(data) {
-    jwt.sign(data, process.env.SECRET_KEY, {expiresIN : '1h'});
+    data.role = 'USER';
+    return jwt.sign(data, process.env.SECRET_KEY, {expiresIN : '1h'});
 }
 
 function createAdminToken(data){
-    jwt.sign(data, process.env.SECRET_KEY, {expiresIN : '1h'});
+    data.role = 'ADMIN';
+    return jwt.sign(data, process.env.SECRET_KEY, {expiresIN : '1h'});
 }
+
+export default {createAdminToken, createUserToken};
 
