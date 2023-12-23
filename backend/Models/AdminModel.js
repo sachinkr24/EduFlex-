@@ -1,7 +1,5 @@
 import mongoose from "mongoose";
-import CourseModel from './CourseModel.js'
 
-const Course = mongoose.model('Course', CourseModel);
 
 const adminSchema = new mongoose.Schema({
     username : {

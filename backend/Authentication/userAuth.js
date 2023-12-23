@@ -1,10 +1,11 @@
-import express from 'express'
+
 import jwt from 'jsonwebtoken'
+import dotenv from 'dotenv'
 
-const app = express();
+dotenv.config('../.env');
 
 
-export const authenticateJWT = (req, res, next) => {
+export const authenticateUserJWT = (req, res, next) => {
     const authHead = req.headers.authorization;
     if(authHead){
         const token = authHead.split(' ')[1];
@@ -20,4 +21,4 @@ export const authenticateJWT = (req, res, next) => {
     }
 
 }
-export default authenticateJWT;
+export default authenticateUserJWT;

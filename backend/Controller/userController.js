@@ -10,7 +10,7 @@ app.use(express.json());
 
 export const signUp = async (req, res) => {
     const { username, email, password } = req.body;
-    const user = await Users.findOne({ email }); 
+    const user = await Users.findOne({ username }); 
     if (user) {
       res.status(403).json({ message: 'User already exists' });
     } else {
@@ -22,8 +22,8 @@ export const signUp = async (req, res) => {
   };
   
 export const login = async (req, res) => {
-    const { username, email, password } = req.headers;
-    const user = await Users.findOne({ username, email, password });
+    const { username, password } = req.headers;
+    const user = await Users.findOne({ username, password });
     if (user) {
       const token = createUserToken(user);
       res.json({ message: 'Logged in successfully', token });
@@ -62,5 +62,3 @@ export const allBuyings = async (req, res) => {
       res.status(403).json({ message: 'User not found' });
     }
   };
-
-  export default {signUp, login, considerableCourses, purchaseCourse, allBuyings};

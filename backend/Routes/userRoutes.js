@@ -1,12 +1,17 @@
+
+
 import express from "express";
 import {signUp, login, considerableCourses, purchaseCourse, allBuyings} from '../Controller/userController.js'
-import authenticateJWT from '../Authentication/userAuth.js'
+import authenticateUserJWT from '../Authentication/userAuth.js'
 
 const app = express();
-app.use(express.json());
 
-app.post('/signup', signUp);
-app.post('/login', login);
-app.get('/courses', authenticateJWT, considerableCourses);
-app.post('/courses/:courseId', authenticateJWT, purchaseCourse);
-app.get('/purchasedCourses', authenticateJWT, allBuyings);
+const userRouter = express.Router();
+
+userRouter.post('/signup', signUp);
+userRouter.post('/login', login);
+userRouter.get('/courses', authenticateUserJWT, considerableCourses);
+userRouter.post('/courses/:courseId', authenticateUserJWT, purchaseCourse);
+userRouter.get('/purchasedCourses', authenticateUserJWT, allBuyings);
+
+export default userRouter;

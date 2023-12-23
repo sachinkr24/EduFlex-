@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv'
 
-dotenv.config("../.env")
+dotenv.config({path : 'D:/Coursella/backend/.env'});
 
 const DB_URI = process.env.MONGO_DB;
 
