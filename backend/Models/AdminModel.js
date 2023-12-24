@@ -15,10 +15,10 @@ const adminSchema = new mongoose.Schema({
         type : String,
         required : [true, "Empty password field"]
     },
-    myCourses : {
+    myCourses : [{
         type : mongoose.Schema.Types.ObjectId, 
         ref : 'Course' 
-    }
+    }]
 })
 
 const Admin = mongoose.model('Admin', adminSchema);

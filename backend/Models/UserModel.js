@@ -14,10 +14,10 @@ const userSchema = new mongoose.Schema({
         type : String,
         required : [true, 'Enter password']
     },
-    purchasedCourses : {
+    purchasedCourses : [{
         type : mongoose.Schema.Types.ObjectId, 
         ref: 'Course'
-    }
+    }]
 })
 
 const Users = mongoose.model('Users', userSchema);

@@ -2,6 +2,7 @@ import express from 'express'
 import Users from '../Models/UserModel.js'
 import Course from '../Models/CourseModel.js'
 import createUserToken from '../Authentication/jwtGenerator.js'
+import jwt from 'jsonwebtoken'
 
 
 const app = express();
@@ -16,16 +17,26 @@ export const signUp = async (req, res) => {
     } else {
       const newUser = new Users({ username, email, password });
       await newUser.save();
-      const token = createUserToken(newUser);
+      const userJSON = {
+        username : username,
+        email : email,
+        role : "USER",
+      }
+      const token = jwt.sign(userJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
       res.json({ message: 'User created successfully', token });
     }
   };
   
 export const login = async (req, res) => {
-    const { username, password } = req.headers;
+    const { username, password } = req.body;
     const user = await Users.findOne({ username, password });
     if (user) {
-      const token = createUserToken(user);
+      const userJSON = {
+        username : user.username,
+        email : user.email,
+        role : "USER",
+      }
+      const token = jwt.sign(userJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
       res.json({ message: 'Logged in successfully', token });
     } else {
       res.status(403).json({ message: 'Invalid username or password' });
@@ -39,7 +50,6 @@ export const considerableCourses = async (req, res) => {
   
 export const purchaseCourse = async (req, res) => {
     const course = await Course.findById(req.params.courseId);
-    console.log(course);
     if (course) {
       const user = await Users.findOne({ username: req.user.username });
       if (user) {
@@ -57,7 +67,14 @@ export const purchaseCourse = async (req, res) => {
 export const allBuyings = async (req, res) => {
     const user = await Users.findOne({ username: req.user.username }).populate('purchasedCourses');
     if (user) {
-      res.json({ purchasedCourses: user.purchasedCourses || [] });
+      const courses = await Promise.all(user.purchasedCourses.map(async (course) => {
+        const purchasedCourse = await Course.findById(course);
+        if(purchasedCourse){
+          return purchasedCourse;
+        }
+      }
+      ));
+      res.json({ courses });
     } else {
       res.status(403).json({ message: 'User not found' });
     }
