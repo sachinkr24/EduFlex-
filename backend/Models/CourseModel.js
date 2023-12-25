@@ -20,7 +20,18 @@ const courseSchema = new mongoose.Schema({
         type : Boolean,
         required : true,
         default : true
-    }
+    },
+    category : {
+        type : String,
+    },
+    rating : {
+        type : Number,
+        default : 0
+    },
+    ratingCount : {
+        type : Number,
+        default : 0
+    },
 })
 
 const Course = mongoose.model('Course', courseSchema);

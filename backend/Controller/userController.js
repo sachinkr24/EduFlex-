@@ -11,7 +11,7 @@ app.use(express.json());
 
 export const signUp = async (req, res) => {
     const { username, email, password } = req.body;
-    const user = await Users.findOne({ username }); 
+    const user = await Users.findOne({ email }); 
     if (user) {
       res.status(403).json({ message: 'User already exists' });
     } else {
@@ -23,20 +23,22 @@ export const signUp = async (req, res) => {
         role : "USER",
       }
       const token = jwt.sign(userJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
+      localStorage.setItem('token', token);
       res.json({ message: 'User created successfully', token });
     }
   };
   
 export const login = async (req, res) => {
-    const { username, password } = req.body;
-    const user = await Users.findOne({ username, password });
+    const { email, password } = req.body;
+    const user = await Users.findOne({ email, password });
     if (user) {
       const userJSON = {
         username : user.username,
-        email : user.email,
+        email : email,
         role : "USER",
       }
       const token = jwt.sign(userJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
+      localStorage.setItem('token', token);
       res.json({ message: 'Logged in successfully', token });
     } else {
       res.status(403).json({ message: 'Invalid username or password' });
@@ -51,7 +53,7 @@ export const considerableCourses = async (req, res) => {
 export const purchaseCourse = async (req, res) => {
     const course = await Course.findById(req.params.courseId);
     if (course) {
-      const user = await Users.findOne({ username: req.user.username });
+      const user = await Users.findOne({ email: req.user.email });
       if (user) {
         user.purchasedCourses.push(course);
         await user.save();
@@ -65,12 +67,20 @@ export const purchaseCourse = async (req, res) => {
   };
   
 export const allBuyings = async (req, res) => {
-    const user = await Users.findOne({ username: req.user.username }).populate('purchasedCourses');
+    const user = await Users.findOne({ email: req.user.email }).populate('purchasedCourses');
     if (user) {
       const courses = await Promise.all(user.purchasedCourses.map(async (course) => {
         const purchasedCourse = await Course.findById(course);
         if(purchasedCourse){
-          return purchasedCourse;
+          return {
+            title: purchasedCourse.title,
+            description: purchasedCourse.description,
+            price: purchasedCourse.price,
+            image: purchasedCourse.imgLink,
+            category: purchasedCourse.category,
+            rating: purchasedCourse.rating,
+            ratingCount: purchasedCourse.ratingCount,
+          }
         }
       }
       ));
@@ -79,3 +89,31 @@ export const allBuyings = async (req, res) => {
       res.status(403).json({ message: 'User not found' });
     }
   };
+
+export const logOut = async (req, res) => {
+    localStorage.removeItem('token');
+    res.json({ message: 'Logged out successfully' });
+}
+
+export const updateRating = async (req, res) => {
+  const course = await Course.findById(req.params.courseId);
+  if(course) {
+    let rating = course.rating;
+    let ratingCount = course.ratingCount + 1;
+    rating = (rating + req.body.rating)/ratingCount;
+    await course.updateOne({rating: rating, ratingCount: ratingCount});
+    res.json({message: 'Rating updated successfully'});
+  }else {
+    res.status(402).json({message: 'Course not found'});
+  }
+}
+
+export const freeCourses = async (req, res) => {
+  const courses = await Course.find({published: true, price: 0});
+  res.json({ courses });
+};
+
+
+
+
+

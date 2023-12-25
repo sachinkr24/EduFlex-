@@ -23,23 +23,25 @@ export const signUp = (req, res) => {
           role : "ADMIN",
         }
         const token = jwt.sign(adminJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
+        localStorage.setItem('token', token);
         res.json({ message: 'Admin created successfully', token });
       }
   
     }
-    Admin.findOne({ username }).then(callback);
+    Admin.findOne({ email }).then(callback);
   };
   
 export const login = async (req, res) => {
-    const { username, password } = req.body;
-    const admin = await Admin.findOne({ username, password });
+    const { email, password } = req.body;
+    const admin = await Admin.findOne({ email, password });
     if (admin) {
       const adminJSON = {
-        username : username,
-        email : admin.email,
+        username : admin.username,
+        email : email,
         role : "ADMIN",
       }
       const token = jwt.sign(adminJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
+      localStorage.setItem('token', token);
       res.json({ message: 'Logged in successfully', token });
     } else {
       res.status(403).json({ message: 'Invalid username or password' });
@@ -47,7 +49,7 @@ export const login = async (req, res) => {
   };
   
 export const addCourse = async (req, res) => {
-  const admin = await Admin.findOne({ username: req.admin.username });
+  const admin = await Admin.findOne({ email: req.admin.email });
   if(admin){
     const course = new Course(req.body);
     await course.save();
@@ -61,7 +63,7 @@ export const addCourse = async (req, res) => {
 };
 
 export const editCourse = async (req, res) => {
-  const admin = await Admin.findOne({ username: req.admin.username });
+  const admin = await Admin.findOne({ email: req.admin.email });
   if(admin){
     const course = await admin.myCourses.findByIdAndUpdate(req.params.courseId, req.body, { new: true });
     if (course) {
@@ -77,17 +79,30 @@ export const editCourse = async (req, res) => {
 };
 
 export const adminCourses = async (req, res) => {
-  const admin = await Admin.findOne({ username: req.admin.username });
+  const admin = await Admin.findOne({ email: req.admin.email });
   if(admin){
     const coursesIds = admin.myCourses;
     const courses = [];
     for(var i = 0; i < coursesIds.length; i++){
       const course = await Course.findById(coursesIds[i]);
-      courses.push(course);
+      courses.push({
+        title: course.title,
+        description: course.description,
+        price: course.price,
+        image: course.imgLink,
+        category: course.category,
+        rating: course.rating,
+        ratingCount: course.ratingCount,
+      });
     }
     res.json({ courses });
   }
   else {
     res.status(403).json({ message: 'Admin not found' });
   }
+};
+
+export const logOut = async (req, res) => {
+  localStorage.removeItem('token');
+  res.json({ message: 'Logged out successfully' });
 };
