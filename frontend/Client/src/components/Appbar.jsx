@@ -1,15 +1,59 @@
-import logo from '../images/logo1.png'
+import Logo from './logo.jsx';
+import Button from '@mui/material/Button';
+import ButtonGroup from '@mui/material/ButtonGroup';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 
+function Appbar() {
+    const navigate = useNavigate();
 
-function Appbar(){
-    return <div>
-        <img src={logo} alt="Coursella" style={{
-            width: '90px',
-            height: '90px',
-        }}  />
-    </div>
+    const handleSignupClick = () => {
+        navigate('/signup');
+    };
+
+    const handleSigninClick = () => {
+        navigate('/signin');
+    };
+
+    return (
+        <div
+            style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                height: '80px',
+                backgroundColor: 'white',
+            }}
+        >
+            <div
+                style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100px',
+                    height: '38px',
+                    margin: '20px',
+                }}
+            >
+                <Logo></Logo>
+            </div>
+            <div
+                style={{
+                    padding: '1px',
+                    margin: '20px',
+                }}
+            >
+                <ButtonGroup variant="text" aria-label="text button group">
+                    <Button component={Link} to="/signup" onClick={handleSignupClick}>
+                        SIGNUP
+                    </Button>
+                    <Button component={Link} to="/signin" onClick={handleSigninClick}>
+                        SIGNIN
+                    </Button>
+                </ButtonGroup>
+            </div>
+        </div>
+    );
 }
 
 export default Appbar;

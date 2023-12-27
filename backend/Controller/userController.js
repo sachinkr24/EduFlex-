@@ -23,7 +23,6 @@ export const signUp = async (req, res) => {
         role : "USER",
       }
       const token = jwt.sign(userJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
-      localStorage.setItem('token', token);
       res.json({ message: 'User created successfully', token });
     }
   };
@@ -38,7 +37,6 @@ export const login = async (req, res) => {
         role : "USER",
       }
       const token = jwt.sign(userJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
-      localStorage.setItem('token', token);
       res.json({ message: 'Logged in successfully', token });
     } else {
       res.status(403).json({ message: 'Invalid username or password' });

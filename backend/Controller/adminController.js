@@ -23,7 +23,6 @@ export const signUp = (req, res) => {
           role : "ADMIN",
         }
         const token = jwt.sign(adminJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
-        localStorage.setItem('token', token);
         res.json({ message: 'Admin created successfully', token });
       }
   
@@ -41,7 +40,6 @@ export const login = async (req, res) => {
         role : "ADMIN",
       }
       const token = jwt.sign(adminJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
-      localStorage.setItem('token', token);
       res.json({ message: 'Logged in successfully', token });
     } else {
       res.status(403).json({ message: 'Invalid username or password' });
