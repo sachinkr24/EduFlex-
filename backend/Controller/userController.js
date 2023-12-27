@@ -111,6 +111,10 @@ export const freeCourses = async (req, res) => {
   res.json({ courses });
 };
 
+export const me = async (req, res) => {
+  return res.json({role : 'USER'});
+}
+
 
 
 

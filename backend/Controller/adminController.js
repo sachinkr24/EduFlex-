@@ -104,3 +104,7 @@ export const logOut = async (req, res) => {
   localStorage.removeItem('token');
   res.json({ message: 'Logged out successfully' });
 };
+
+export const me = async (req, res) => {
+  res.json({role : 'ADMIN'});
+}

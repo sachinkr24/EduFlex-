@@ -1,6 +1,6 @@
 // Desc: user routes
 import express from "express";
-import {signUp, login, considerableCourses, purchaseCourse, allBuyings, logOut, updateRating} from '../Controller/userController.js'
+import {signUp, login, considerableCourses, purchaseCourse, allBuyings, logOut, updateRating, me} from '../Controller/userController.js'
 import authenticateUserJWT from '../Authentication/userAuth.js'
 
 const app = express();
@@ -14,5 +14,6 @@ userRouter.post('/courses/:courseId', authenticateUserJWT, purchaseCourse);
 userRouter.get('/purchasedCourses', authenticateUserJWT, allBuyings);
 userRouter.put('/logout', authenticateUserJWT, logOut);
 userRouter.post('/updateRating', authenticateUserJWT, updateRating);
+userRouter.get('/me', authenticateUserJWT, me);
 
 export default userRouter;

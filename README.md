@@ -7,3 +7,9 @@
 
 
 // check all routes if implemented while doing frontend
+
+
+
+Today 
+    how did he add category..
+    
