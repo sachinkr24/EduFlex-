@@ -27,7 +27,7 @@ function AdminCourses() {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
-                "authorization": "Bearer " + localStorage.getItem("token")
+                "Authorization": "Bearer " + localStorage.getItem("token")
             }
         }).then(callback1)
     }, []);
@@ -48,7 +48,6 @@ function AdminCourses() {
             }} onClick={() => {
                 navigate('/admin/addcourse');
             }}>
-                <CardMedia/>
                 <CardContent>
                     <div style={{
                         justifyContent: "center",

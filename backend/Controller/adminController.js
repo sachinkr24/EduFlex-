@@ -93,6 +93,7 @@ export const adminCourses = async (req, res) => {
         // category: course.category,
         rating: course.rating,
         ratingCount: course.ratingCount,
+        _id: course.id,
       });
     }
     res.json({ courses });
@@ -102,10 +103,6 @@ export const adminCourses = async (req, res) => {
   }
 };
 
-export const logOut = async (req, res) => {
-  localStorage.removeItem('token');
-  res.json({ message: 'Logged out successfully' });
-};
 
 export const me = async (req, res) => {
   res.json({role : 'ADMIN'});
@@ -114,13 +111,15 @@ export const me = async (req, res) => {
 export const courseWithId = async (req, res) => {
   const admin = await Admin.findOne({ email: req.admin.email });
   if(admin){
-    const course = await admin.myCourses.findById(req.params.courseId);
+    const course = await admin.myCourses.findOne(req.params.courseId);
     if (course) {
       res.json({
         title: course.title,
         description: course.description,
         price: course.price,
         image: course.imgLink,
+        rating: course.rating,
+        ratingCount: course.ratingCount,
       });
     } else {
       res.status(404).json({ message: 'Course not found' });

@@ -27,7 +27,7 @@ export default function Addcourse() {
                 justifyContent: 'center',
             }}>
                 <Typography variant="h6">
-                    Welcome to Coursella !! Signup Below
+                    ADD COURSE DETAILS
                 </Typography>
         </div>
         <div style={{

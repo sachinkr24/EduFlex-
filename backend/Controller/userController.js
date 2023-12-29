@@ -88,10 +88,6 @@ export const allBuyings = async (req, res) => {
     }
   };
 
-export const logOut = async (req, res) => {
-    localStorage.removeItem('token');
-    res.json({ message: 'Logged out successfully' });
-}
 
 export const updateRating = async (req, res) => {
   const course = await Course.findById(req.params.courseId);

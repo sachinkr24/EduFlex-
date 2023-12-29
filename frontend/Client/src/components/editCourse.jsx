@@ -53,7 +53,7 @@ function GrayTopper({title}) {
 function UpdateCard({course, setCourse}) {
     const [title, setTitle] = useState(course.title);
     const [description, setDescription] = useState(course.description);
-    const [image, setImage] = useState(course.imageLink);
+    const [image, setImage] = useState(course.image);
     const [price, setPrice] = useState(course.price);
 
     return <div style={{display: "flex", justifyContent: "center"}}>
@@ -122,7 +122,7 @@ function UpdateCard({course, setCourse}) {
                         _id: course._id,
                         title: title,
                         description: description,
-                        imgLink: image,
+                        image: image,
                         price
                     };
                     setCourse(updatedCourse);
