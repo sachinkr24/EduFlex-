@@ -1,11 +1,11 @@
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
-import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import Typography from '@mui/material/Typography';
 import AdminBar from './AdminBar.jsx';
 import { addCourse } from '../Logics/addCourse.js';
+import { useNavigate } from 'react-router-dom';
 
 
 export default function Addcourse() {
@@ -13,8 +13,10 @@ export default function Addcourse() {
     const [title, setTitle] = useState('');
     const [description, setDescription] = useState('');
     const [price, setPrice] = useState(0);
-    const [category, setCategory] = useState([]);
+    // const [category, setCategory] = useState([]);
     const [image, setImage] = useState('');
+
+    const navigate = useNavigate();
 
     return <div>
         <AdminBar></AdminBar>
@@ -60,20 +62,20 @@ export default function Addcourse() {
                 }} onChange={(e) => {
                     setImage(e.target.value);
                 }} required />
-                <TextField label="Category" variant="outlined" style={{
+                {/* <TextField label="Category" variant="outlined" style={{
                     width : "100%",
                     marginBottom : '10px',
                 }} onChange={(e) => {
                     setCategory(e.target.value);
-                }} />
-                <Button size={'large'} variant='contained' onClick={addCourse({
+                }} /> */}
+                <Button size={'large'} variant='contained' onClick={() => addCourse({
                     title,
                     description,
                     price,
-                    category,
-                    image,
+                    // category,
+                    imgLink : image,
                     published : true,
-                })}>Publish</Button>
+                }, navigate)}>Publish</Button>
             </Card>
         </div>
     </div>

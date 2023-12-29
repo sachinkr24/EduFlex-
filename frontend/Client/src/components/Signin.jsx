@@ -1,6 +1,5 @@
 import Card from '@mui/material/Card';
 import TextField from '@mui/material/TextField';
-import Switch from '@mui/material/Switch';
 import Button from '@mui/material/Button';
 import { useState } from 'react';
 import Typography from '@mui/material/Typography';
@@ -8,6 +7,7 @@ import Appbar from './Appbar.jsx';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import {signIn} from '../Logics/Signin.js';
+import {useNavigate} from 'react-router-dom';
 
 
 export default function Signup() {
@@ -19,6 +19,8 @@ export default function Signup() {
     const handleChange = (e) => {
         setAlignment(e.target.value);
     };
+
+    const navigate = useNavigate();
 
     return <div>
         <Appbar></Appbar>
@@ -68,11 +70,11 @@ export default function Signup() {
                 }} onChange={(p) => {
                     setPassword(p.target.value);
                 }} />
-                <Button size={'large'} variant='contained' onClick={signIn({
+                <Button size={'large'} variant='contained' onClick={() => signIn({
                     alignment,
                     email,
                     password
-                })}>signin</Button>
+                }, navigate)}>signin</Button>
             </Card>
         </div>
     </div>

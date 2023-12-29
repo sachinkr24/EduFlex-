@@ -47,6 +47,8 @@ export const login = async (req, res) => {
   };
   
 export const addCourse = async (req, res) => {
+  
+  console.log('course - ', req.body);
   const admin = await Admin.findOne({ email: req.admin.email });
   if(admin){
     const course = new Course(req.body);
@@ -88,7 +90,7 @@ export const adminCourses = async (req, res) => {
         description: course.description,
         price: course.price,
         image: course.imgLink,
-        category: course.category,
+        // category: course.category,
         rating: course.rating,
         ratingCount: course.ratingCount,
       });
@@ -107,4 +109,24 @@ export const logOut = async (req, res) => {
 
 export const me = async (req, res) => {
   res.json({role : 'ADMIN'});
+}
+
+export const courseWithId = async (req, res) => {
+  const admin = await Admin.findOne({ email: req.admin.email });
+  if(admin){
+    const course = await admin.myCourses.findById(req.params.courseId);
+    if (course) {
+      res.json({
+        title: course.title,
+        description: course.description,
+        price: course.price,
+        image: course.imgLink,
+      });
+    } else {
+      res.status(404).json({ message: 'Course not found' });
+    }
+  }
+  else {
+    res.status(403).json({ message: 'Admin not found' });
+  }
 }

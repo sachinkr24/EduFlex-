@@ -75,7 +75,7 @@ export const allBuyings = async (req, res) => {
             description: purchasedCourse.description,
             price: purchasedCourse.price,
             image: purchasedCourse.imgLink,
-            category: purchasedCourse.category,
+            // category: purchasedCourse.category,
             rating: purchasedCourse.rating,
             ratingCount: purchasedCourse.ratingCount,
           }

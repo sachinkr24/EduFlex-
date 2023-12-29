@@ -1,43 +1,28 @@
-export const signIn = (obj) => {
 
+
+export const signIn = async (obj, navigate) => {
     const Role = obj.alignment;
+    const endpoint = Role === 'ADMIN' ? 'admin' : 'users';
 
-    if(Role === "ADMIN"){
-        return fetch('http://localhost:3000/admin/login', {
-            method: 'POST',
-            body: JSON.stringify({
-                email : obj.email,
-                password : obj.password,
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }).then((res) => {
-            return res.json();
-        }).then((data) => {
+    fetch(`http://localhost:3000/${endpoint}/login`, {
+        method: 'POST',
+        body: JSON.stringify({
+            email : obj.email,
+            password : obj.password,
+        }),
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    }).then((res) => {
+        console.log(res.ok)
+        return res.json();
+    }).then((data) => {
+        if (data && data.token) {
+            alert('Login Successful');
             localStorage.setItem('token', data.token);
-            return data;
-        }).catch((err) => {
-            console.log(err);
-        });
-    }
-    else if(Role === "USER") {
-        return fetch('http://localhost:3000/users/login', {
-            method: 'POST',
-            body: JSON.stringify({
-                email : obj.email,
-                password : obj.password,
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-        }).then((res) => {
-            return res.json();
-        }).then((data) => { 
-            localStorage.setItem('token', data.token);
-            return data;
-        }).catch((err) => { 
-            console.log(err);
-        });
-    }
-}
+            navigate(`/${endpoint}`);
+        }
+    }).catch((err) => {
+        console.error('Error:', err);
+    });
+};
