@@ -48,7 +48,7 @@ export const login = async (req, res) => {
   
 export const addCourse = async (req, res) => {
   
-  console.log('course - ', req.body);
+  console.log('course reached at addCourse - ', req.body);
   const admin = await Admin.findOne({ email: req.admin.email });
   if(admin){
     const course = new Course(req.body);

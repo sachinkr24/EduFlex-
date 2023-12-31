@@ -50,7 +50,7 @@ export default function Addcourse() {
                 }} onChange={(e) => {
                     setDescription(e.target.value);
                 }} required />
-                <TextField label="Price" variant="outlined" style={{
+                <TextField label="Price" type='Number' variant="outlined" style={{
                     width : "100%",
                     marginBottom : '10px',
                 }} onChange={(p) => {

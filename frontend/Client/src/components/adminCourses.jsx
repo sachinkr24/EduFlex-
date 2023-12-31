@@ -23,11 +23,11 @@ function AdminCourses() {
         function callback1(res) {
             res.json().then(callback2)
         }
-        fetch("http://localhost:3000/admin/courses/", {
+        fetch("http://localhost:3000/admin/courses", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
-                "Authorization": "Bearer " + localStorage.getItem("token")
+                "authorization": "Bearer " + localStorage.getItem("token")
             }
         }).then(callback1)
     }, []);
@@ -75,7 +75,7 @@ function AdminCourses() {
 }
 
 export function Course({course}) {
-    const navigate = useNavigate();
+    // const navigate = useNavigate();
     return <Card sx={{ maxWidth: 345 }} style={{
         margin: 10,
         width: 300,

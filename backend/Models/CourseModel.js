@@ -10,7 +10,7 @@ const courseSchema = new mongoose.Schema({
         type : String,
     },
     price : {
-        type : String,
+        type : Number,
         required : [true, "Please add cost price to the course"]
     },
     imgLink : {

@@ -5,7 +5,7 @@ export const whoIsLogged = async (role) => {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json',
-            'Authorization': "Bearer " + localStorage.getItem('token')
+            'authorization': "Bearer " + localStorage.getItem('token')
         }
     });
     const data = await res.json();

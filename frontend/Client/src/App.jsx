@@ -39,8 +39,6 @@ function RoleBasedRedirect() {
       navigate('/users');
     }
   }, [role]);
-
-  return null;
 }
 
 function App() {
@@ -63,6 +61,7 @@ function App() {
           <Route path='/users/courses' element={<AllCourses></AllCourses>}></Route>
         </Routes>
       </Router>
+
     </div>
   )
 }

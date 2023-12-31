@@ -6,7 +6,7 @@ dotenv.config('../.env');
 
 
 export const authenticateUserJWT = (req, res, next) => {
-    const authHead = req.headers.Authorization;
+    const authHead = req.headers.authorization;
     if(authHead){
         const token = authHead.split(' ')[1];
         jwt.verify(token, process.env.SECRET_KEY, (err, user) => {

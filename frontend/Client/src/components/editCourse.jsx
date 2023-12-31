@@ -12,7 +12,7 @@ function EditCourse() {
         axios.get("http://localhost:3000/admin/courses/" + courseId, {
             method: "GET",
             headers: {
-                "Authorization": "Bearer " + localStorage.getItem("token")
+                "authorization": "Bearer " + localStorage.getItem("token")
             }
         }).then(res => {
             setCourse(res.data.course);

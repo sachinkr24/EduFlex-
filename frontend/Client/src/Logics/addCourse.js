@@ -1,19 +1,20 @@
+import axios from 'axios'
 
 
-
-export const addCourse = (course, navigate) => {
-    fetch('http://localhost:3000/admin/courses', {
-        method : 'POST',
-        body : JSON.stringify(course),
+export const addCourse = async (course, navigate) => {
+    console.log(JSON.stringify(course));
+    const token = 'Bearer ' + localStorage.getItem('token');
+    console.log('token - ', token);
+    await axios.post('http://localhost:3000/admin/courses', course, {
         headers : {
             'Content-Type' : 'application/json',
-            'Authorization' : 'Bearer ' + localStorage.getItem('token')
+            'authorization' : token,
         }
-    }).then(res => {
-        console.log(res);
-        return res.json();
-    }).then((data) => {
-        alert(data.message);
-        navigate('/admin/courses');
+        }).then((res) => {
+            console.log('res data - ', res.data);
+            alert(res.data.message);
+            navigate('/admin/courses/' + res.data.courseId);
+    }).catch((err) => {
+        console.log('err - ', err);
     })
 }
