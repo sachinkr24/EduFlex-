@@ -75,7 +75,7 @@ function AdminCourses() {
 }
 
 export function Course({course}) {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     return <Card sx={{ maxWidth: 345 }} style={{
         margin: 10,
         width: 300,

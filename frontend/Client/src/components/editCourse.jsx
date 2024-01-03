@@ -15,7 +15,7 @@ function EditCourse() {
                 "authorization": "Bearer " + localStorage.getItem("token")
             }
         }).then(res => {
-            setCourse(res.data.course);
+            setCourse(res.data);
         });
     }, []);
 
@@ -145,11 +145,11 @@ function CourseCard(props) {
         paddingBottom: 15,
         zIndex: 2
     }}>
-        <img src={course.imageLink} style={{width: 350}} ></img>
+        <img src={course.image} style={{width: 350}} ></img>
         <div style={{marginLeft: 10}}>
             <Typography variant="h5">{course.title}</Typography>
             <Typography variant="subtitle2" style={{color: "gray"}}>
-                Price
+                {course.description}
             </Typography>
             <Typography variant="subtitle1">
                 <b>Rs {course.price} </b>

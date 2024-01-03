@@ -47,8 +47,6 @@ export const login = async (req, res) => {
   };
   
 export const addCourse = async (req, res) => {
-  
-  console.log('course reached at addCourse - ', req.body);
   const admin = await Admin.findOne({ email: req.admin.email });
   if(admin){
     const course = new Course(req.body);
@@ -65,7 +63,7 @@ export const addCourse = async (req, res) => {
 export const editCourse = async (req, res) => {
   const admin = await Admin.findOne({ email: req.admin.email });
   if(admin){
-    const course = await admin.myCourses.findByIdAndUpdate(req.params.courseId, req.body, { new: true });
+    const course = await Course.findByIdAndUpdate(req.params.courseId, req.body, { new: true });
     if (course) {
       res.json({ message: 'Course updated successfully' });
     } 
@@ -111,7 +109,7 @@ export const me = async (req, res) => {
 export const courseWithId = async (req, res) => {
   const admin = await Admin.findOne({ email: req.admin.email });
   if(admin){
-    const course = await admin.myCourses.findOne(req.params.courseId);
+    const course = await Course.findById(req.params.courseId);
     if (course) {
       res.json({
         title: course.title,
@@ -120,6 +118,7 @@ export const courseWithId = async (req, res) => {
         image: course.imgLink,
         rating: course.rating,
         ratingCount: course.ratingCount,
+        _id : course._id
       });
     } else {
       res.status(404).json({ message: 'Course not found' });
