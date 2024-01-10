@@ -45,7 +45,19 @@ export const login = async (req, res) => {
   
 export const considerableCourses = async (req, res) => {
     const courses = await Course.find({published: true});
-    res.json({ courses });
+    const formattedCourses = courses.map((course) => {
+      return {
+        title: course.title,
+        description: course.description,
+        price: course.price,
+        image: course.imgLink,
+        // category: course.category,
+        rating: course.rating,
+        ratingCount: course.ratingCount,
+        _id : course._id,
+      }
+    })
+    res.json({formattedCourses});
   };
   
 export const purchaseCourse = async (req, res) => {
@@ -78,6 +90,7 @@ export const allBuyings = async (req, res) => {
             // category: purchasedCourse.category,
             rating: purchasedCourse.rating,
             ratingCount: purchasedCourse.ratingCount,
+            _id : purchasedCourse._id,
           }
         }
       }
@@ -104,7 +117,19 @@ export const updateRating = async (req, res) => {
 
 export const freeCourses = async (req, res) => {
   const courses = await Course.find({published: true, price: 0});
-  res.json({ courses });
+  const formattedCourses = courses.map((course) => {
+    return {
+      title: course.title,
+      description: course.description,
+      price: course.price,
+      image: course.imgLink,
+      // category: course.category,
+      rating: course.rating,
+      ratingCount: course.ratingCount,
+      _id : course._id,
+    }
+  })
+  res.json({formattedCourses});
 };
 
 export const me = async (req, res) => {

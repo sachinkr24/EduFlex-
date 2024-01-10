@@ -11,18 +11,18 @@ import altimg from "../images/alt_course_img.webp";
 import { CardActionArea } from '@mui/material';
 import UserBar from './userBar';
 
-function AllCourses() {
+function UserCourses() {
     const [courses, setCourses] = useState([]);
     const navigate = useNavigate();
     
     useEffect(() => {
         function callback2(data) {
-            setCourses(data.formattedCourses);
+            setCourses(data.courses);
         }
         function callback1(res) {
             res.json().then(callback2)
         }
-        fetch("http://localhost:3000/users/courses", {
+        fetch("http://localhost:3000/users/purchasedCourses", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -82,15 +82,9 @@ export function Course({course}) {
       
     </CardContent>
     <CardActions>
-        {course.price === 0 ? (
-            <Button size="small" onClick = {() => {
-               navigate('/admin/courses/' + course._id);
-            }}>Enroll</Button>
-        ) : (
-            <Button size="small" disabled onClick = {() => {
-               navigate('/admin/courses/' + course._id);
-            }}>Enroll</Button>
-        )}
+        <Button size="small" onClick = {() => {
+            navigate('/users/ratecourse/' + course._id);
+        }}>Rate</Button>
     </CardActions>
   </Card>
 
@@ -98,4 +92,4 @@ export function Course({course}) {
 
 
 
-export default AllCourses;
+export default UserCourses;

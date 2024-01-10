@@ -39,7 +39,7 @@ export default function UserBar() {
                     onClick={() => {
                         navigate("/users/courses")
                     }}
-                >All Courses</Button>
+                >Buy Courses</Button>
             </div>
 
             <div style={{

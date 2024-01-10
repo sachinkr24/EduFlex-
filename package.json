@@ -6,8 +6,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node backend/server.js",
-    "run": "nodemon backend/server.js"
+    "start": "nodemon backend/server.js",
+    "tor": "node backend/server.js"
   },
   "repository": {
     "type": "git",

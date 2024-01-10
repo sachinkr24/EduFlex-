@@ -11,7 +11,7 @@ import altimg from "../images/alt_course_img.webp";
 import { CardActionArea } from '@mui/material';
 import UserBar from './userBar';
 
-function AllCourses() {
+function FreeCourses() {
     const [courses, setCourses] = useState([]);
     const navigate = useNavigate();
     
@@ -22,7 +22,7 @@ function AllCourses() {
         function callback1(res) {
             res.json().then(callback2)
         }
-        fetch("http://localhost:3000/users/courses", {
+        fetch("http://localhost:3000/users/freecourses", {
             method: "GET",
             headers: {
                 'Content-Type': 'application/json',
@@ -98,4 +98,4 @@ export function Course({course}) {
 
 
 
-export default AllCourses;
+export default FreeCourses;
