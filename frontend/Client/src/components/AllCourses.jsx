@@ -70,12 +70,18 @@ export function Course({course}) {
       }}>
         <div>
             <Typography variant = 'subtitle2'>
-                Price - Rs {course.price}/-
+                {course.price === 0 ? "Free" : "Price - Rs " + course.price + "/-"}
             </Typography>
         </div>
         <div>
             <Typography variant='subtitle2'>
-            Rating - {course.rating} ({course.ratingCount ? course.ratingCount : 0} ratings)
+            {
+                course.rating ? (
+                    course.rating + "/5"
+                ) : (
+                    "Not rated yet"
+                )
+            }
             </Typography>
         </div>
       </div>

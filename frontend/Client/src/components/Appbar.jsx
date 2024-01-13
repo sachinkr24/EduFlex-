@@ -22,7 +22,7 @@ function Appbar() {
                 display: 'flex',
                 justifyContent: 'space-between',
                 height: '80px',
-                backgroundColor: 'white',
+                background: 'linear-gradient(45deg, #2980b9 30%, #ffffff 90%)',
             }}
         >
             <div

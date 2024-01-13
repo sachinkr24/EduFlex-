@@ -32,7 +32,7 @@ export default function Signup() {
                 justifyContent: 'center',
             }}>
                 <Typography variant="h6">
-                    Welcome to Coursella !! Signup Below
+                    Welcome to SkillSync !! Signup Below
                 </Typography>
         </div>
         <div style={{

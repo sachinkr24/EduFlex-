@@ -11,8 +11,7 @@ export const authenticateAdminJWT = (req, res, next) => {
         const token = authHead.split(' ')[1];
         jwt.verify(token, process.env.SECRET_KEY, (err, admin) => {
             if(err) {
-                console.log('err in adminAuth - ', err);
-                return res.sendStatus(403);
+                return;
             }
             req.admin = admin;
             next();

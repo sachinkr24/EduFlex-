@@ -133,7 +133,12 @@ export const freeCourses = async (req, res) => {
 };
 
 export const me = async (req, res) => {
-  return res.json({role : 'USER'});
+  if(req.user.role === 'USER'){
+    return res.json({role : 'USER'});
+  }
+  else {
+    return res.status(403).json({message : 'User is not logged in'});
+  }
 }
 
 

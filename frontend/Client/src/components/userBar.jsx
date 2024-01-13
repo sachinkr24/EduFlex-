@@ -12,9 +12,16 @@ export default function UserBar() {
         display: 'flex',
         justifyContent: 'space-between',
         height: '80px',
-        backgroundColor: 'white',
+        background: 'linear-gradient(45deg, #2980b9 30%, #ffffff 90%)',
         }}>
-        <div style={{marginLeft: 10}}>
+        <div style={{
+            display: 'flex',
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            width: '100px',
+            height: '38px',
+            margin: '20px',
+        }}>
             <Logo></Logo>
         </div>
 
@@ -26,7 +33,7 @@ export default function UserBar() {
             }}>
                 <Button component={Link} to = '/users/freeCourses'
                     onClick={() => {
-                        navigate("/users/freeCourses")
+                        navigate("/users/freecourses")
                     }}
                 >Free Courses</Button>
             </div>

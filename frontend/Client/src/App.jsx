@@ -11,6 +11,8 @@ import { useEffect, useState } from 'react';
 import { whoIsLogged } from './Logics/whoIsLogged.js';
 import AdminCourses from './components/adminCourses.jsx';
 import EditCourse from './components/editCourse.jsx';
+import UserCourses from './components/userCourses.jsx';
+import FreeCourses from './components/FreeCourses.jsx';
 // import Ratecourse from './components/rateCourse.jsx';
 
 
@@ -45,9 +47,7 @@ function RoleBasedRedirect() {
 function App() {
 
   return (
-    <div style={{
-      backgroundColor: '#f5f5f5',
-    }}>
+    <div>
       <Router>
         <RoleBasedRedirect />
         <Routes>
@@ -60,6 +60,8 @@ function App() {
           <Route path='/admin/courses' element={<AdminCourses></AdminCourses>}></Route>
           <Route path='/admin/courses/:courseId' element={<EditCourse />}></Route>
           <Route path='/users/courses' element={<AllCourses></AllCourses>}></Route>
+          <Route path='/users/mycourses' element={<UserCourses></UserCourses>}></Route>
+          <Route path='/users/freecourses' element={<FreeCourses></FreeCourses>}></Route>
           {/* <Route path='/users/ratecourse/:courseId' element={Ratecourse}></Route> */}
         </Routes>
       </Router>
