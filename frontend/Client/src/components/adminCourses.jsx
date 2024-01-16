@@ -85,6 +85,10 @@ export function Course({course}) {
     <CardMedia
       component="img"
       image={course.image ? course.image : altimg}
+      style={{
+        height: 200,
+        width: '100%',
+      }}
     />
     <CardContent>
       <Typography gutterBottom variant="h5" component="div" style={{
@@ -93,7 +97,7 @@ export function Course({course}) {
       }}>
         {course.title}
       </Typography>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" color="text.secondary" style={{padding: 0}}>
         {course.description}
       </Typography>
       <div style={{
@@ -108,16 +112,27 @@ export function Course({course}) {
         </div>
         <div>
             <Typography variant='subtitle2'>
-            Rating - {course.rating} ({course.ratingCount ? course.ratingCount : 0} ratings)
+            {course.rating == 0 ? "No ratings yet" :  course.rating + "/5"}
             </Typography>
         </div>
       </div>
       
     </CardContent>
     <CardActions>
-      <Button size="small" onClick = {() => {
-        navigate('/admin/courses/' + course._id);
-      }}>Edit</Button>
+        <div>
+            <Button size="small" onClick = {() => {
+                navigate('/admin/courses/' + course._id);
+            }} style={{
+                marginLeft: '0px',
+                padding: '0px'
+            }}>Edit</Button>
+            <Button size='small' onClick = {() => {
+                // navigate('/admin/upload/' + course._id);
+            }} style={{
+                marginLeft: '90px',
+                padding: '0px'
+            }}>Upload Content</Button>
+        </div>
     </CardActions>
   </Card>
 

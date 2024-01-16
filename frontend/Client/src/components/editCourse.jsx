@@ -145,7 +145,7 @@ function CourseCard(props) {
         paddingBottom: 15,
         zIndex: 2
     }}>
-        <img src={course.image} style={{width: 350}} ></img>
+        <img src={course.image} style={{width: 350, height: 200}} ></img>
         <div style={{marginLeft: 10}}>
             <Typography variant="h5">{course.title}</Typography>
             <Typography variant="subtitle2" style={{color: "gray"}}>

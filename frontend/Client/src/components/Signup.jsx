@@ -77,12 +77,20 @@ export default function Signup() {
                 }} onChange={(p) => {
                     setPassword(p.target.value);
                 }} />
-                <Button size={'large'} variant='contained' onClick={() => signUp({
-                    alignment,
-                    email,  
-                    password,
-                    username,
-                }, navigate)}>signup</Button>
+                <div style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                }}>
+                    <Button size={'large'} variant='contained' onClick={() => signUp({
+                        alignment,
+                        email,  
+                        password,
+                        username,
+                    }, navigate)}>signup</Button>
+                    <Typography style={{justifyContent : 'center', cursor: 'pointer', color: '#1976d2'}} variant='caption' onClick={() => {
+                        navigate('/signin');
+                    }}>Already have a account?</Typography>
+                </div>
             </Card>
         </div>
     </div>
