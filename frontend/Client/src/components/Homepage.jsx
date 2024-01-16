@@ -44,29 +44,6 @@ export default function Homepage() {
             </Paper>
         </div>
         <div style={{
-            backgroundColor: '#1565c0',
-            height : '300px',
-            display: 'flex',
-
-        }}>
-            <div style={{
-                position: 'absolute',
-            }}>
-                <Stack spacing={10}>
-                    <Paper elevation={2}>
-                        
-                    </Paper>
-                </Stack>
-            </div>
-            <div style={{
-                position: 'relative',
-                zIndex: 1,
-            }}>
-
-            </div>
-
-        </div>
-        <div style={{
             display: 'flex',
             justifyContent: 'space-between',
             width: '100%',
