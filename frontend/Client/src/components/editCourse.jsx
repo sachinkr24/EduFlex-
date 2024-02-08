@@ -3,6 +3,8 @@ import { useEffect, useState } from "react"
 import { useParams } from "react-router-dom";
 import { Typography, TextField, Button } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { CourseCard } from "./courseCard.jsx";
 
 function EditCourse() {
     let { courseId } = useParams();
@@ -56,6 +58,8 @@ function UpdateCard({course, setCourse}) {
     const [image, setImage] = useState(course.image);
     const [price, setPrice] = useState(course.price);
 
+    const navigate = useNavigate();
+
     return <div style={{display: "flex", justifyContent: "center"}}>
     <Card varint={"outlined"} style={{maxWidth: 600, marginTop: 200}}>
         <div style={{padding: 20}}>
@@ -102,61 +106,44 @@ function UpdateCard({course, setCourse}) {
                 label="Price"
                 variant="outlined"
             />
-
-            <Button
-                variant="contained"
-                onClick={async () => {
-                    axios.put("http://localhost:3000/admin/courses/" + course._id, {
-                        title: title,
-                        description: description,
-                        imgLink: image,
-                        published: true,
-                        price
-                    }, {
-                        headers: {
-                            "Content-type": "application/json",
-                            "Authorization": "Bearer " + localStorage.getItem("token")
-                        }
-                    });
-                    let updatedCourse = {
-                        _id: course._id,
-                        title: title,
-                        description: description,
-                        image: image,
-                        price
-                    };
-                    setCourse(updatedCourse);
-                }}
-            > Update course</Button>
+            <div style={{
+                display: "flex",
+                justifyContent: "space-between",
+            }}>
+                <div>
+                <Button
+                    variant="contained"
+                    onClick={async () => {
+                        axios.put("http://localhost:3000/admin/courses/" + course._id, {
+                            title: title,
+                            description: description,
+                            imgLink: image,
+                            published: true,
+                            price
+                        }, {
+                            headers: {
+                                "Content-type": "application/json",
+                                "Authorization": "Bearer " + localStorage.getItem("token")
+                            }
+                        });
+                        let updatedCourse = {
+                            _id: course._id,
+                            title: title,
+                            description: description,
+                            image: image,
+                            price
+                        };
+                        setCourse(updatedCourse);
+                    }}
+                > Update course</Button>
+                </div>
+                <div>
+                    <Button onClick={() => {navigate('/admin/upload/' + course._id, {state : {course : course}})}}>Upload Content</Button>
+                </div>
+            </div>
         </div>
     </Card>
 </div>
-}
-
-function CourseCard(props) {
-    const course = props.course;
-    return <div style={{display: "flex",  marginTop: 50, justifyContent: "center", width: "100%"}}>
-     <Card style={{
-        margin: 10,
-        width: 350,
-        minHeight: 200,
-        borderRadius: 20,
-        marginRight: 50,
-        paddingBottom: 15,
-        zIndex: 2
-    }}>
-        <img src={course.image} style={{width: 350, height: 200}} ></img>
-        <div style={{marginLeft: 10}}>
-            <Typography variant="h5">{course.title}</Typography>
-            <Typography variant="subtitle2" style={{color: "gray"}}>
-                {course.description}
-            </Typography>
-            <Typography variant="subtitle1">
-                <b>Rs {course.price} </b>
-            </Typography>
-        </div>
-    </Card>
-    </div>
 }
 
 export default EditCourse;

@@ -35,7 +35,8 @@ function AdminCourses() {
     return <div>
         <AdminBar />
     <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
-            <Card sx={{ maxWidth: 345}} style={{
+        {
+            courses.length === 0 ? <Card sx={{ maxWidth: 345}} style={{
                 margin: 10,
                 width: 300,
                 minHeight: 200,
@@ -66,9 +67,10 @@ function AdminCourses() {
                     
                 </CardContent>
             </CardActionArea>
-            </Card>
+            </Card> : null    
+        }   
         {courses.map(course => {
-            return <Course course={course} />}
+            return <Course key={course._id} course={course} />}
         )}
     </div>
     </div>
@@ -80,7 +82,7 @@ export function Course({course}) {
         margin: 10,
         width: 300,
         minHeight: 200,
-        padding: 20
+        padding: 0
     }}>
     <CardMedia
       component="img"
@@ -112,7 +114,7 @@ export function Course({course}) {
         </div>
         <div>
             <Typography variant='subtitle2'>
-            {course.rating == 0 ? "No ratings yet" :  course.rating + "/5"}
+            {course.rating === 0 ? "No ratings yet" :  course.rating + "/5"}
             </Typography>
         </div>
       </div>
@@ -120,18 +122,13 @@ export function Course({course}) {
     </CardContent>
     <CardActions>
         <div>
-            <Button size="small" onClick = {() => {
+            <Button size="small" variant = "text" onClick = {() => {
                 navigate('/admin/courses/' + course._id);
             }} style={{
-                marginLeft: '0px',
-                padding: '0px'
-            }}>Edit</Button>
-            <Button size='small' onClick = {() => {
-                // navigate('/admin/upload/' + course._id);
-            }} style={{
-                marginLeft: '90px',
-                padding: '0px'
-            }}>Upload Content</Button>
+                padding: '2px',
+                fontSize: '12px',
+            }}>Edit/Upload Content</Button>
+            
         </div>
     </CardActions>
   </Card>

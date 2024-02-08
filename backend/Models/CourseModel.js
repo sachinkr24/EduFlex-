@@ -32,6 +32,7 @@ const courseSchema = new mongoose.Schema({
         type : Number,
         default : 0
     },
+    videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
 })
 
 const Course = mongoose.model('Course', courseSchema);
