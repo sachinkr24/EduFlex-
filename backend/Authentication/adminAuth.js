@@ -1,8 +1,14 @@
 
 import jwt from 'jsonwebtoken'
 import dotenv from 'dotenv'
+import path from 'path';
+import {dirname} from 'path';
+import { fileURLToPath } from 'url';
 
-dotenv.config({path : 'D:/Coursella/backend/.env'});
+
+const __dirname = fileURLToPath(import.meta.url);
+const dirName = dirname(__dirname);
+dotenv.config({path : path.join(dirName + './../.env')});
 
 
 export const authenticateAdminJWT = (req, res, next) => {

@@ -52,6 +52,10 @@ export function Course({course}) {
     <CardMedia
       component="img"
       image={course.image ? course.image : altimg}
+      style={{
+        height: 200,
+        width: '100%',
+      }}
     />
     <CardContent>
       <Typography gutterBottom variant="h5" component="div" style={{
