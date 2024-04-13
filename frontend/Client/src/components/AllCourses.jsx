@@ -35,7 +35,7 @@ function AllCourses() {
         <UserBar />
     <div style={{display: "flex", flexWrap: "wrap", justifyContent: "center"}}>
         {courses.map(course => {
-            return <Course course={course} />}
+            return <Course course={course} keyy = {course._id} />}
         )}
     </div>
     </div>
@@ -51,11 +51,7 @@ export function Course({course}) {
     }}>
     <CardMedia
       component="img"
-      image={course.image ? course.image : altimg} 
-      style={{
-        height: 200,
-        width: '100%',
-      }}   
+      image={course.image ? course.image : altimg}
     />
     <CardContent>
       <Typography gutterBottom variant="h5" component="div" style={{
@@ -97,11 +93,13 @@ export function Course({course}) {
                navigate('/admin/courses/' + course._id);
             }}>Enroll</Button>
         ) : (
-            <Button size="small" disabled onClick = {() => {
-               navigate('/admin/courses/' + course._id);
+            <Button size="small" onClick = {() => {
+               navigate('/users/courses/payment/' + course._id);
             }}>Enroll</Button>
         )}
     </CardActions>
+
+    
   </Card>
 
 }

@@ -106,6 +106,7 @@ export const adminCourses = async (req, res) => {
 
 
 export const me = async (req, res) => {
+  console.log('admin ki pushti - ', req.admin);
   if(req.admin.role === 'ADMIN')
       res.json({role : 'ADMIN'});
   else 

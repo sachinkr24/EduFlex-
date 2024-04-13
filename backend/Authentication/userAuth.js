@@ -14,7 +14,8 @@ export const authenticateUserJWT = (req, res, next) => {
                 return res.sendStatus(403);
             }
             req.user = user;
-            next();
+            if(user.role === 'USER')
+                next();
         })
     } else {
         res.status(401);

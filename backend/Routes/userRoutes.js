@@ -1,7 +1,8 @@
 // Desc: user routes
 import express from "express";
-import {signUp, login, considerableCourses, purchaseCourse, allBuyings, updateRating, me, freeCourses} from '../Controller/userController.js'
+import {signUp, login, considerableCourses, purchaseCourse, allBuyings, updateRating, freeCourses, braintreeTokenController, brainTreePaymentController} from '../Controller/userController.js'
 import authenticateUserJWT from '../Authentication/userAuth.js'
+import { me } from "../Controller/adminController.js";
 
 const app = express();
 
@@ -15,5 +16,8 @@ userRouter.get('/purchasedCourses', authenticateUserJWT, allBuyings);
 userRouter.post('/updateRating', authenticateUserJWT, updateRating);
 userRouter.get('/me', authenticateUserJWT, me);
 userRouter.get('/freecourses', authenticateUserJWT, freeCourses)
+userRouter.get("/braintree/token", braintreeTokenController);
+//payments
+userRouter.post("/braintree/payment", authenticateUserJWT,brainTreePaymentController);
 
 export default userRouter;
