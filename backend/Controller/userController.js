@@ -127,11 +127,12 @@ export const allBuyings = async (req, res) => {
           _id : course._id
         });
       } else {
+        console.log('Course not found');
         res.status(404).json({ message: 'Course not found' });
       }
     }
     else {
-      res.status(403).json({ message: 'Admin not found' });
+      res.status(403).json({ message: 'User not found' });
     }
   }
 
@@ -197,10 +198,7 @@ export const brainTreePaymentController = async (req, res) => {
   try {
     const { nonce, cart } = req.body;
     console.log("cart at backend - ", cart);
-    let total = 0;
-    cart.map((i) => {
-      total += i.price;
-    });
+    let total = cart.price;
     let newTransaction = gateway.transaction.sale(
       {
         amount: total,
