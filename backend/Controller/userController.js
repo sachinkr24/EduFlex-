@@ -112,6 +112,29 @@ export const allBuyings = async (req, res) => {
     }
   };
 
+  export const courseWithId = async (req, res) => {
+    const user = await Users.findOne({ email: req.user.email });
+    if(user){
+      const course = await Course.findById(req.params.courseId);
+      if (course) {
+        res.json({
+          title: course.title,
+          description: course.description,
+          price: course.price,
+          image: course.imgLink,
+          rating: course.rating,
+          ratingCount: course.ratingCount,
+          _id : course._id
+        });
+      } else {
+        res.status(404).json({ message: 'Course not found' });
+      }
+    }
+    else {
+      res.status(403).json({ message: 'Admin not found' });
+    }
+  }
+
 
 export const updateRating = async (req, res) => {
   const course = await Course.findById(req.params.courseId);

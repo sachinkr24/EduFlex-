@@ -9,12 +9,13 @@ function Payment() {
 
     const [clientToken, setClientToken] = useState("");
     const [instance, setInstance] = useState("");
-    const [cart, setCart] = useState([]);
+    const [cart, setCart] = useState(null);
     const [loading, setLoading]= useState(false);
     const params = useParams();
 
       //get payment gateway token
   const getToken = async () => {
+    console.log("going to get token");
     try {
       const { data } = await axios.get("http://localhost:3000/users/braintree/token");                       // /api/v1/product/braintree/token
       setClientToken(data?.clientToken);
@@ -25,17 +26,19 @@ function Payment() {
 
   const getCourse = async () => {
     const courseId = params.courseId;
-    try{
-        const course = await axios.get("http://localhost:3000/admin/courses/" + courseId);
-        console.log("course received from backend - ", course);
-        setCart(course);
-    } catch (err) {
-        console.log("error : ", err);
-        console.log("courseId : ", courseId);
-    }
+    console.log("course lene chla");
+    axios.get("http://localhost:3000/users/courses/" + courseId, {
+        headers: {
+            "authorization": "Bearer " + localStorage.getItem("token")
+        }
+    }).then(res => {
+        setCart(res.data);
+        console.log("course received from backend - ", cart);
+    });
 }
 
   useEffect(() => {
+    console.log("running useEffect");
     getToken();
     getCourse();
   }, []);
@@ -43,12 +46,18 @@ function Payment() {
 
    //handle payments
    const handlePayment = async () => {
+    console.log("ran handle Payment");
     try {
       setLoading(true);
       const { nonce } = await instance.requestPaymentMethod();          // /api/v1/product/braintree/payment
-      const { data } = await axios.post("http://localhost:3000/users/braintree/payment", {
+      await axios.post("http://localhost:3000/users/braintree/payment", {
         nonce,
         cart,
+      }, {
+        headers : {
+            'Content-Type': 'application/json',
+            'authorization' : "Bearer " + localStorage.getItem("token"),
+        }
       });
       setLoading(false);
       localStorage.removeItem("cart");
