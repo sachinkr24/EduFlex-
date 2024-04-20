@@ -1,11 +1,11 @@
 import express from "express";
-import {signUp, login, addCourse, editCourse, adminCourses, me, courseWithId, uploadFile, deleteFile} from '../Controller/adminController.js';
+import {signUp, login, addCourse, editCourse, adminCourses, me, courseWithId, uploadFile, deleteFile, getVideos} from '../Controller/adminController.js';
 import {authenticateAdminJWT} from '../Authentication/adminAuth.js';
-// import multer from 'multer';
-
-// const upload = multer();
 const app = express();
 const adminRouter = express.Router();
+import multer from 'multer';
+
+const upload = multer({ storage : multer.memoryStorage() });
 
 
 adminRouter.post('/signup', signUp);
@@ -15,7 +15,8 @@ adminRouter.get('/courses', authenticateAdminJWT, adminCourses);
 adminRouter.put('/courses/:courseId', authenticateAdminJWT, editCourse);
 adminRouter.get('/me', authenticateAdminJWT, me);
 adminRouter.get('/courses/:courseId', authenticateAdminJWT, courseWithId);
-adminRouter.post('/upload/video/:courseId', authenticateAdminJWT, uploadFile);
+adminRouter.post('/upload/video/:courseId', authenticateAdminJWT, upload.single('file'), uploadFile);
 adminRouter.delete('/delete/video/:courseId', authenticateAdminJWT, deleteFile); 
+adminRouter.get('/videos/:courseId', authenticateAdminJWT, getVideos);
 
 export default adminRouter;

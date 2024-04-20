@@ -2,10 +2,11 @@ import express from 'express'
 import Admin from '../Models/AdminModel.js'
 import Course from '../Models/CourseModel.js'
 import jwt from 'jsonwebtoken'
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, uploadBytes } from "firebase/storage";
 import storage from '../db/firebase.js';
 import Video from '../Models/Video.js';
 import multer from 'multer';
+import { v4 as uuidv4 } from 'uuid';
 
 
 const app = express();
@@ -106,7 +107,6 @@ export const adminCourses = async (req, res) => {
 
 
 export const me = async (req, res) => {
-  console.log('admin ki pushti - ', req.admin);
   if(req.admin.role === 'ADMIN')
       res.json({role : 'ADMIN'});
   else 
@@ -136,62 +136,60 @@ export const courseWithId = async (req, res) => {
   }
 }
 
+export const getVideos = async (req, res) => {
+  const course = await Course.findById(req.params.courseId);
+  if (!course) {
+    return res.status(404).json({ message: "Course not found" });
+  }
+  res.json(course.videos);
+
+}
+
 export const uploadFile = async (req, res) => {
-  console.log(req.file); // Add this line to log the file object
 
   const videoName = req.body.name;
   const videoFile = req.file.buffer; // Convert Buffer to Uint8Array
+  const videoRef = ref(storage, `videos/${videoName}`);
 
-  const videoRef = ref(storage, "videos/" + videoName);
   const uploadTask = uploadBytesResumable(videoRef, videoFile);
 
   uploadTask.on('state_changed',
   (snapshot) => {
     // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
     const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-    console.log('Upload is ' + progress + '% done');
     switch (snapshot.state) {
       case 'paused':
-        console.log('Upload is paused');
         break;
       case 'running':
-        console.log('Upload is running');
         break;
     }
   }, 
   (error) => {
-    // A full list of error codes is available at
-    // https://firebase.google.com/docs/storage/web/handle-errors
     switch (error.code) {
       case 'storage/unauthorized':
-        // User doesn't have permission to access the object
         break;
       case 'storage/canceled':
-        // User canceled the upload
         break;
 
       // ...
 
       case 'storage/unknown':
-        // Unknown error occurred, inspect error.serverResponse
         break;
     }
   }, 
-  () => {
-    // Upload completed successfully, now we can get the download URL
-    getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
-        console.log('File available at', downloadURL);
-        const video = new Video({name: videoName, url: downloadURL});
+  async () => {
+    await getDownloadURL(uploadTask.snapshot.ref).then(async(downloadURL) => {
+        const video = new Video({name: videoName, path: downloadURL});
         try {
           await video.save();
-        
-          const course = await Course.findById(req.params.courseid);
+          const course = await Course.findById(req.params.courseId);
           if (!course) {
+            console.log("course not found", req.params.courseId);
             return res.status(404).json({ message: "Course not found" });
           }
           course.videos.push(video);
           await course.save();
-        res.json({
+        res.status(200).json({
         message: "Video uploaded successfully",
         videoName: videoName,
         downloadURL: downloadURL,

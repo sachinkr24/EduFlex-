@@ -22,6 +22,7 @@ export const authenticateAdminJWT = (req, res, next) => {
             req.admin = admin;
             if(admin.role === 'ADMIN')
                 next();
+            else return null;
         })
     } else {
         res.status(401);

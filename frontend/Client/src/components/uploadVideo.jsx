@@ -55,16 +55,37 @@ function VideoDisplay() {
     const [selectedVideo, setSelectedVideo] = useState(null);
     const videoNameRef = useRef(); 
     const [selectedFile, setSelectedFile] = useState(null);
-    const [videos, setVideos] = useState(null);
+    const [videos, setVideos] = useState([]);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(false);
+
+    const fetchVideos = async () => {
+        try {
+          const response = await axios.get(
+            `http://localhost:3000/admin/videos/${courseId}`,
+            {
+              headers: {
+                  'authorization' : 'Bearer ' + localStorage.getItem('token')
+              }
+            });
+            setVideos(response.data);
+          }
+        catch (error) {
+            console.error("Failed to fetch videos", error);
+        } 
+    }
+
+    useEffect(() => {
+      fetchVideos();
+    }, []);
 
     const handleFileChange = (event) => {
         setSelectedFile(event.target.files[0]);
         console.log(event.target.files[0]); 
-      };
+    };
     
       const handleVideoUpload = async () => {
+        console.log("Uploading video");
 
         setLoading(true);
     
@@ -78,7 +99,7 @@ function VideoDisplay() {
         const videoName = videoNameRef.current.value;
     
         const formData = new FormData();
-        formData.append("video", videoFile);
+        formData.append("file", videoFile);
         formData.append("name", videoName);
     
         try {
@@ -96,7 +117,7 @@ function VideoDisplay() {
             ...videos,
             { name: response.data.videoName, path: response.data.downloadURL },
           ]);
-          console.log(response.data);
+          console.log(videos);
         } catch (error) {
           console.error("Failed to upload video", error);
         } finally {
@@ -117,7 +138,7 @@ function VideoDisplay() {
             `http://localhost:3000/admin/delete/video/ ` + courseId,
             {
               headers: {
-                Authorization: "Bearer " + localStorage.getItem("token"),
+                'authorization': "Bearer " + localStorage.getItem("token"),
               },
             }
           );
