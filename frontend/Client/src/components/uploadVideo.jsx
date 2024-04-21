@@ -69,6 +69,7 @@ function VideoDisplay() {
               }
             });
             setVideos(response.data);
+            console.log(response.data);
           }
         catch (error) {
             console.error("Failed to fetch videos", error);
