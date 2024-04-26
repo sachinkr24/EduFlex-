@@ -15,6 +15,7 @@ import UserCourses from './components/userCourses.jsx';
 import FreeCourses from './components/FreeCourses.jsx';
 import UploadVid from './components/uploadVideo.jsx';
 import Payment from './components/payment.jsx';
+import Title from './components/studycourse.jsx';
 // import Ratecourse from './components/rateCourse.jsx';
 
 
@@ -66,6 +67,7 @@ function App() {
           <Route path='/users/freecourses' element={<FreeCourses></FreeCourses>}></Route>
           <Route path='/admin/upload/:courseId' element={<UploadVid></UploadVid>}></Route>
           <Route path='/users/courses/payment/:courseId' element={<Payment/>}></Route>
+          <Route path='/users/courses/:courseId' element={<Title/>}></Route>
 
           
           {/* <Route path='/users/ratecourse/:courseId' element={Ratecourse}></Route> */}

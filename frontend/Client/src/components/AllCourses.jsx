@@ -42,6 +42,28 @@ function AllCourses() {
 }
 
 export function Course({course}) {
+
+    const handleEnroll = async (courseId) => {
+        try {
+            const res = await fetch("http://localhost:3000/users/purchase/course/" + courseId, {
+              method: "POST",
+              headers: {
+                'Content-Type': 'application/json',
+                "authorization": "Bearer " + localStorage.getItem("token"),
+              }
+            });
+        
+            if (!res.ok) {
+              throw new Error(`HTTP error! status: ${res.status}`);
+            }
+        
+            const data = await res.json();
+            console.log(data);
+          } catch (error) {
+            console.error('Failed to enroll in course:', error);
+          }
+    }
+
     const navigate = useNavigate();
     return <Card sx={{ maxWidth: 345 }} style={{
         margin: 10,
@@ -90,7 +112,10 @@ export function Course({course}) {
     <CardActions>
         {course.price === 0 ? (
             <Button size="small" onClick = {() => {
-               navigate('/admin/courses/' + course._id);
+                async function enroll() {
+                    await handleEnroll(course._id);
+                    navigate('/users/mycourses');
+                }
             }}>Enroll</Button>
         ) : (
             <Button size="small" onClick = {() => {

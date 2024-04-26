@@ -26,7 +26,7 @@ export const signUp = (req, res) => {
           email : email,
           role : "ADMIN",
         }
-        const token = jwt.sign(adminJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
+        const token = jwt.sign(adminJSON, process.env.SECRET_KEY, {expiresIn : '24h'});
         res.json({ message: 'Admin created successfully', token });
       }
   
@@ -43,7 +43,7 @@ export const login = async (req, res) => {
         email : email,
         role : "ADMIN",
       }
-      const token = jwt.sign(adminJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
+      const token = jwt.sign(adminJSON, process.env.SECRET_KEY, {expiresIn : '24h'});
       res.json({ message: 'Logged in successfully', token });
     } else {
       res.status(403).json({ message: 'Invalid username or password' });

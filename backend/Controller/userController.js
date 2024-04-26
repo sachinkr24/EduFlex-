@@ -5,6 +5,7 @@ import createUserToken from '../Authentication/jwtGenerator.js'
 import jwt from 'jsonwebtoken'
 import orderModel from '../Models/orderModel.js'
 import braintree from "braintree";
+import Video from '../Models/Video.js'
 
 
 //payment gateway
@@ -33,7 +34,7 @@ export const signUp = async (req, res) => {
         email : email,
         role : "USER",
       }
-      const token = jwt.sign(userJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
+      const token = jwt.sign(userJSON, process.env.SECRET_KEY, {expiresIn : '24h'});
       res.json({ message: 'User created successfully', token });
     }
   };
@@ -47,7 +48,7 @@ export const login = async (req, res) => {
         email : email,
         role : "USER",
       }
-      const token = jwt.sign(userJSON, process.env.SECRET_KEY, {expiresIn : '1h'});
+      const token = jwt.sign(userJSON, process.env.SECRET_KEY, {expiresIn : '24h'});
       res.json({ message: 'Logged in successfully', token });
     } else {
       res.status(403).json({ message: 'Invalid username or password' });
@@ -176,6 +177,34 @@ export const me = async (req, res) => {
   }
 }
 
+export const courseVideos = async (req, res) => {
+  const course = await Course.findById(req.params.courseId).populate('videos');
+  if(course){
+    res.json(course.videos);
+  }
+  else {
+    console.log('Course not found');
+    res.status(404).json({message : 'Course not found'});
+  }
+
+}
+
+export const purschasedFreeCourse = async (req, res) => {
+  const course = await Course.findById(req.params.courseId);
+  if(course){
+    const user = await Users.findOne({ email: req.user.email });
+    if (user) {
+      user.purchasedCourses.push(course._id);
+      await user.save();
+      res.json({ message: 'Course purchased successfully' });
+    } else {
+      res.status(403).json({ message: 'User not found' });
+    }
+  } else {
+    res.status(404).json({ message: 'Course not found' });
+  }
+}
+
 
 //payment gateway api
 //token
@@ -196,8 +225,8 @@ export const braintreeTokenController = async (req, res) => {
 //payment
 export const brainTreePaymentController = async (req, res) => {
   try {
+    const data = req.user;
     const { nonce, cart } = req.body;
-    console.log("cart at backend - ", cart);
     let total = cart.price;
     let newTransaction = gateway.transaction.sale(
       {
@@ -207,12 +236,22 @@ export const brainTreePaymentController = async (req, res) => {
           submitForSettlement: true,
         },
       },
-      function (error, result) {
+      async function (error, result) {
         if (result) {
+          console.log("payment result", result);
+          const user = await Users.findOne({ email: data.email });
+          if(user && result.success){
+            user.purchasedCourses.push(cart);
+            await user.save();
+          }
+          else {
+            res.status(403).json({ message: 'User not found' });
+          }
           const order = new orderModel({
             products: cart,
             payment: result,
             buyer: req.user._id,
+            status: "deliverd",
           }).save();
           res.json({ ok: true });
         } else {

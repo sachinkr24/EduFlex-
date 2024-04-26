@@ -1,6 +1,8 @@
 // Desc: user routes
 import express from "express";
-import {signUp, login, considerableCourses, purchaseCourse, allBuyings, updateRating, freeCourses, braintreeTokenController, brainTreePaymentController, courseWithId} from '../Controller/userController.js'
+import {signUp, login, considerableCourses, purchaseCourse, allBuyings, updateRating, freeCourses, 
+    braintreeTokenController, brainTreePaymentController, courseWithId, 
+    courseVideos, purschasedFreeCourse} from '../Controller/userController.js'
 import authenticateUserJWT from '../Authentication/userAuth.js'
 import { me } from "../Controller/adminController.js";
 
@@ -18,6 +20,8 @@ userRouter.get('/me', authenticateUserJWT, me);
 userRouter.get('/freecourses', authenticateUserJWT, freeCourses)
 userRouter.get("/braintree/token", braintreeTokenController);
 userRouter.get("/courses/:courseId", authenticateUserJWT, courseWithId)
+userRouter.get('/course/videos/:courseId', authenticateUserJWT, courseVideos)
+userRouter.post('/purschase/course/:courseId', authenticateUserJWT, purschasedFreeCourse)
 //payments
 userRouter.post("/braintree/payment", authenticateUserJWT,brainTreePaymentController);
 

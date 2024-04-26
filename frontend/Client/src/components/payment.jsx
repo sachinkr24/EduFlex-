@@ -5,6 +5,7 @@ import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
+import { set } from 'mongoose';
 
 function Payment() {
 
@@ -13,6 +14,7 @@ function Payment() {
     const [cart, setCart] = useState({});
     const [loading, setLoading]= useState(false);
     const params = useParams();
+    const [paymentFailed, setPaymentFailed] = useState(false);
 
     const navigate = useNavigate();
 
@@ -62,14 +64,20 @@ function Payment() {
       localStorage.removeItem("cart");
       setCart({});
       navigate("/users/mycourses");
-      toast.success("Payment Completed Successfully ");
+      toast.success("Payment Completed Successfully");
     } catch (error) {
       console.log(error);
-      setLoading(false);
+      setLoading(true);
+      setPaymentFailed(true);
     }
   };
 
-
+  useEffect(() => {
+    if (paymentFailed) {
+      alert("Payment Failed");
+      navigate("/users/courses");
+    }
+  }, [paymentFailed]);
 
   return (
     <div className="mt-2">

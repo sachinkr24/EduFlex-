@@ -69,11 +69,6 @@ export function Course({course}) {
         marginTop: 20
       }}>
         <div>
-            <Typography variant = 'subtitle2'>
-                Price - Rs {course.price}/-
-            </Typography>
-        </div>
-        <div>
             <Typography variant='subtitle2'>
             Rating - {course.rating} ({course.ratingCount ? course.ratingCount : 0} ratings)
             </Typography>
@@ -85,6 +80,9 @@ export function Course({course}) {
         <Button size="small" onClick = {() => {
             navigate('/users/ratecourse/' + course._id);
         }}>Rate</Button>
+        <Button size="small" onClick = {() => {
+            navigate('/users/courses/' + course._id, { state: { course } });
+        }}>View</Button>
     </CardActions>
   </Card>
 
