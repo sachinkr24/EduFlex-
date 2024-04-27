@@ -202,15 +202,15 @@ export const uploadFile = async (req, res) => {
   }
 
 export const deleteFile = async (req, res) => {
-  const { courseid, videoid } = req.params;
+  const { courseId, videoId } = req.params;
 
-  const course = await Course.findById(courseid);
+  const course = await Course.findById(courseId);
   if (!course) {
     return res.status(404).json({ message: "Course not found" });
   }
 
   const videoIndex = course.videos.findIndex(
-    (video) => video.toString() === videoid
+    (video) => video.toString() === videoId
   );
   if (videoIndex === -1) {
     return res.status(404).json({ message: "Video not found in course" });
@@ -219,7 +219,7 @@ export const deleteFile = async (req, res) => {
   course.videos.splice(videoIndex, 1);
   await course.save();
 
-  await Video.findByIdAndDelete(videoid);
+  await Video.findByIdAndDelete(videoId);
 
   res.json({ message: "Video deleted successfully" });
 }

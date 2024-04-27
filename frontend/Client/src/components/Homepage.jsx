@@ -1,89 +1,35 @@
+import TUTORING from '../images/TUTORING.webp';
+import { useNavigate } from 'react-router-dom';
 import Appbar from './Appbar.jsx';
 import {Typography} from "@mui/material";
 import Paper from '@mui/material/Paper';
-import Stack from '@mui/material/Stack';
 import Button from '@mui/material/Button';
-import TUTORING from '../images/TUTORING.webp';
-import { useNavigate } from 'react-router-dom';
+import {Grid } from '@mui/material';
+
 
 export default function Homepage() {
-
     const navigate = useNavigate();
-
-    return <div style={{
-        background: 'linear-gradient(#0575e6, #021b79)',
-        height: '100%',
-    }}>
-        <div style={{
-            width: '100%',
-        }}>
-            <Appbar />
-        </div>
-        <div style={{
-            width: '100%',
-        }}>
-            <Paper square = {false} style={{
-                textAlign: 'center',
-                marginTop: '10px',
-                // background: 'linear-gradient(45deg, #ffffff 90%, #1565c0 30%)',
-            }}>
-                <Typography variant='h1' style={{
-                    paddingq: '10px',
-                    color: '#1565c0',
-                }}> SkillSync </Typography>
-                <Typography variant='h6' flexWrap={true} style={{
-                    padding: '10px',
-                    margin: '10px',
-                }}>Learn In-Demand Skills With Interactive <br /> Courses Made By Career Experts</Typography>
-                <Typography variant='subtitle2' flexWrap={true} style={{
-                    padding: '10px',
-                    margin: '10px',
-                    color: '#2193b0',
-                }}>We believe everyone should have access to professional skills anywhere,<br /> 
-                anytime. SkillSync is a place where people develop their creative potetial !</Typography>
-            </Paper>
-        </div>
-        <div style={{
-            display: 'flex',
-            justifyContent: 'space-between',
-            width: '100%',
-            height: '400px',
-            marginTop: '10px',
-            background: 'linear-gradient(45deg, #1565c0 30%, #ffffff 90%)',
-        }}>
-            <div style={{
-                width: '50%',
-                height: '100%',
-            }}>
-                <img src={TUTORING} alt="" style={{
-                    width: '100%',
-                    height: 'calc(100% - 4px)',
-                    margin: '2px',
-                    boxSizing: 'border-box',
-                }}/>
-            </div>
-            <div style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                justifyContent: 'center',
-                marginRight: '250px',
-            }}>
-                <div style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                }}>
-                    <Typography variant = 'h2'>Become Tutor</Typography>
-                    <Typography varinat = 'h6'>At SkillSync</Typography>
-                </div>
-                <div style={{
-                    margin : '10px',
-                }}>
-                    <Button variant="contained" onClick={() => {
-                        navigate('/signup');
-                    }}>SignUp</Button>    
-                </div>
-            </div>   
-        </div>
-    </div>
-}
+  
+    return (
+      <Grid container style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #DAAE5F, #9E7C4F)' }}>
+        <Grid item xs={12}>
+          <Appbar />
+        </Grid>
+        <Grid item xs={12} style={{ paddingTop: 40 }}>
+          <Typography variant='h1' align='center' style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 48 }}>SkillSync</Typography>
+          <Typography variant='h6' align='center' style={{ color: '#ffffff', fontSize: 20, marginTop: 20 }}>Learn In-Demand Skills With Interactive Courses Made By Career Experts</Typography>
+          <Typography variant='subtitle1' align='center' style={{ color: '#ffffff', fontSize: 16, marginTop: 20, maxWidth: 800, margin: 'auto' }}>We believe everyone should have access to professional skills anywhere, anytime. SkillSync is a place where people develop their creative potential!</Typography>
+        </Grid>
+        <Grid container item xs={12} style={{ background: '#DAAE5F', padding: 40 }}>
+          <Grid item xs={12} md={6}>
+            <img src={TUTORING} alt="Tutoring" style={{ width: '100%', height: 'auto', borderRadius: 8 }} />
+          </Grid>
+          <Grid item xs={12} md={6} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
+            <Typography variant='h4' style={{ color: '#9E7C4F', marginBottom: 20 }}>Become a Tutor at SkillSync</Typography>
+            <Typography variant='subtitle1' style={{ color: '#000000', marginBottom: 20 }}>Join our platform and share your expertise with others</Typography>
+            <Button variant="contained" color="primary" onClick={() => navigate('/signup')} style={{ borderRadius: 20 }}>Sign Up</Button>
+          </Grid>
+        </Grid>
+      </Grid>
+    );
+  }

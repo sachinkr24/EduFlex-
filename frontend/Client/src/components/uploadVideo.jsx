@@ -132,10 +132,9 @@ function VideoDisplay() {
       };
     
       const handleVideoDelete = async (videoId) => {
-
         try {
           await axios.delete(
-            `http://localhost:3000/admin/delete/video/ ` + courseId,
+            `http://localhost:3000/admin/delete/video/${courseId}/${videoId}`,
             {
               headers: {
                 'authorization': "Bearer " + localStorage.getItem("token"),
@@ -257,9 +256,18 @@ function VideoDisplay() {
                   </Button>}
                 </div>
               </div>
+              <div style={{
+                borderBlock: "1px solid #0513245f",
+                borderRadius: 2,
+                width: "100%",
+                height: "20%",
+                backgroundColor: "#0513245f",
+              }}>
+                <Typography variant="h6" style={{textAlign: "center"}}>Contents</Typography>
+
+              </div>
               {videos && videos.map(
                 (video, index) => (
-                  console.log(video.path),
                   (
                     <Accordion
                       variant={"outlined"}
@@ -269,6 +277,7 @@ function VideoDisplay() {
                         borderRadius: 2,
                         width: "100%",
                         height: "10%",
+                        marginTop : 5,
                       }}
                     >
                       <AccordionSummary

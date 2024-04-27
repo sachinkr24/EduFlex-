@@ -16,7 +16,7 @@ adminRouter.put('/courses/:courseId', authenticateAdminJWT, editCourse);
 adminRouter.get('/me', authenticateAdminJWT, me);
 adminRouter.get('/courses/:courseId', authenticateAdminJWT, courseWithId);
 adminRouter.post('/upload/video/:courseId', authenticateAdminJWT, upload.single('file'), uploadFile);
-adminRouter.delete('/delete/video/:courseId', authenticateAdminJWT, deleteFile); 
+adminRouter.delete('/delete/video/:courseId/:videoId', authenticateAdminJWT, deleteFile); 
 adminRouter.get('/videos/:courseId', authenticateAdminJWT, getVideos);
 
 export default adminRouter;
