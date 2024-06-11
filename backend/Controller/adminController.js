@@ -136,6 +136,19 @@ export const courseWithId = async (req, res) => {
   }
 }
 
+export const resetPassword = async (req, res) => {
+  const { email, password } = req.body;
+  const admin = await Admin.findOne({ email });
+  if(admin){
+    admin.password = password;
+    await admin.save();
+    res.json({ message: 'Password reset successfully' });
+  }
+  else {
+    res.status(403).json({ message: 'Admin not found' });
+  }
+}
+
 export const getVideos = async (req, res) => {
   const course = await Course.findById(req.params.courseId).populate("videos");
   if (!course) {
