@@ -2,7 +2,7 @@
 import express from "express";
 import {signUp, login, considerableCourses, purchaseCourse, allBuyings, updateRating, freeCourses, 
     braintreeTokenController, brainTreePaymentController, courseWithId, 
-    courseVideos, purschasedFreeCourse} from '../Controller/userController.js'
+    courseVideos, purschasedFreeCourse, resetPassword} from '../Controller/userController.js'
 import authenticateUserJWT from '../Authentication/userAuth.js'
 import { me } from "../Controller/adminController.js";
 
@@ -24,5 +24,6 @@ userRouter.get('/course/videos/:courseId', authenticateUserJWT, courseVideos)
 userRouter.post('/purschase/course/:courseId', authenticateUserJWT, purschasedFreeCourse)
 //payments
 userRouter.post("/braintree/payment", authenticateUserJWT,brainTreePaymentController);
+userRouter.put('/resetPassword', resetPassword);
 
 export default userRouter;

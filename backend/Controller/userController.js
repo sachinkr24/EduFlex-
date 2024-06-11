@@ -205,6 +205,19 @@ export const purschasedFreeCourse = async (req, res) => {
   }
 }
 
+export const resetPassword = async (req, res) => {
+  const { email, password } = req.body;
+  const user = await Users.findOne  ({ email });
+  if(user){
+    user.password = password;
+    await user.save();
+    res.json({ message: 'Password reset successfully' });
+  }
+  else {
+    res.status(403).json({ message: 'User not found' });
+  }
+}
+
 
 //payment gateway api
 //token

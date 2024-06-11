@@ -1,5 +1,5 @@
 import express from "express";
-import {signUp, login, addCourse, editCourse, adminCourses, me, courseWithId, uploadFile, deleteFile, getVideos} from '../Controller/adminController.js';
+import {signUp, login, addCourse, editCourse, adminCourses, me, courseWithId, uploadFile, deleteFile, getVideos, resetPassword} from '../Controller/adminController.js';
 import {authenticateAdminJWT} from '../Authentication/adminAuth.js';
 const app = express();
 const adminRouter = express.Router();
@@ -18,5 +18,6 @@ adminRouter.get('/courses/:courseId', authenticateAdminJWT, courseWithId);
 adminRouter.post('/upload/video/:courseId', authenticateAdminJWT, upload.single('file'), uploadFile);
 adminRouter.delete('/delete/video/:courseId/:videoId', authenticateAdminJWT, deleteFile); 
 adminRouter.get('/videos/:courseId', authenticateAdminJWT, getVideos);
+adminRouter.put('/resetPassword', resetPassword);
 
 export default adminRouter;
