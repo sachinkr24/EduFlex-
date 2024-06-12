@@ -77,7 +77,7 @@ function CourseGrid() {
           </Grid>
         ))}
       </Grid>
-      <Button variant="contained" onClick={direct} style={{ marginTop: '20px' }}>Show 8 more</Button>
+      <Button variant="contained" onClick={direct} style={{ marginTop: '20px' }}>Show all</Button>
     </Container>
   );
 }

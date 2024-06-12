@@ -1,35 +1,175 @@
-import TUTORING from '../images/TUTORING.webp';
-import { useNavigate } from 'react-router-dom';
-import Appbar from './Appbar.jsx';
-import {Typography} from "@mui/material";
-import Paper from '@mui/material/Paper';
-import Button from '@mui/material/Button';
-import {Grid } from '@mui/material';
+import React from 'react';
+import { Container, Box, Typography, Button, Grid, Card, CardContent, CardMedia, Avatar } from '@mui/material';
+import { Star, PlayCircleFilled } from '@mui/icons-material';
+import { Link } from 'react-router-dom';
+import Appbar from './Appbar.jsx';  
 
 
-export default function Homepage() {
-    const navigate = useNavigate();
-  
-    return (
-      <Grid container style={{ minHeight: '100vh', background: 'linear-gradient(135deg, #DAAE5F, #9E7C4F)' }}>
-        <Grid item xs={12}>
-          <Appbar />
-        </Grid>
-        <Grid item xs={12} style={{ paddingTop: 40 }}>
-          <Typography variant='h1' align='center' style={{ color: '#ffffff', fontWeight: 'bold', fontSize: 48 }}>SkillSync</Typography>
-          <Typography variant='h6' align='center' style={{ color: '#ffffff', fontSize: 20, marginTop: 20 }}>Learn In-Demand Skills With Interactive Courses Made By Career Experts</Typography>
-          <Typography variant='subtitle1' align='center' style={{ color: '#ffffff', fontSize: 16, marginTop: 20, maxWidth: 800, margin: 'auto' }}>We believe everyone should have access to professional skills anywhere, anytime. SkillSync is a place where people develop their creative potential!</Typography>
-        </Grid>
-        <Grid container item xs={12} style={{ background: '#DAAE5F', padding: 40 }}>
-          <Grid item xs={12} md={6}>
-            <img src={TUTORING} alt="Tutoring" style={{ width: '100%', height: 'auto', borderRadius: 8 }} />
+const courses = [
+  {
+    title: "Web Development Bootcamp",
+    description: "Learn the basics of HTML, CSS, and JavaScript to start your career as a web developer.",
+    image: "https://i.ytimg.com/vi/zJSY8tbf_ys/sddefault.jpg",
+    rating: 4.5,
+  },
+  {
+    title: "Data Science with Python",
+    description: "A comprehensive guide to learning data science and machine learning using Python.",
+    image: "https://imarticus.org/blog/wp-content/uploads/2021/12/learn-Python-for-data-science.jpg",
+    rating: 4.8,
+  },
+  {
+    title: "Graphic Design Masterclass",
+    description: "Master the art of graphic design with tools like Photoshop, Illustrator, and InDesign.",
+    image: "https://d3f1iyfxxz8i1e.cloudfront.net/courses/course_image/69a83eff3774.jpeg",
+    rating: 4.7,
+  },
+];
+
+const testimonials = [
+  {
+    name: "John Doe",
+    feedback: "This platform transformed my career. The courses are well-structured and the instructors are top-notch.",
+    avatar: "https://www.img2go.com/assets/dist/sample-files/img/convert_to_jpg.png",
+  },
+  {
+    name: "Jane Smith",
+    feedback: "I love the flexibility and the variety of courses offered. I can learn at my own pace.",
+    avatar: "https://www.img2go.com/assets/dist/sample-files/img/convert_to_jpg.png",
+  },
+  {
+    name: "Dhiraj Singh",
+    feedback: "EduFlex offers excellent courses with practical hands-on experience. Highly recommended!",
+    avatar: "https://www.img2go.com/assets/dist/sample-files/img/convert_to_jpg.png",
+  },
+  {
+    name: "Kapil Sharma",
+    feedback: "I've never had a more enjoyable learning experience. The instructors are knowledgeable and engaging.",
+    avatar: "https://www.img2go.com/assets/dist/sample-files/img/convert_to_jpg.png",
+  },
+  {
+    name: "Sachin Gupta",
+    feedback: "The content is comprehensive, the platform is easy to use, and the community support is fantastic!",
+    avatar: "https://www.img2go.com/assets/dist/sample-files/img/convert_to_jpg.png",
+  },
+  {
+    name: "Samdesh Ahuja",
+    feedback: "The content is comprehensive, the platform is easy to use, and the community support is fantastic!",
+    avatar: "https://www.img2go.com/assets/dist/sample-files/img/convert_to_jpg.png",
+  },
+];
+
+const Homepage = () => {
+  return (
+    <Container maxWidth="lg">
+      {/* Appbar */}
+      <Appbar />
+
+      {/* Hero Section */}
+      <Box
+        sx={{
+          textAlign: 'center',
+          py: 16,  // Increased the height of the box
+          color: '#ffffff',
+          borderRadius: 2,
+          mb: 4,
+          position: 'relative',
+          overflow: 'hidden',
+        }}
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: -1,
+            backgroundImage: `url("https://4kwallpapers.com/images/wallpapers/leaf-background-green-leaves-botanical-low-light-1920x1200-5851.jpg"), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))`,
+            backgroundSize: 'cover',
+            backgroundBlendMode: 'overlay',
+            opacity: 1,
+            borderRadius: 'inherit',
+          }}
+        />
+        <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
+          Welcome to EduFlex
+        </Typography>
+        <Typography variant="h5" sx={{ mb: 4 }}>
+          Transform your career with expert-led courses
+        </Typography>
+        <Button variant="contained" size="large" color="secondary" sx={{ mr: 2 }} component={Link} to="/courses">
+          View Courses
+        </Button>
+        <Button variant="outlined" size="large" sx={{ color: '#ffffff', borderColor: '#ffffff' }} component={Link} to="/play">
+          <PlayCircleFilled sx={{ mr: 1 }} /> Play Now
+        </Button>
+      </Box>
+
+      {/* Featured Courses */}
+      <Box sx={{ py: 8, mb: 4 }}>
+        <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', fontWeight: 'bold' }}>
+          Featured Courses
+        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <Grid container spacing={4}>
+            {courses.map((course, index) => (
+              <Grid item xs={12} sm={6} md={4} key={index}>
+                <Card sx={{ height: '100%' }}>
+                  <CardMedia component="img" height="160" image={course.image} alt={course.title} />
+                  <CardContent>
+                    <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', mb: 1 }}>
+                      {course.title}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
+                      {course.description}
+                    </Typography>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                      <Star sx={{ color: '#FFD700', mr: 1 }} />
+                      <Typography variant="body2">{course.rating}</Typography>
+                    </Box>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
-          <Grid item xs={12} md={6} style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', textAlign: 'center' }}>
-            <Typography variant='h4' style={{ color: '#9E7C4F', marginBottom: 20 }}>Become a Tutor at SkillSync</Typography>
-            <Typography variant='subtitle1' style={{ color: '#000000', marginBottom: 20 }}>Join our platform and share your expertise with others</Typography>
-            <Button variant="contained" color="primary" onClick={() => navigate('/signup')} style={{ borderRadius: 20 }}>Sign Up</Button>
+        </Box>
+      </Box>
+
+      {/* Testimonials */}
+      <Box sx={{ py: 8, backgroundColor: '#f5f5f5', borderRadius: 2, mb: 4 }}>
+        <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', fontWeight: 'bold' }}>
+          What Our Students Say
+        </Typography>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          <Grid container spacing={4}>
+            {testimonials.map((testimonial, index) => (
+              <Grid item xs={12} sm={6} key={index}>
+                <Card>
+                  <CardContent>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, background: `linear-gradient(45deg, #7eff9b 30%, #ffffff 90%)` }}>
+                      <Avatar src={testimonial.avatar} alt={testimonial.name} sx={{ mr: 2 }} />
+                      <Typography variant="h6">{testimonial.name}</Typography>
+                    </Box>
+                    <Typography variant="body2" color="text.secondary">
+                      {testimonial.feedback}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
-        </Grid>
-      </Grid>
-    );
-  }
+        </Box>
+      </Box>
+
+      {/* Footer */}
+      <Box sx={{ py: 4, textAlign: 'center', background: `linear-gradient(45deg, #7eff9b 30%, #ffffff 90%)`, borderRadius: 2 }}>
+        <Typography variant="body2" color="text.secondary">
+          &copy; {new Date().getFullYear()} EduFlex. All rights reserved.
+        </Typography>
+      </Box>
+    </Container>
+  );
+};
+
+export default Homepage;
