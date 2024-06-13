@@ -98,12 +98,12 @@ const Homepage = () => {
         <Typography variant="h5" sx={{ mb: 4 }}>
           Transform your career with expert-led courses
         </Typography>
-        <Button variant="contained" size="large" color="secondary" sx={{ mr: 2 }} component={Link} to="/courses">
+        {/* <Button variant="contained" size="large" color="secondary" sx={{ mr: 2 }} component={Link} to="/courses">
           View Courses
         </Button>
         <Button variant="outlined" size="large" sx={{ color: '#ffffff', borderColor: '#ffffff' }} component={Link} to="/play">
           <PlayCircleFilled sx={{ mr: 1 }} /> Play Now
-        </Button>
+        </Button> */}
       </Box>
 
       {/* Featured Courses */}
