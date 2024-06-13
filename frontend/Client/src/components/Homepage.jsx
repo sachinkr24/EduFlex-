@@ -23,9 +23,10 @@ export default function Homepage() {
         <Grid container item xs={12} style={{ background: '#DAAE5F', padding: 40 }}>
           <Grid item xs={12} md={6}>
             <img src={TUTORING} alt="Tutoring" style={{ width: '100%', height: 'auto', borderRadius: 8 }} />
-          </Grid>
-        </Box>
-      </Box>
+         
+            </Grid>
+            </Grid>
+       
 
       {/* Testimonials */}
       <Box sx={{ py: 8, backgroundColor: '#f5f5f5', borderRadius: 2, mb: 0 }}>
@@ -59,8 +60,8 @@ export default function Homepage() {
           &copy; {new Date().getFullYear()} EduFlex. All rights reserved.
         </Typography>
       </Box>
-    </Container>
+    </Grid>
   );
 };
 
-export default Homepage;
+
