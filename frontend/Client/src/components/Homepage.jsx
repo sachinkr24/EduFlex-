@@ -67,51 +67,57 @@ const Homepage = () => {
 
       {/* Hero Section */}
       <Box
-        sx={{
-          textAlign: 'center',
-          py: 16,  // Increased the height of the box
-          color: '#ffffff',
-          borderRadius: 2,
-          mb: 4,
-          position: 'relative',
-          overflow: 'hidden',
-        }}
-      >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            zIndex: -1,
-            backgroundImage: `url("https://4kwallpapers.com/images/wallpapers/leaf-background-green-leaves-botanical-low-light-1920x1200-5851.jpg"), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))`,
-            backgroundSize: 'cover',
-            backgroundBlendMode: 'overlay',
-            opacity: 1,
-            borderRadius: 'inherit',
-          }}
-        />
-        <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
-          Welcome to EduFlex
-        </Typography>
-        <Typography variant="h5" sx={{ mb: 4 }}>
-          Transform your career with expert-led courses
-        </Typography>
-        {/* <Button variant="contained" size="large" color="secondary" sx={{ mr: 2 }} component={Link} to="/courses">
-          View Courses
-        </Button>
-        <Button variant="outlined" size="large" sx={{ color: '#ffffff', borderColor: '#ffffff' }} component={Link} to="/play">
-          <PlayCircleFilled sx={{ mr: 1 }} /> Play Now
-        </Button> */}
-      </Box>
+  sx={{
+    textAlign: 'center',
+    py: { xs: 10, md: 20 }, // Adjust padding for mobile and desktop
+    color: '#ffffff',
+    borderRadius: 2,
+    mb: 0,
+    position: 'relative',
+    overflow: 'hidden',
+    width: '100vw', // Make the Box span the full viewport width
+    left: '50%',
+    transform: 'translateX(-50%)', // Center the Box horizontally with no margins
+  }}
+>
+  <Box
+    sx={{
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      width: '100%',
+      height: '100%',
+      zIndex: -1,
+      backgroundImage: `url("https://plus.unsplash.com/premium_photo-1681483561994-e91bc8ce5a23?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))`,
+      backgroundSize: 'cover',
+      backgroundPosition: 'center', // Ensure the image is centered
+      backgroundBlendMode: 'overlay',
+      opacity: 1.0,
+      borderRadius: 'inherit',
+    }}
+  />
+  <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
+    Welcome to EduFlex
+  </Typography>
+  <Typography variant="h5" sx={{ mb: 4 }}>
+    Transform your career with expert-led courses
+  </Typography>
+  {/* <Button variant="contained" size="large" color="secondary" sx={{ mr: 2 }} component={Link} to="/courses">
+    View Courses
+  </Button>
+  <Button variant="outlined" size="large" sx={{ color: '#ffffff', borderColor: '#ffffff' }} component={Link} to="/play">
+    <PlayCircleFilled sx={{ mr: 1 }} /> Play Now
+  </Button> */}
+</Box>
+
+
 
       {/* Featured Courses */}
-      <Box sx={{ py: 8, mb: 4 }}>
+      <Box sx={{ py: 8, mb: 0 }}>
         <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', fontWeight: 'bold' }}>
           Featured Courses
         </Typography>
-        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+        <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
           <Grid container spacing={4}>
             {courses.map((course, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
@@ -137,7 +143,7 @@ const Homepage = () => {
       </Box>
 
       {/* Testimonials */}
-      <Box sx={{ py: 8, backgroundColor: '#f5f5f5', borderRadius: 2, mb: 4 }}>
+      <Box sx={{ py: 8, backgroundColor: '#f5f5f5', borderRadius: 2, mb: 0 }}>
         <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', fontWeight: 'bold' }}>
           What Our Students Say
         </Typography>
@@ -147,7 +153,7 @@ const Homepage = () => {
               <Grid item xs={12} sm={6} key={index}>
                 <Card>
                   <CardContent>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2, background: `linear-gradient(45deg, #7eff9b 30%, #ffffff 90%)` }}>
+                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 0, background: `linear-gradient(45deg, #7eff9b 30%, #ffffff 90%)` }}>
                       <Avatar src={testimonial.avatar} alt={testimonial.name} sx={{ mr: 2 }} />
                       <Typography variant="h6">{testimonial.name}</Typography>
                     </Box>
