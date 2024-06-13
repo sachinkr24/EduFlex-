@@ -218,6 +218,50 @@ export const resetPassword = async (req, res) => {
   }
 }
 
+export const addComment = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId);
+    if (course) {
+      const userCommented = req.user;
+      course.comments.push({ comment: req.body.text, email: userCommented.email, username: userCommented.username});
+      await course.save();
+      const newComment = course.comments[course.comments.length - 1];
+      res.json(newComment); 
+    } else {
+      res.status(404).json({ message: 'Course not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'An error occurred', error: error.message });
+  }
+};
+
+export const getComments = async (req, res) => {
+  const course = await Course.findById(req.params.courseId);
+  if(course){
+    res.json(course.comments);
+  }
+  else {
+    res.status(404).json({message : 'Course not found'});
+  }
+}
+
+export const deleteComment = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId);
+    if (course) {
+      const commentId = req.params.commentId;
+      course.comments.filter((comment) => comment._id !== commentId);
+      await course.save();
+      res.json({ message: 'Comment deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Course not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'An error occurred', error: error.message });
+  }
+
+}
+
 
 //payment gateway api
 //token

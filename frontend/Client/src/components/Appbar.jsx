@@ -31,7 +31,7 @@ function Appbar() {
                     display: 'flex',
                     justifyContent: 'space-between',
                     alignItems: 'center',
-                    width: '100',
+                    width: '100px',
                     height: '38px',
                     margin: '20px',
                 }}

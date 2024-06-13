@@ -46,10 +46,10 @@ function UserCourses() {
 
 export function Course({ course }) {
   const navigate = useNavigate();
-  const [rating, setRating] = useState(0); // State to hold the rating
+  const [rating, setRating] = useState(0); 
 
   const handleRatingClick = (value) => {
-    // Function to update the rating
+    // rating function to be implemented...
     setRating(value);
   };
 
