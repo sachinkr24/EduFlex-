@@ -48,37 +48,62 @@ export function Course({ course }) {
   const navigate = useNavigate();
   const [rating, setRating] = useState(0); 
 
-  const handleRatingClick = (value) => {
-    // rating function to be implemented...
-    setRating(value);
+  const handleRatingClick = async (value, courseId) => {
+    try {
+      const response = await axios.post(`http://localhost:3000/users/updateRating/${courseId}`, { rating: value }, {
+        headers: {
+          'Content-Type': 'application/json',
+          "authorization": 'Bearer ' + localStorage.getItem('token'),
+        }
+      });
+  
+      if (response && response.data) {
+        setRating(response.data); // Update the state with the new rating
+      } else {
+        console.error('Rating update response is not in the expected format.', response);
+      }
+    } catch (error) {
+      console.error('Failed to update rating:', error);
+    }
   };
 
   return (
-    <Card sx={{ maxWidth: 345 }} style={{ margin: 10, width: 300, minHeight: 200, padding: 20 }}>
-      <CardMedia component="img" image={course.image ? course.image : altimg} />
+    <Card sx={{ maxWidth: 345 }} style={{ margin: 10, width: 300, minHeight: 200, padding: 0 }}>
+      <CardMedia component="img" image={course.image ? course.image : altimg} style={{height: 200, width: '100%'}} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div" style={{ textAlign: 'center', width: '100%' }}>
           {course.title}
         </Typography>
-        <Typography variant="body2" color="text.secondary">
+        <Typography variant="body2" color="text.secondary" style={{maxHeight: 100, overflow: "auto"}}>
           {course.description}
         </Typography>
-        <div style={{ display: 'flex', justifyContent: 'center', marginTop: 20 }}>
+        <div style={{ display: 'flex', marginTop: 20}}>
           <div>
             <Typography variant="subtitle2">Rating:</Typography>
-            <div style={{ display: 'flex' }}>
-              {[...Array(5)].map((_, index) => (
-                <IconButton
-                  key={index}
-                  onClick={() => handleRatingClick(index + 1)}
-                  color={index < rating ? 'primary' : 'inherit'}
-                  size="large"
-                >
-                  {index < rating ? <StarIcon fontSize="large" /> : <StarBorderIcon fontSize="large" />}
-                </IconButton>
-              ))}
-            </div>
           </div>
+            {rating === 0 ? (
+              <div>
+                <IconButton onClick={() => handleRatingClick(1, course._id)}>
+                  <StarBorderIcon />
+                </IconButton>
+                <IconButton onClick={() => handleRatingClick(2, course._id)}>
+                  <StarBorderIcon />
+                </IconButton>
+                <IconButton onClick={() => handleRatingClick(3, course._id)}>
+                  <StarBorderIcon />
+                </IconButton>
+                <IconButton onClick={() => handleRatingClick(4, course._id)}>
+                  <StarBorderIcon />
+                </IconButton>
+                <IconButton onClick={() => handleRatingClick(5, course._id)}>
+                  <StarBorderIcon />
+                </IconButton>
+              </div>
+            ) : (
+              <div>
+                <Typography variant='body2'>{rating}</Typography>
+              </div>
+            )}
         </div>
       </CardContent>
       <CardActions>

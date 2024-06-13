@@ -37,6 +37,11 @@ const courseSchema = new mongoose.Schema({
         comment : "String",
         email : "String",
         username : "String",
+        replies :[{
+            text : "String",
+            email : "String",
+            username : "String"
+        }]
     }]
 })
 
