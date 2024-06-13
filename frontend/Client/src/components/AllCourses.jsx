@@ -74,6 +74,7 @@ export function Course({course}) {
     <CardMedia
       component="img"
       image={course.image ? course.image : altimg}
+      style={{minHeight: 200, maxHeight: 200, width: "100%"}}
     />
     <CardContent>
       <Typography gutterBottom variant="h5" component="div" style={{
@@ -82,7 +83,7 @@ export function Course({course}) {
       }}>
         {course.title}
       </Typography>
-      <Typography variant="body2" color="text.secondary">
+      <Typography variant="body2" color="text.secondary" style={{maxHeight: 200, overflow: "auto"}}>
         {course.description}
       </Typography>
       <div style={{

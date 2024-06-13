@@ -4,7 +4,6 @@ import { useParams } from "react-router-dom";
 import { Typography, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
-import UserBar from "./userBar";
 
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -15,7 +14,6 @@ function Title() {
 
   return (
     <div>
-      <UserBar  />
       <GrayTopper title={course.title} />
       <Grid container>
         <Grid item lg={8} md={12} sm={12}>
@@ -161,12 +159,15 @@ function StudyCourse() {
 function CommentsCard() {
   const [comments, setComments] = useState([]);
   const [newComment, setNewComment] = useState("");
+  const [replyText, setReplyText] = useState({});
+  const [showReplyInput, setShowReplyInput] = useState({});
   const courseId = useParams().courseId;
+  const [showReplies, setShowReplies] = useState({});
 
   useEffect(() => {
     const fetchComments = async () => {
       try {
-        const res = await axios.get(
+        const { data } = await axios.get(
           `http://localhost:3000/users/course/comments/${courseId}`,
           {
             headers: {
@@ -174,7 +175,7 @@ function CommentsCard() {
             },
           }
         );
-        setComments(res.data);
+        setComments(data);
       } catch (error) {
         console.error("Failed to fetch comments:", error);
       }
@@ -183,40 +184,109 @@ function CommentsCard() {
   }, []);
 
   const handleCommentSubmit = async () => {
-    try {
-      const res = await axios.post(
-        `http://localhost:3000/users/course/comments/${courseId}`,
-        { text: newComment },
-        {
-          headers: {
-            "authorization": "Bearer " + localStorage.getItem("token"),
-          },
+    if(newComment.trim()){
+        try {
+        const { data } = await axios.post(
+            `http://localhost:3000/users/course/comments/${courseId}`,
+            { text: newComment },
+            {
+            headers: {
+                "Content-Type" : "application/json",
+                "authorization": "Bearer " + localStorage.getItem("token"),
+            },
+            }
+        );
+        setComments([...comments, data]);
+        setNewComment("");
+        } catch (error) {
+        console.error("Failed to submit comment:", error);
         }
-      );
-      setComments([...comments, res.data]);
-      setNewComment("");
-    } catch (error) {
-      console.error("Failed to submit comment:", error);
     }
   };
 
-    const deleteComment = async (commentId) => {
-
-        try {
-            const res = await axios.delete(
-                `http://localhost:3000/users/course/comments/${courseId}/${commentId}`,
-                {
-                    headers: {
-                        "authorization": "Bearer " + localStorage.getItem("token"),
-                    },
-                }
-            );
-            setComments(comments.filter((comment) => comment._id !== commentId));
-            setNewComment("");
-        } catch (error) {
-            console.error("Failed to submit comment:", error);
+  const deleteComment = async (commentId) => {
+    try {
+      await axios.delete(
+        `http://localhost:3000/users/course/comments/${courseId}/${commentId}`,
+        {
+          headers: {
+            "authorization": "Bearer " + localStorage.getItem("token"),
+          }
         }
+      );
+      setComments(comments.filter(comment => comment._id !== commentId));
+    } catch (error) {
+      console.error("Failed to delete comment:", error);
     }
+  };
+
+  const handleReply = (commentId) => {
+    setShowReplyInput((prev) => ({
+        ...prev,
+        [commentId]: !prev[commentId],
+      }));
+      setShowReplies((prev) => ({
+        ...prev,
+        [commentId]: !prev[commentId], 
+      }));
+  };
+
+
+const handleReplySubmit = async (commentId) => {
+    if (replyText[commentId].trim()) { 
+      try {
+        const { data } = await axios.post(
+          `http://localhost:3000/users/course/comments/replies/${courseId}/${commentId}`,
+          { text: replyText[commentId] },
+          {
+            headers: {
+              "Content-Type": "application/json",
+              "authorization": "Bearer " + localStorage.getItem("token"),
+            },
+          }
+        );
+        setComments(
+          comments.map((comment) =>
+            comment._id === commentId
+              ? { ...comment, replies: [...(comment.replies || []), data] }
+              : comment
+          )
+        );
+        setReplyText((prev) => ({
+          ...prev,
+          [commentId]: "",
+        }));
+        // setShowReplyInput((prev) => ({
+        //   ...prev,
+        //   [commentId]: !prev[commentId],
+        // }));
+      } catch (error) {
+        console.error("Failed to submit reply:", error);
+      }
+    }
+  };
+
+  const deleteReply = async (commentId, replyId) => {
+    try {
+      await axios.delete(`http://localhost:3000/users/course/comments/replies/${courseId}/${commentId}/${replyId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      // Update the comments state to remove the deleted reply
+      setComments((prevComments) => prevComments.map((comment) => {
+        if (comment._id === commentId) {
+          // Filter out the deleted reply
+          const updatedReplies = comment.replies.filter((reply) => reply._id !== replyId);
+          return { ...comment, replies: updatedReplies };
+        }
+        return comment;
+      }));
+    } catch (error) {
+      console.error("Failed to delete reply:", error);
+    }
+  };
 
   return (
     <Card
@@ -252,54 +322,98 @@ function CommentsCard() {
         variant="outlined"
         fullWidth
         multiline
-        rows={3}
+        rows={2}
         value={newComment}
         onChange={(e) => setNewComment(e.target.value)}
         style={{ marginTop: 10 }}
+        overflow="auto"
       />
       <Button
         variant="contained"
         color="primary"
         onClick={handleCommentSubmit}
-        style={{ marginTop: 10, marginBottom: 5}}
+        style={{ marginTop: 10, marginBottom: 10}}
       >
         Submit
       </Button>
       {comments &&
-        comments.map((text, index) => (
+        comments.map((comment) => (
           <Card
-            key={index}
+            key={comment._id}
             style={{
-              marginTop: 5,
-              marginBottom: 5,
+              marginBottom: 10,
               padding: 10,
-              height: "auto",
               overflow: "visible",
             }}
           >
-            <Typography variant = "subtitle2" style={{
-                color: "gray",
-            }}>{text.username}</Typography>
-            <Typography>{text.comment}</Typography>
-            <div>
-                <Typography variant = "caption" style={{
-                    color: "red",
-                    padding: 10,
-                    paddingLeft: 0,
-                    cursor: "pointer",
-                }} onClick = {() => deleteComment(text._id)}>
-                    Delete
-                </Typography>
-                <Typography variant = "caption" style={{
-                    color: "gray",
-                    padding: 10,
-                    cursor: "pointer",
-                }} 
-                // onClick = {handleReply}
+            <Typography>{comment.comment}</Typography>
+            <Typography
+              variant="caption"
+              style={{
+                color: "red",
+                padding: 10,
+                paddingLeft: 0,
+                cursor: "pointer",
+              }}
+              onClick={() => deleteComment(comment._id)}
+            >
+              Delete
+            </Typography>
+            <Typography
+              variant="caption"
+              style={{
+                color: "blue",
+                padding: 10,
+                paddingLeft: 0,
+                cursor: "pointer",
+              }}
+              onClick={() => handleReply(comment._id)}
+            >
+              Replies
+            </Typography>
+            {showReplyInput[comment._id] && (
+              <div style={{ marginTop: 10 }}>
+                <TextField
+                  label="Reply"
+                  variant="outlined"
+                  fullWidth
+                  multiline
+                  rows={2}
+                  value={replyText[comment._id] || ""}
+                  onChange={(e) =>
+                    setReplyText((prev) => ({
+                      ...prev,
+                      [comment._id]: e.target.value,
+                    }))
+                  }
+                  style={{ marginBottom: 10 }}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  onClick={() => handleReplySubmit(comment._id)}
                 >
-                    Reply
-                </Typography>
-            </div>
+                  Submit Reply
+                </Button>
+              </div>
+            )}
+            {comment.replies &&
+              comment.replies.map((reply) => (
+                <Card
+                  key={reply._id}
+                  style={{
+                    marginTop: 10,
+                    marginLeft: 20,
+                    padding: 10,
+                    overflow: "visible",
+                  }}
+                >
+                  <Typography>{reply.text}</Typography>
+                  <Typography variant="caption" style={{color: "red", cursor: "pointer"}}
+                  onClick = {() => deleteReply(comment._id, reply._id)}
+                  >Delete</Typography>
+                </Card>
+              ))}
           </Card>
         ))}
     </Card>

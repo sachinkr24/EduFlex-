@@ -145,7 +145,7 @@ export const updateRating = async (req, res) => {
     let ratingCount = course.ratingCount + 1;
     rating = (rating + req.body.rating)/ratingCount;
     await course.updateOne({rating: rating, ratingCount: ratingCount});
-    res.json({message: 'Rating updated successfully'});
+    res.json(rating);
   }else {
     res.status(402).json({message: 'Course not found'});
   }
@@ -250,9 +250,49 @@ export const deleteComment = async (req, res) => {
     const course = await Course.findById(req.params.courseId);
     if (course) {
       const commentId = req.params.commentId;
-      course.comments.filter((comment) => comment._id !== commentId);
+      course.comments = course.comments.filter((comment) => comment._id != commentId);
       await course.save();
       res.json({ message: 'Comment deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Course not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'An error occurred', error: error.message });
+  }
+
+}
+
+export const addReply = async (req, res) => {
+  try{
+    const course = await Course.findById(req.params.courseId);
+    if(course){
+      const commentId = req.params.commentId;
+      const comment = course.comments.find((comment) => comment._id == commentId);
+      comment.replies.push({text : req.body.text, email : req.user.email, username : req.user.username});
+      await course.save();
+      res.json(comment.replies[comment.replies.length - 1]);
+    }
+    else {
+      res.status(404).json({message : 'Course not found'});
+    }
+  } catch(error) {
+    res.status(500).json({ message: 'An error occurred', error: error.message });
+  }
+}
+
+export const deleteReply = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId);
+    if (course) {
+      const commentId = req.params.commentId;
+      const comment = course.comments.find((comment) => comment._id == commentId);
+      if(!comment){
+        res.status(404).json({message : 'Comment not found'});
+      }
+      const replyId = req.params.replyId;
+      comment.replies = comment.replies.filter((reply) => reply._id != replyId);
+      await course.save();
+      res.json({ message: 'Reply deleted successfully' });
     } else {
       res.status(404).json({ message: 'Course not found' });
     }
