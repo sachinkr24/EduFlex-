@@ -21,7 +21,7 @@ function Payment() {
       //get payment gateway token
   const getToken = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/users/braintree/token");                       // /api/v1/product/braintree/token
+      const { data } = await axios.get("http://localhost:3000/users/braintree/token");                       
       setClientToken(data?.clientToken);
     } catch (error) {
       console.log(error);
