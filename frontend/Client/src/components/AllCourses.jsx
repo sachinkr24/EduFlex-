@@ -43,25 +43,20 @@ function AllCourses() {
 
 export function Course({course}) {
 
-    const handleEnroll = async (courseId) => {
-        try {
-            const res = await fetch("http://localhost:3000/users/purchase/course/" + courseId, {
-              method: "POST",
-              headers: {
-                'Content-Type': 'application/json',
-                "authorization": "Bearer " + localStorage.getItem("token"),
-              }
-            });
-        
-            if (!res.ok) {
-              throw new Error(`HTTP error! status: ${res.status}`);
+  function addCourse(courseId) {
+    fetch("http://localhost:3000/users/courses/" + courseId, {
+        method: "POST",
+        headers: {
+            'Content-Type': 'application/json',
+            'authorization' : 'Bearer ' + localStorage.getItem('token')
+        }
+        }).then(res => {
+            if (res.status === 200) {
+                alert("Course added successfully");
+            } else {
+                alert("Failed to add course");
             }
-        
-            const data = await res.json();
-            console.log(data);
-          } catch (error) {
-            console.error('Failed to enroll in course:', error);
-          }
+        });
     }
 
     const navigate = useNavigate();
@@ -111,11 +106,13 @@ export function Course({course}) {
       
     </CardContent>
     <CardActions>
-        {course.price === 0 ? (
-            <Button size="small" onClick = {() => {
-                async function enroll() {
-                    await handleEnroll(course._id);
-                    navigate('/users/mycourses');
+    {course.price === 0 ? (
+            <Button size="small" onClick = {async () => {
+                try {
+                    await addCourse(course._id);
+                    navigate('/users/mycourses/');
+                }catch(err) {
+                    console.error("Failed to add course:", err);
                 }
             }}>Enroll</Button>
         ) : (

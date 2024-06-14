@@ -58,7 +58,7 @@ export function Course({ course }) {
       });
   
       if (response && response.data) {
-        setRating(response.data); // Update the state with the new rating
+        setRating(response.data); 
       } else {
         console.error('Rating update response is not in the expected format.', response);
       }
@@ -81,7 +81,7 @@ export function Course({ course }) {
           <div>
             <Typography variant="subtitle2">Rating:</Typography>
           </div>
-            {rating === 0 ? (
+            {course.rated == false ? (
               <div>
                 <IconButton onClick={() => handleRatingClick(1, course._id)}>
                   <StarBorderIcon />
@@ -101,7 +101,7 @@ export function Course({ course }) {
               </div>
             ) : (
               <div>
-                <Typography variant='body2'>{rating}</Typography>
+                <Typography variant='body2'>{course.rating}</Typography>
               </div>
             )}
         </div>
