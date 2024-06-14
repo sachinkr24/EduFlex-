@@ -24,10 +24,10 @@ function Appbar() {
     alignItems: 'center',
     height: '80px',
     background: 'linear-gradient(45deg, #7eff9b 30%, #ffffff 90%)',
-    width: '100vw', // Make the div span the full viewport width
+    width: '100vw', 
     position: 'relative',
     left: '50%',
-    transform: 'translateX(-50%)', // Center the div horizontally with no margins
+    transform: 'translateX(-50%)', 
   }}
 >
   <div
@@ -35,12 +35,13 @@ function Appbar() {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      width: '100px', // Corrected width to have a valid unit
+      width: '100px', 
       height: '38px',
       margin: '20px',
     }}
   >
     <Logo />
+    <div><h1>EduFlex</h1></div>
   </div>
   <div
     style={{

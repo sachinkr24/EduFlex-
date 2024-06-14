@@ -12,7 +12,7 @@ export default function UserBar() {
         display: 'flex',
         justifyContent: 'space-between',
         height: '80px',
-        background: 'linear-gradient(45deg, #2980b9 30%, #ffffff 90%)',
+        background: 'linear-gradient(45deg, #7eff9b 30%, #ffffff 90%)',
         }}>
         <div style={{
             display: 'flex',
@@ -23,6 +23,7 @@ export default function UserBar() {
             margin: '20px',
         }}>
             <Logo></Logo>
+            <div><h1>EduFlex</h1></div>
         </div>
 
         <div style={{display: "flex"}}>
