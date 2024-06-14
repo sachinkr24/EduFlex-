@@ -169,11 +169,19 @@ const Homepage = () => {
       </Box>
 
       {/* Footer */}
-      <Box sx={{ py: 4, textAlign: 'center', background: `linear-gradient(45deg, #7eff9b 30%, #ffffff 90%)`, borderRadius: 2 }}>
-        <Typography variant="body2" color="text.secondary">
-          &copy; {new Date().getFullYear()} EduFlex. All rights reserved.
-        </Typography>
-      </Box>
+      <Box 
+  sx={{ 
+    py: 4, 
+    textAlign: 'center', 
+    background: `linear-gradient(45deg, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.9) 90%)`, 
+    borderRadius: 2 
+  }}
+>
+  <Typography variant="body2" color="white">
+    &copy; {new Date().getFullYear()} EduFlex. All rights reserved.
+  </Typography>
+</Box>
+
     </Container>
   );
 };
