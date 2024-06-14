@@ -14,12 +14,13 @@ export const signIn = async (obj, navigate) => {
             'Content-Type': 'application/json',
         },
     }).then((res) => {
-        console.log(res.ok)
+        console.log(res.ok);
         return res.json();
     }).then((data) => {
         if (data && data.token) {
             alert('Login Successful');
             localStorage.setItem('token', data.token);
+            sessionStorage.setItem('email', obj.email);
             navigate(`/${endpoint}`);
         }
     }).catch((err) => {

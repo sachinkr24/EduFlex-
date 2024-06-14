@@ -108,7 +108,7 @@ export const adminCourses = async (req, res) => {
 
 export const me = async (req, res) => {
   if(req.admin.role === 'ADMIN')
-      res.json({role : 'ADMIN'});
+      res.json(req.admin.email);
   else 
       res.status(403).json({message : 'Admin is not logged in'});
 }
