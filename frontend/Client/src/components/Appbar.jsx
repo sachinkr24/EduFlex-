@@ -17,19 +17,21 @@ function Appbar() {
     };
 
     return (
-        <div
-  style={{
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: '80px',
-    background: 'linear-gradient(45deg, #7eff9b 30%, #ffffff 90%)',
-    width: '100vw', // Make the div span the full viewport width
-    position: 'relative',
-    left: '50%',
-    transform: 'translateX(-50%)', // Center the div horizontally with no margins
-  }}
->
+        
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: '80px',
+        background: 'linear-gradient(45deg, #4f38db, 30%, #ffffff 90%)',
+        boxShadow: '0px 6px 10px rgba(0, 0, 0, 0.1)',
+        width: '100vw', 
+        position: 'relative',
+        left: '50%',
+        transform: 'translateX(-50%)', 
+    }}>
+      
+
   <div
     style={{
       display: 'flex',
@@ -48,11 +50,11 @@ function Appbar() {
       margin: '20px',
     }}
   >
-    <ButtonGroup variant="text" aria-label="text button group">
-      <Button component={Link} to="/signup" onClick={handleSignupClick}>
+    <ButtonGroup style={{ color: '#4f38db' }} variant="text" aria-label="text button group">
+      <Button   style={{ color: '#4f38db' }}  component={Link} to="/signup" onClick={handleSignupClick}>
         SIGNUP
       </Button>
-      <Button component={Link} to="/signin" onClick={handleSigninClick}>
+      <Button style={{ color: '#4f38db' }} component={Link} to="/signin" onClick={handleSigninClick}>
         SIGNIN
       </Button>
     </ButtonGroup>

@@ -3,6 +3,7 @@ import Logo from "./logo.jsx";
 import Button from "@mui/material/Button";
 import { Link } from "react";
 import { useNavigate } from "react-router-dom";
+import Navbar from './navbar.jsx';
 
 export default function UserBar() {
 
@@ -12,7 +13,7 @@ export default function UserBar() {
         display: 'flex',
         justifyContent: 'space-between',
         height: '80px',
-        background: 'linear-gradient(45deg, #2980b9 30%, #ffffff 90%)',
+        background: 'linear-gradient(45deg, #624EDF 30%, #ffffff 90%)',
         }}>
         <div style={{
             display: 'flex',
