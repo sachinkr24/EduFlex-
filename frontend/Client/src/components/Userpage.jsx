@@ -3,7 +3,7 @@ import { Container, Grid, Card, CardContent, Typography, Button, CardMedia } fro
 import UserBar from "./userBar"
 import { useNavigate } from 'react-router-dom';
 
-// Define courses data
+
 const courses = [
   {
     title: 'Google AI Essentials',

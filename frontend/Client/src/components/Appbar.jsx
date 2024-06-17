@@ -23,7 +23,7 @@ function Appbar() {
     justifyContent: 'space-between',
     alignItems: 'center',
     height: '80px',
-    background: 'linear-gradient(45deg, #7eff9b 30%, #ffffff 90%)',
+    background: 'linear-gradient(to right, #11998e, #38ef7d)',
     width: '100vw', 
     position: 'relative',
     left: '50%',
@@ -50,11 +50,27 @@ function Appbar() {
     }}
   >
     <ButtonGroup variant="text" aria-label="text button group">
-      <Button component={Link} to="/signup" onClick={handleSignupClick}>
-        SIGNUP
+      <Button
+       component={Link} to="/signup" onClick={handleSignupClick}
+       style={{
+        color: '#000',
+       //borderColor: '#000',
+        // backgroundColor: addCourseClicked ? '#f0f0f0' : 'transparent',
+        // transition: 'background-color 0.3s ease-in-out', 
+    }}
+       
+       >
+        <h3>SIGNUP</h3>
       </Button>
-      <Button component={Link} to="/signin" onClick={handleSigninClick}>
-        SIGNIN
+      <Button component={Link} to="/signin" onClick={handleSigninClick}
+          style={{
+            color: '#000',
+          // borderColor: '#000',
+            // backgroundColor: addCourseClicked ? '#f0f0f0' : 'transparent',
+            // transition: 'background-color 0.3s ease-in-out', 
+        }}
+      >
+      <h3>SIGNIN</h3>
       </Button>
     </ButtonGroup>
   </div>
