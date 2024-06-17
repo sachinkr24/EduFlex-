@@ -88,9 +88,11 @@ export const purchaseCourse = async (req, res) => {
     }
   };
   
-export const allBuyings = async (req, res) => {
+  export const allBuyings = async (req, res) => {
     const user = await Users.findOne({ email: req.user.email }).populate('purchasedCourses');
+    console.log(user);
     if (user) {
+      console.log(user.purchasedCourses);
       const courses = await Promise.all(user.purchasedCourses.map(async (course) => {
         const purchasedCourse = await Course.findById(course);
         if(purchasedCourse){
@@ -110,14 +112,14 @@ export const allBuyings = async (req, res) => {
       res.json({ courses });
     } else {
       res.status(403).json({ message: 'User not found' });
-    }
-  };
+    }
+  }; 
 
   export const courseWithId = async (req, res) => {
     const user = await Users.findOne({ email: req.user.email });
     if(user){
       const course = await Course.findById(req.params.courseId);
-      const feedback = course.feedbacks.findOne((feedback) => feedback.email == req.user.email);
+      // const feedback = course.feedbacks.findOne((feedback) => feedback.email == req.user.email);
       if (course) {
         res.json({
           title: course.title,
@@ -127,7 +129,7 @@ export const allBuyings = async (req, res) => {
           rating: course.rating,
           ratingCount: course.ratingCount,
           _id : course._id,
-          feedback : feedback,
+          // feedback : feedback,
         });
       } else {
         console.log('Course not found');
@@ -418,7 +420,6 @@ export const brainTreePaymentController = async (req, res) => {
 
 
   
-
 
 
 

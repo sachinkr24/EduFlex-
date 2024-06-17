@@ -46,7 +46,7 @@ function UserCourses() {
 
 export function Course({ course }) {
   const navigate = useNavigate();
-  const [rating, setRating] = useState(0); 
+  const [rating, setRating] = useState(course.rating);
 
   const handleRatingClick = async (value, courseId) => {
     try {
@@ -101,7 +101,7 @@ export function Course({ course }) {
               </div>
             ) : (
               <div>
-                <Typography variant='body2'>{course.rating}</Typography>
+                <Typography variant='body2'>{rating}</Typography>
               </div>
             )}
         </div>
