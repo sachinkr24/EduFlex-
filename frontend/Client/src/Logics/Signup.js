@@ -24,6 +24,7 @@ export const signUp = async (obj, navigate) => {
         alert('User Signup Successful');
         navigate(`/${endpoint}`);
     }).catch((err) => {
+        alert('Invalid password or emqail');
         console.error('Error:', err);
     });
 };
