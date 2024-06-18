@@ -44,7 +44,7 @@ export const login = async (req, res) => {
         role : "ADMIN",
       }
       const token = jwt.sign(adminJSON, process.env.SECRET_KEY, {expiresIn : '24h'});
-      res.json({ message: 'Logged in successfully', token });
+      res.json({ message: 'Logged in successfully', token, username: admin.username});
     } else {
       res.status(403).json({ message: 'Invalid username or password' });
     }

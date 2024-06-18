@@ -26,6 +26,7 @@ export const signIn = async (obj, navigate) => {
             alert('Login Successful');
             localStorage.setItem('token', data.token);
             sessionStorage.setItem('email', obj.email);
+            sessionStorage.setItem('username', data.username);
             navigate(`/${endpoint}`);
         }
     })

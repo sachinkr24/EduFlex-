@@ -18,6 +18,19 @@ export default function UserBar() {
     const handleClose = () => {
         setAnchorEl(null);
     };
+    const username = sessionStorage.getItem('username');
+
+    function stringAvatar(name) {
+        const contains = name.split(' ').length > 1;
+        if(contains) {
+            return {
+                children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+            };
+        }
+        return {
+            children: `${name[0]}`,
+        };
+      }
 
     return (
         <div style={{
@@ -71,7 +84,7 @@ export default function UserBar() {
                     </Button>
                 </div>
 
-                <Avatar onClick={handleMenuClick} style={{ cursor: "pointer", marginLeft: '10px', backgroundColor: '#4caf50', color: '#fff' }}>DK</Avatar>
+                <Avatar {...stringAvatar(username)} onClick={handleMenuClick} style={{ cursor: "pointer", marginLeft: '10px', backgroundColor: '#4caf50', color: '#fff' }}></Avatar>
                 <Menu
                     anchorEl={anchorEl}
                     open={Boolean(anchorEl)}

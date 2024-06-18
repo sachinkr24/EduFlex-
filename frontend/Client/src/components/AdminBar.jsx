@@ -27,6 +27,20 @@ export default function AdminBar() {
         }, 300); 
     };
 
+    const username = sessionStorage.getItem('username');
+
+    function stringAvatar(name) {
+        const contains = name.split(' ').length > 1;
+        if(contains) {
+            return {
+                children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
+            };
+        }
+        return {
+            children: `${name[0]}`,
+        };
+      }
+
     const handleMyCoursesClick = () => {
         setMyCoursesClicked(true);
         navigate("/admin/courses");
@@ -93,7 +107,7 @@ export default function AdminBar() {
                     </Button>
                 </div>
 
-                <Avatar onClick={handleMenuClick} style={{ cursor: "pointer", marginLeft: '10px', backgroundColor: '#11998e' }}>DK</Avatar>
+                <Avatar {...stringAvatar(username)} onClick={handleMenuClick} style={{ cursor: "pointer", marginLeft: '10px', backgroundColor: '#11998e' }}></Avatar>
                 <Menu
                     anchorEl={anchorEl}
                     open={Boolean(anchorEl)}
