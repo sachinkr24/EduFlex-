@@ -1,6 +1,6 @@
 import Logo from "./logo";
 import { Typography, Menu, MenuItem, Button, Avatar } from "@mui/material";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 export default function AdminBar() {
@@ -8,6 +8,16 @@ export default function AdminBar() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [addCourseClicked, setAddCourseClicked] = useState(false);
     const [myCoursesClicked, setMyCoursesClicked] = useState(false);
+
+    useEffect(() => {
+   
+        console.log('SessionStorage contents:');
+        for (let i = 0; i < sessionStorage.length; i++) {
+            const key = sessionStorage.key(i);
+            const value = sessionStorage.getItem(key);
+            console.log(`${key}: ${value}`);
+        }
+    }, []);
 
     const handleMenuClick = (event) => {
         setAnchorEl(event.currentTarget);
@@ -21,31 +31,33 @@ export default function AdminBar() {
         setAddCourseClicked(true);
         navigate("/admin/addcourse");
 
-        
         setTimeout(() => {
             setAddCourseClicked(false);
         }, 300); 
     };
 
-    const username = sessionStorage.getItem('username');
+    const username = sessionStorage.getItem('username') || '';
+    console.log('Username:', username);
 
     function stringAvatar(name) {
-        const contains = name.split(' ').length > 1;
-        if(contains) {
-            return {
-                children: `${name.split(' ')[0][0]}${name.split(' ')[1][0]}`,
-            };
+        const nameParts = name.split(' ');
+        let initials = '';
+
+        if (nameParts.length > 1) {
+            initials = `${nameParts[0][0]}${nameParts[1][0]}`;
+        } else {
+            initials = nameParts[0][0];
         }
+
         return {
-            children: `${name[0]}`,
+            children: initials.toUpperCase(),
         };
-      }
+    }
 
     const handleMyCoursesClick = () => {
         setMyCoursesClicked(true);
         navigate("/admin/courses");
 
-        
         setTimeout(() => {
             setMyCoursesClicked(false);
         }, 300); 

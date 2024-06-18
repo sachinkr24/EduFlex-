@@ -44,6 +44,8 @@ function CourseCard({ course }) {
         height="140"
         image={course.imageUrl}
         alt={course.title}
+       // marginTop= '20px' 
+        
       />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div">
@@ -69,7 +71,9 @@ function CourseGrid() {
   };
 
   return (
-    <Container>
+    <Container 
+    marginTop='100px' 
+    >
       <Grid container spacing={3}>
         {courses.map((course, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
@@ -82,12 +86,14 @@ function CourseGrid() {
   );
 }
 
-// UserPage component
+
 export default function UserPage() {
   return (
-    <div>
+    <>
       <UserBar />
+    <div style={{ marginTop: '10px' }}>
       <CourseGrid />
     </div>
+    </>
   );
 }
