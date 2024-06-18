@@ -44,7 +44,7 @@ export const login = async (req, res) => {
         role : "ADMIN",
       }
       const token = jwt.sign(adminJSON, process.env.SECRET_KEY, {expiresIn : '24h'});
-      res.json({ message: 'Logged in successfully', token });
+      res.json({ message: 'Logged in successfully', token, username: admin.username});
     } else {
       res.status(403).json({ message: 'Invalid username or password' });
     }
@@ -108,7 +108,7 @@ export const adminCourses = async (req, res) => {
 
 export const me = async (req, res) => {
   if(req.admin.role === 'ADMIN')
-      res.json({role : 'ADMIN'});
+      res.json(req.admin.email);
   else 
       res.status(403).json({message : 'Admin is not logged in'});
 }
@@ -156,6 +156,99 @@ export const getVideos = async (req, res) => {
   }
   res.json(course.videos);
 
+}
+
+export const getFeedbacks = async (req, res) => {
+  const course = await Course.findById(req.params.courseId);
+  if (!course) {
+    return res.status(404).json({ message: "Course not found" });
+  }
+  res.json(course.feedbacks);
+}
+
+export const getComments = async (req, res) => {
+  const course = await Course.findById(req.params.courseId);
+  if (!course) {
+    return res.status(404).json({ message: "Course not found" });
+  }
+  res.json(course.comments);
+}
+
+export const addComment = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId);
+    if (course) {
+      const userCommented = req.admin;
+
+      course.comments.push({ comment: req.body.text, email: userCommented.email, username: userCommented.username});
+      await course.save();
+      const newComment = course.comments[course.comments.length - 1];
+      res.json(newComment); 
+    } else {
+      res.status(404).json({ message: 'Course not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'An error occurred', error: error.message });
+  }
+}
+
+export const deleteComment = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId);
+    if (course) {
+      const commentId = req.params.commentId;
+      course.comments = course.comments.filter((comment) => comment._id != commentId);
+      await course.save();
+      res.json({ message: 'Comment deleted successfully' });
+    } else {
+      res.status(404).json({ message: 'Course not found' });
+    }
+  } catch (error) {
+    res.status(500).json({ message: 'An error occurred', error: error.message });
+  }
+
+}
+
+export const deleteReply = async (req, res) => {
+  try {
+    const course = await Course.findById(req.params.courseId);
+    if (course) {
+      const commentId = req.params.commentId;
+      const comment = course.comments.find((comment) => comment._id == commentId);
+      if(!comment){
+        res.status(404).json({message : 'Comment not found'});
+      }
+      const replyId = req.params.replyId;
+      comment.replies = comment.replies.filter((reply) => reply._id != replyId);
+      await course.save();
+      res.json({ message: 'Reply deleted successfully' });
+    } else {
+      course.log('no course found');
+      res.status(404).json({ message: 'Course not found' });
+    }
+  } catch (error) {
+    console.log('error catched', error);
+    res.status(500).json({ message: 'An error occurred', error: error.message });
+  }
+
+}
+
+export const addReply = async (req, res) => {
+  try{
+    const course = await Course.findById(req.params.courseId);
+    if(course){
+      const commentId = req.params.commentId;
+      const comment = course.comments.find((comment) => comment._id == commentId);
+      comment.replies.push({text : req.body.text, email : req.admin.email, username : req.admin.username});
+      await course.save();
+      res.json(comment.replies[comment.replies.length - 1]);
+    }
+    else {
+      res.status(404).json({message : 'Course not found'});
+    }
+  } catch(error) {
+    res.status(500).json({ message: 'An error occurred', error: error.message });
+  }
 }
 
 export const uploadFile = async (req, res) => {

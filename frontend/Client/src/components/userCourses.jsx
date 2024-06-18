@@ -46,7 +46,7 @@ function UserCourses() {
 
 export function Course({ course }) {
   const navigate = useNavigate();
-  const [rating, setRating] = useState(0); 
+  const [rating, setRating] = useState(course.rating);
 
   const handleRatingClick = async (value, courseId) => {
     try {
@@ -58,7 +58,7 @@ export function Course({ course }) {
       });
   
       if (response && response.data) {
-        setRating(response.data); // Update the state with the new rating
+        setRating(response.data); 
       } else {
         console.error('Rating update response is not in the expected format.', response);
       }
@@ -81,7 +81,7 @@ export function Course({ course }) {
           <div>
             <Typography variant="subtitle2">Rating:</Typography>
           </div>
-            {rating === 0 ? (
+            {course.rated == false ? (
               <div>
                 <IconButton onClick={() => handleRatingClick(1, course._id)}>
                   <StarBorderIcon />

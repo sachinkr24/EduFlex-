@@ -99,7 +99,7 @@ export function Course({course}) {
       }}>
         {course.title}
       </Typography>
-      <Typography variant="body2" color="text.secondary" style={{padding: 0}}>
+      <Typography variant="body2" color="text.secondary" style={{maxHeight: 150, minHeight:150, padding: 0, overflow : 'auto'}}>
         {course.description}
       </Typography>
       <div style={{

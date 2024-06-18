@@ -4,9 +4,11 @@ import { useParams } from "react-router-dom";
 import { Typography, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
+import Feedback from "./feedback.jsx";
 
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { useLocation } from "react-router-dom";
+import { set } from "mongoose";
 
 function Title() {
   const location = useLocation();
@@ -14,7 +16,7 @@ function Title() {
 
   return (
     <div>
-      <GrayTopper title={course.title} />
+      <GrayTopper title={course.title} feed = {course.feedback} />
       <Grid container>
         <Grid item lg={8} md={12} sm={12}>
           <StudyCourse />
@@ -27,7 +29,7 @@ function Title() {
   );
 }
 
-function GrayTopper({ title }) {
+function GrayTopper({ title, feed }) {
   return (
     <div
       style={{
@@ -55,6 +57,9 @@ function GrayTopper({ title }) {
           >
             {title}
           </Typography>
+          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
+            <Feedback courseId={useParams().courseId} text={feed} />
+          </div>
         </div>
       </div>
     </div>
@@ -163,6 +168,9 @@ function CommentsCard() {
   const [showReplyInput, setShowReplyInput] = useState({});
   const courseId = useParams().courseId;
   const [showReplies, setShowReplies] = useState({});
+  const [replies, setReplies] = useState({});
+
+  const userEmail = sessionStorage.getItem("email");
 
   useEffect(() => {
     const fetchComments = async () => {
@@ -225,10 +233,6 @@ function CommentsCard() {
         ...prev,
         [commentId]: !prev[commentId],
       }));
-      setShowReplies((prev) => ({
-        ...prev,
-        [commentId]: !prev[commentId], 
-      }));
   };
 
 
@@ -268,13 +272,7 @@ const handleReplySubmit = async (commentId) => {
 
   const deleteReply = async (commentId, replyId) => {
     try {
-      await axios.delete(`http://localhost:3000/users/course/comments/replies/${courseId}/${commentId}/${replyId}`, {
-        headers: {
-          "Content-Type": "application/json",
-          "authorization": "Bearer " + localStorage.getItem("token"),
-        },
-      });
-      // Update the comments state to remove the deleted reply
+
       setComments((prevComments) => prevComments.map((comment) => {
         if (comment._id === commentId) {
           // Filter out the deleted reply
@@ -283,6 +281,14 @@ const handleReplySubmit = async (commentId) => {
         }
         return comment;
       }));
+
+      await axios.delete(`http://localhost:3000/users/course/comments/replies/${courseId}/${commentId}/${replyId}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "authorization": "Bearer " + localStorage.getItem("token"),
+        },
+      });
+      // Update the comments state to remove the deleted reply
     } catch (error) {
       console.error("Failed to delete reply:", error);
     }
@@ -346,8 +352,13 @@ const handleReplySubmit = async (commentId) => {
               overflow: "visible",
             }}
           >
+            {userEmail == comment.email ? 
+              (<Typography variant='caption'>{comment.username}(YOU)</Typography>) : 
+              (<Typography variant='caption'>{comment.username}</Typography>)
+            }
             <Typography>{comment.comment}</Typography>
-            <Typography
+            {comment.email == userEmail && (
+              <Typography
               variant="caption"
               style={{
                 color: "red",
@@ -356,9 +367,10 @@ const handleReplySubmit = async (commentId) => {
                 cursor: "pointer",
               }}
               onClick={() => deleteComment(comment._id)}
-            >
-              Delete
-            </Typography>
+              >
+                Delete
+              </Typography>
+            )}
             <Typography
               variant="caption"
               style={{
@@ -369,6 +381,19 @@ const handleReplySubmit = async (commentId) => {
               }}
               onClick={() => handleReply(comment._id)}
             >
+              Reply
+            </Typography>
+            <Typography variant='caption'
+            style={{
+              color: "gray",
+              padding: 10,
+              paddingLeft: 0,
+              cursor: "pointer",
+            }} 
+            onClick={() => setShowReplies((prev) => ({
+              ...prev,
+              [comment._id]: !prev[comment._id], 
+            }))}>
               Replies
             </Typography>
             {showReplyInput[comment._id] && (
@@ -397,7 +422,7 @@ const handleReplySubmit = async (commentId) => {
                 </Button>
               </div>
             )}
-            {comment.replies &&
+            {comment.replies && showReplies[comment._id] &&
               comment.replies.map((reply) => (
                 <Card
                   key={reply._id}
@@ -408,10 +433,13 @@ const handleReplySubmit = async (commentId) => {
                     overflow: "visible",
                   }}
                 >
+                  <Typography variant='caption'>{reply.username}</Typography>
                   <Typography>{reply.text}</Typography>
-                  <Typography variant="caption" style={{color: "red", cursor: "pointer"}}
-                  onClick = {() => deleteReply(comment._id, reply._id)}
-                  >Delete</Typography>
+                  {reply.email === userEmail && (
+                    <Typography variant="caption" style={{color: "red", cursor: "pointer"}}
+                    onClick = {() => deleteReply(comment._id, reply._id)}
+                    >Delete</Typography>
+                  )}
                 </Card>
               ))}
           </Card>

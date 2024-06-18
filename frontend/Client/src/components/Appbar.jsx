@@ -37,12 +37,13 @@ function Appbar() {
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
-      width: '100px', // Corrected width to have a valid unit
+      width: '100px', 
       height: '38px',
       margin: '20px',
     }}
   >
     <Logo />
+    <div><h1>EduFlex</h1></div>
   </div>
   <div
     style={{

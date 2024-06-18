@@ -42,6 +42,23 @@ function FreeCourses() {
 }
 
 export function Course({course}) {
+
+    function addCourse(courseId) {
+        fetch("http://localhost:3000/users/courses/" + courseId, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json',
+                'authorization' : 'Bearer ' + localStorage.getItem('token')
+            }
+        }).then(res => {
+            if (res.status === 200) {
+                alert("Course added successfully");
+            } else {
+                alert("Failed to add course");
+            }
+        });
+    }
+
     const navigate = useNavigate();
     return <Card sx={{ maxWidth: 345 }} style={{
         margin: 10,
@@ -93,12 +110,17 @@ export function Course({course}) {
     </CardContent>
     <CardActions>
         {course.price === 0 ? (
-            <Button size="small" onClick = {() => {
-               navigate('/admin/courses/' + course._id);
+            <Button size="small" onClick = {async () => {
+                try {
+                    await addCourse(course._id);
+                    navigate('/users/mycourses/');
+                }catch(err) {
+                    console.error("Failed to add course:", err);
+                }
             }}>Enroll</Button>
         ) : (
             <Button size="small" disabled onClick = {() => {
-               navigate('/admin/courses/' + course._id);
+               navigate('/users/mycourses/');
             }}>Enroll</Button>
         )}
     </CardActions>

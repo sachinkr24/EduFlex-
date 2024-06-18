@@ -49,7 +49,7 @@ export const login = async (req, res) => {
         role : "USER",
       }
       const token = jwt.sign(userJSON, process.env.SECRET_KEY, {expiresIn : '24h'});
-      res.json({ message: 'Logged in successfully', token });
+      res.json({ message: 'Logged in successfully', token, username: user.username});
     } else {
       res.status(403).json({ message: 'Invalid username or password' });
     }
@@ -88,9 +88,11 @@ export const purchaseCourse = async (req, res) => {
     }
   };
   
-export const allBuyings = async (req, res) => {
+  export const allBuyings = async (req, res) => {
     const user = await Users.findOne({ email: req.user.email }).populate('purchasedCourses');
+    console.log(user);
     if (user) {
+      console.log(user.purchasedCourses);
       const courses = await Promise.all(user.purchasedCourses.map(async (course) => {
         const purchasedCourse = await Course.findById(course);
         if(purchasedCourse){
@@ -110,13 +112,14 @@ export const allBuyings = async (req, res) => {
       res.json({ courses });
     } else {
       res.status(403).json({ message: 'User not found' });
-    }
-  };
+    }
+  }; 
 
   export const courseWithId = async (req, res) => {
     const user = await Users.findOne({ email: req.user.email });
     if(user){
       const course = await Course.findById(req.params.courseId);
+      // const feedback = course.feedbacks.findOne((feedback) => feedback.email == req.user.email);
       if (course) {
         res.json({
           title: course.title,
@@ -125,7 +128,8 @@ export const allBuyings = async (req, res) => {
           image: course.imgLink,
           rating: course.rating,
           ratingCount: course.ratingCount,
-          _id : course._id
+          _id : course._id,
+          // feedback : feedback,
         });
       } else {
         console.log('Course not found');
@@ -143,8 +147,22 @@ export const updateRating = async (req, res) => {
   if(course) {
     let rating = course.rating;
     let ratingCount = course.ratingCount + 1;
-    rating = (rating + req.body.rating)/ratingCount;
+    rating = (rating * (ratingCount - 1) + req.body.rating)/ratingCount;
     await course.updateOne({rating: rating, ratingCount: ratingCount});
+    const user = await Users.findOne({ email: req.user.email });
+    if (user) {
+      const courseIndex = user.purchasedCourses.findIndex(course => course.courseId.toString() === courseId);
+  
+      if (courseIndex !== -1) {
+        user.purchasedCourses[courseIndex].rated = true;
+        await user.save();
+        return { success: true, message: 'Course rated updated successfully.' };
+      } else {
+        return { success: false, message: 'Course not found in purchased courses.' };
+      }
+    } else {
+      return { success: false, message: 'User not found.' };
+    }
     res.json(rating);
   }else {
     res.status(402).json({message: 'Course not found'});
@@ -170,7 +188,7 @@ export const freeCourses = async (req, res) => {
 
 export const me = async (req, res) => {
   if(req.user.role === 'USER'){
-    return res.json({role : 'USER'});
+    return res.json(req.user.email);
   }
   else {
     return res.status(403).json({message : 'User is not logged in'});
@@ -294,12 +312,49 @@ export const deleteReply = async (req, res) => {
       await course.save();
       res.json({ message: 'Reply deleted successfully' });
     } else {
+      course.log('no course found');
       res.status(404).json({ message: 'Course not found' });
     }
   } catch (error) {
+    console.log('error catched', error);
     res.status(500).json({ message: 'An error occurred', error: error.message });
   }
 
+}
+
+export const addFeedback = async (req, res) => {
+  console.log('feedback targeted');
+  try {
+    const course = await Course.findById(req.params.courseId);
+    if (course) {
+      console.log('course found', course);
+      // Find an index of feedback with the matching email
+      const feedbackIndex = course.feedbacks.findIndex(feedback => feedback.email === req.user.email);
+      
+      if (feedbackIndex !== -1) {
+        // Update existing feedback
+        course.feedbacks[feedbackIndex].feedback = req.body.feedback;
+        course.feedbacks[feedbackIndex].username = req.user.username;
+      } else {
+        // Add new feedback
+        course.feedbacks.push({
+          feedback: req.body.feedback,
+          email: req.user.email,
+          username: req.user.username
+        });
+      }
+      
+      await course.save();
+      const newFeedback = course.feedbacks[course.feedbacks.length - 1];
+      res.json(newFeedback); 
+    } else {
+      console.log('no course found');
+      res.status(404).json({ message: 'Course not found' });
+    }
+  } catch (err) {
+    console.log('error caught', err);
+    res.status(500).json({ message: 'An error occurred', error: err.message });
+  }
 }
 
 
@@ -365,7 +420,6 @@ export const brainTreePaymentController = async (req, res) => {
 
 
   
-
 
 
 

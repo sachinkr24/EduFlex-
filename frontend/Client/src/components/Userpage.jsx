@@ -1,9 +1,8 @@
-import React from 'react';
-import { Container, Grid, Card, CardContent, Typography, Button, CardMedia } from '@mui/material';
-import UserBar from "./userBar"
+import React, { useEffect, useState } from 'react';
+import { Container, Grid, Card, CardContent, Typography, Button, CardMedia, Avatar } from '@mui/material';
+import UserBar from "./userBar";
 import { useNavigate } from 'react-router-dom';
 
-// Define courses data
 const courses = [
   {
     title: 'Google AI Essentials',
@@ -63,13 +62,16 @@ function CourseCard({ course }) {
 // CourseGrid component
 function CourseGrid() {
   const navigate = useNavigate();
-  
+
   const direct = () => {
     navigate('/users/mycourses');
   };
 
   return (
-    <Container>
+    <Container style={{ marginTop: '20px' }}>
+      <Typography variant="h4" style={{ textAlign: 'center', marginBottom: '20px' }}>
+        Start Learning
+      </Typography>
       <Grid container spacing={3}>
         {courses.map((course, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
@@ -77,17 +79,64 @@ function CourseGrid() {
           </Grid>
         ))}
       </Grid>
-      <Button variant="contained" onClick={direct} style={{ marginTop: '20px' }}>Show all</Button>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '20px' }}>
+        <Button variant="contained" onClick={direct}>Show all</Button>
+      </div>
     </Container>
   );
 }
 
 // UserPage component
 export default function UserPage() {
+  const [username, setUsername] = useState('User');
+  const [email, setEmail] = useState('user@example.com');
+
+  useEffect(() => {
+    const storedUsername = sessionStorage.getItem('username');
+    const storedEmail = sessionStorage.getItem('email');
+    if (storedUsername) setUsername(storedUsername);
+    if (storedEmail) setEmail(storedEmail);
+  }, []);
+
   return (
-    <div>
+    <>
       <UserBar />
-      <CourseGrid />
-    </div>
+      <div style={{
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        textAlign: 'center',
+        marginTop: '0px', // Adjust margin to ensure content starts below UserBar
+      }}>
+        <div style={{
+          width: '100%',
+          maxWidth: '1200px',
+          padding: '20px',
+          boxSizing: 'border-box',
+          textAlign: 'center',
+          background: 'rgba(255, 255, 255, 0.9)',
+          borderRadius: '15px',
+          display: 'flex',
+          flexDirection: 'column', // Ensure the image container is flexible in column direction
+        }}>
+          <Typography variant="h4" style={{ color: '#333', marginBottom: '10px' }}>
+            Welcome, {username}
+          </Typography>
+         
+          <img
+            src="https://img.freepik.com/free-vector/browser-stats-concept-illustration_114360-312.jpg?w=740&t=st=1718699377~exp=1718702977~hmac=36e98f5ed2a54001a0b5e6d0b1e29d6ddd99175c7ec3cf1b9da220d8e5ca0dbc"
+            alt="Welcome"
+            style={{
+              width: '100%',
+              height: 'auto',
+              maxHeight: '50vh', // Ensure the image covers 30% of the viewport height
+              borderRadius: '15px',
+              marginBottom: '20px',
+            }}
+          />
+        </div>
+        <CourseGrid />
+      </div>
+    </>
   );
 }

@@ -3,7 +3,7 @@ import express from "express";
 import {signUp, login, considerableCourses, purchaseCourse, allBuyings, updateRating, freeCourses, 
     braintreeTokenController, brainTreePaymentController, courseWithId, 
     courseVideos, purschasedFreeCourse, resetPassword, addComment, getComments, 
-    deleteComment, addReply} from '../Controller/userController.js'
+    deleteComment, addReply, addFeedback} from '../Controller/userController.js'
 import authenticateUserJWT from '../Authentication/userAuth.js'
 import { me } from "../Controller/adminController.js";
 
@@ -28,6 +28,7 @@ userRouter.get('/course/comments/:courseId', authenticateUserJWT, getComments);
 userRouter.delete('/course/comments/:courseId/:commentId', authenticateUserJWT, deleteComment);
 userRouter.post('/course/comments/replies/:courseId/:commentId', authenticateUserJWT, addReply);
 userRouter.delete('/course/comments/replies/:courseId/:commentId/:replyId', authenticateUserJWT, deleteComment);
+userRouter.post('/course/feedback/:courseId', authenticateUserJWT,(req, res, next) => {console.log('feedback passed middleware'); next();}, addFeedback);
 //payments
 userRouter.post("/braintree/payment", authenticateUserJWT,brainTreePaymentController);
 userRouter.put('/resetPassword', resetPassword);

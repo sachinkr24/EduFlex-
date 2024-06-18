@@ -42,7 +42,12 @@ const courseSchema = new mongoose.Schema({
             email : "String",
             username : "String"
         }]
-    }]
+    }],
+    feedbacks : [{
+        feedback : "String",
+        email : "String",
+        username : "String"
+    }],
 })
 
 const Course = mongoose.model('Course', courseSchema);

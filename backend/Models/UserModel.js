@@ -16,7 +16,11 @@ const userSchema = new mongoose.Schema({
     },
     purchasedCourses : [{
         type : mongoose.Schema.Types.ObjectId, 
-        ref: 'Course'
+        ref: 'Course',
+        rated : {
+            type : Boolean,
+            default : false
+        },
     }]
 })
 

@@ -1,15 +1,19 @@
 import * as React from 'react';
 import Logo from "./logo.jsx";
 import Button from "@mui/material/Button";
-import { Link } from "react";
+import Avatar from "@mui/material/Avatar";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import Navbar from './navbar.jsx';
 
 export default function UserBar() {
-
     const navigate = useNavigate();
+    const [anchorEl, setAnchorEl] = React.useState(null);
 
-    return <div style={{
+    return (
+    <div style={{
         display: 'flex',
         justifyContent: 'space-between',
         height: '80px',
@@ -19,56 +23,67 @@ export default function UserBar() {
             display: 'flex',
             justifyContent: 'space-between',
             alignItems: 'center',
-            width: '100px',
-            height: '38px',
-            margin: '20px',
+            height: '80px',
+            background: '#000',
+            color: '#fff',
+            padding: '0 20px',
         }}>
-            <Logo></Logo>
+            <div style={{
+                display: 'flex',
+                alignItems: 'center',
+            }}>
+                <Logo />
+                <h1 style={{ color: '#fff', margin: '0 10px' }}>EduFlex</h1>
+            </div>
+
+            <div style={{ display: "flex", alignItems: "center" }}>
+                <div style={{ margin: '0 10px' }}>
+                    <Button
+                        component={Link}
+                        to="/users/freecourses"
+                        variant="outlined"
+                        style={{ color: '#fff', borderColor: '#fff' }}
+                    >
+                        Free Courses
+                    </Button>
+                </div>
+
+                <div style={{ margin: '0 10px' }}>
+                    <Button
+                        component={Link}
+                        to="/users/courses"
+                        variant="outlined"
+                        style={{ color: '#fff', borderColor: '#fff' }}
+                    >
+                        Buy Courses
+                    </Button>
+                </div>
+
+                <div style={{ margin: '0 10px' }}>
+                    <Button
+                        component={Link}
+                        to="/users/mycourses"
+                        variant="outlined"
+                        style={{ color: '#fff', borderColor: '#fff' }}
+                    >
+                        My Courses
+                    </Button>
+                </div>
+
+                <Avatar {...stringAvatar(username)} onClick={handleMenuClick} style={{ cursor: "pointer", marginLeft: '10px', backgroundColor: '#4caf50', color: '#fff' }}></Avatar>
+                <Menu
+                    anchorEl={anchorEl}
+                    open={Boolean(anchorEl)}
+                    onClose={handleClose}
+                >
+                    <MenuItem onClick={() => navigate("/users/editprofile")}>Edit Profile</MenuItem>
+                    <MenuItem onClick={() => {
+                        localStorage.setItem("token", null);
+                        window.location = "/";
+                    }}>Logout</MenuItem>
+                </Menu>
+            </div>
         </div>
-
-        <div style={{display: "flex"}}>
-            <div style={{marginRight: 10, display: "flex"}}>
-            <div style={{
-                padding: '1px',
-                margin: '20px',
-            }}>
-                <Button component={Link} to = '/users/freeCourses'
-                    onClick={() => {
-                        navigate("/users/freecourses")
-                    }}
-                >Free Courses</Button>
-            </div>
-
-            <div style={{
-            padding: '1px',
-            margin: '20px',
-            }}>
-                <Button component={Link} to = {'/users/courses'}
-                    onClick={() => {
-                        navigate("/users/courses")
-                    }}
-                >Buy Courses</Button>
-            </div>
-
-            <div style={{
-            padding: '1px',
-            margin: '20px',
-            }}>
-                <Button component={Link} to = {'/users/mycourses'}
-                    onClick={() => {
-                        navigate("/users/mycourses")
-                    }}
-                >My Courses</Button>
-            </div>
-
-            <Button
-                variant={"contained"}
-                onClick={() => {
-                    localStorage.setItem("token", null);
-                    window.location = "/";
-                }}
-            >Logout</Button>
         </div>
-    </div>
-  </div>
+    );
 }
