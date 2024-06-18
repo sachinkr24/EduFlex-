@@ -30,21 +30,12 @@ export default function Adminpage() {
             flexDirection: 'column',
             alignItems: 'center',
             minHeight: '100vh',
-            backgroundImage: 'url("https://img.freepik.com/free-vector/browser-stats-concept-illustration_114360-312.jpg?w=740&t=st=1718698261~exp=1718698861~hmac=4ac970287a100ea1b2459ab7bbb2863fbc61064f5d5436c7abc7a9cced973434")',
+            backgroundImage: 'url("https://img.freepik.com/free-vector/flat-design-illustration-customer-support_23-2148887720.jpg?t=st=1718697971~exp=1718698571~hmac=041906bef4cca145919c8e0337f394ab60823c70c4b9c0beae2060eddd439517")',
             color: '#333',
         }}>
             
-            <div style={{
-                width: '100%',
-                maxWidth: '600px',
-                padding: '20px',
-                boxSizing: 'border-box',
-                textAlign: 'center',
-                marginTop: '80px', 
-               background: 'rgba(255, 255, 255, 0.9)',
-                borderRadius: '15px'
-            }}>
-                <Avatar 
+            
+                {/* <Avatar 
                     style={{
                         margin: '10px auto',
                         backgroundColor: '#3a7bd5',
@@ -54,10 +45,10 @@ export default function Adminpage() {
                     }}
                 >
                     {username.split(' ').map(n => n[0]).join('').toUpperCase()}
-                </Avatar>
-                <Typography variant="h4" style={{color: '#000'}}>Welcome, {username}</Typography>
-                <Typography variant="body1" style={{color: '#333', marginTop: '10px'}}>Email: {email}</Typography>
-                <Button
+                </Avatar> */}
+                <Typography variant="h4" style={{color: '#000',marginTop:'0px'}}><h3>Welcome, {username}</h3></Typography>
+                {/* <Typography variant="body1" style={{color: '#333', marginTop: '0px'}}>Email: {email}</Typography> */}
+                {/* <Button
                     variant="outlined"
                     onClick={handleProfileClick}
                     style={{
@@ -68,9 +59,9 @@ export default function Adminpage() {
                     }}
                 >
                     Edit Profile
-                </Button>
+                </Button> */}
             </div>
-        </div>
+
         </>
     );
 }
