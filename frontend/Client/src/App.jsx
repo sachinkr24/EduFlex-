@@ -16,6 +16,8 @@ import FreeCourses from './components/FreeCourses.jsx';
 import UploadVid from './components/uploadVideo.jsx';
 import Payment from './components/payment.jsx';
 import Title from './components/studycourse.jsx';
+import DisplayBlogs from './components/DisplayBlogs.jsx';
+import CreateBlog from './components/CreateBlog.jsx';
 // import Ratecourse from './components/rateCourse.jsx';
 
 
@@ -68,6 +70,8 @@ function App() {
           <Route path='/admin/upload/:courseId' element={<UploadVid></UploadVid>}></Route>
           <Route path='/users/courses/payment/:courseId' element={<Payment/>}></Route>
           <Route path='/users/courses/:courseId' element={<Title/>}></Route>
+          <Route path='/users/write_blogs' element={<CreateBlog/>}></Route>
+          <Route path='/users/see_blogs' element={<DisplayBlogs/>}></Route>
 
           
           {/* <Route path='/users/ratecourse/:courseId' element={Ratecourse}></Route> */}
