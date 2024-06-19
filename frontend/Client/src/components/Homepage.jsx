@@ -103,10 +103,10 @@ const Homepage = () => {
       borderRadius: 'inherit',
     }}
   />
-  <Typography variant="h1" sx={{ fontWeight: 'bold', mb: 2, textDecoration: 'underline' ,textDecorationColor: '#4f38db',  textUnderlineOffset: '8px'  }}>
+  <Typography variant="h1"sx={{ fontWeight: 'bold', mb: 2}} >
       Welcome to <GradientText>EduFlex</GradientText>
     </Typography>
-  <Typography variant="h4" sx={{ mb: 4 }}>
+  <Typography variant="h4" sx={{  mb: 4 }} >
     Transform your career with expert-led courses
   </Typography>
   {/* <Button variant="contained" size="large" color="secondary" sx={{ mr: 2 }} component={Link} to="/courses">
@@ -121,7 +121,7 @@ const Homepage = () => {
 
       {/* Featured Courses */}
       <Box sx={{ py: 8, mb: 0 }}>
-        <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', fontWeight: 'bold' ,textDecoration: 'underline' ,textDecorationColor: '#4f38db',  textUnderlineOffset: '8px'}}>
+        <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', fontWeight: 'bold' ,textDecoration: 'underline' ,textDecorationColor: '#000080',  textUnderlineOffset: '8px'}}>
           Featured Courses
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
@@ -152,7 +152,7 @@ const Homepage = () => {
 
        {/* Testimonials */}
        <Box sx={{ py: 8, backgroundColor: '#f5f5f5', borderRadius: 2, mb: 0 }}>
-        <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', fontWeight: 'bold',textDecoration: 'underline' ,textDecorationColor: '#4f38db',  textUnderlineOffset: '8px' }}>
+        <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', fontWeight: 'bold',textDecoration: 'underline' ,textDecorationColor: '#000080',  textUnderlineOffset: '8px' }}>
         Student Testimonials
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -166,7 +166,7 @@ const Homepage = () => {
                         display: 'flex', 
                         alignItems: 'center',
                          mb: 2, 
-                         background: `linear-gradient(45deg, #4f38db 30%, #ffffff 90%)`,
+                         background: `linear-gradient(45deg, #000080 30%, #ffffff 90%)`,
                           borderRadius: '30px  30px ' 
                          }}>
                       <Avatar src={testimonial.avatar} alt={testimonial.name} sx={{ mr: 2 }} />
@@ -183,7 +183,7 @@ const Homepage = () => {
         </Box>
       </Box>
       {/* Footer */}
-      <Box sx={{ py: 4, textAlign: 'center', background: `linear-gradient(45deg, #4f38db 40%, #ffffff 90%)`, borderRadius: 2, boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
+      <Box sx={{ py: 4, textAlign: 'center', background: `linear-gradient(45deg, #000080 40%, #ffffff 90%)`, borderRadius: 2, boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
         <Typography variant="body2" color="#ffffff">
           &copy; {new Date().getFullYear()} EduFlex. All rights reserved.
         </Typography>

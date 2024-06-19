@@ -23,7 +23,7 @@ function Appbar() {
         justifyContent: 'space-between',
         alignItems: 'center',
         height: '80px',
-        background: 'linear-gradient(45deg, #4f38db, 30%, #ffffff 90%)',
+        background: 'linear-gradient(45deg, #000080, 30%, #ffffff 90%)',
         boxShadow: '0px 6px 10px rgba(0, 0, 0, 0.1)',
         width: '100vw', 
         position: 'relative',
@@ -43,7 +43,7 @@ function Appbar() {
     }}
   >
     <Logo />
-    <div><h1>EduFlex</h1></div>
+    <div>  <h1 style={{ color: "#fff", margin: "0px 15px" }}>EduFlex</h1></div>
   </div>
   <div
     style={{
@@ -51,13 +51,14 @@ function Appbar() {
       margin: '20px',
     }}
   >
-    <ButtonGroup style={{ color: '#4f38db' }} variant="text" aria-label="text button group">
-      <Button   style={{ color: '#4f38db' }}  component={Link} to="/signup" onClick={handleSignupClick}>
+    <ButtonGroup style={{ color: '#000080' }} variant="text" aria-label="text button group">
+      <Button   style={{  color: '#000080',borderColor: "#000080",  marginRight:"5px"  }}  variant="outlined" component={Link} to="/signup" onClick={handleSignupClick}>
         SIGNUP
       </Button>
-      <Button style={{ color: '#4f38db' }} component={Link} to="/signin" onClick={handleSigninClick}>
+      <Button style={{ color: '#000080',borderColor: "#000080" }}  variant="outlined" component={Link} to="/signin" onClick={handleSigninClick}>
         SIGNIN
       </Button>
+      
     </ButtonGroup>
   </div>
 </div>
