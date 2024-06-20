@@ -5,6 +5,7 @@ import { Typography, Button } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
 import Feedback from "./feedback.jsx";
+import ChatBox from "./chatbot.jsx";
 
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { useLocation } from "react-router-dom";
@@ -14,22 +15,24 @@ function Title() {
   const location = useLocation();
   const course = location.state?.course;
 
+  const [chatOpen, setChatOpen] = useState(false);
+
   return (
     <div>
-      <GrayTopper title={course.title} feed = {course.feedback} />
+      <GrayTopper title={course.title} feed = {course.feedback} setChatOpen = {setChatOpen} />
       <Grid container>
         <Grid item lg={8} md={12} sm={12}>
           <StudyCourse />
         </Grid>
         <Grid item lg={4} md={12} sm={12}>
-          <CommentsCard />
+          {chatOpen === true ? <ChatBox onClose={() => setChatOpen(false)} /> : <CommentsCard />}
         </Grid>
       </Grid>
     </div>
   );
 }
 
-function GrayTopper({ title, feed }) {
+function GrayTopper({ title, feed, setChatOpen }) {
   return (
     <div
       style={{
@@ -57,8 +60,18 @@ function GrayTopper({ title, feed }) {
           >
             {title}
           </Typography>
-          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%" }}>
-            <Feedback courseId={useParams().courseId} text={feed} />
+          <div style={{
+            display: "flex",
+            justifyContent: "center",
+          }}>
+            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%", margin:5 }}>
+              <Feedback courseId={useParams().courseId} text={feed} />
+            </div>
+            <div>
+              <Button variant="contained" onClick={() => setChatOpen(true)} style={{margin: 5}}>
+                AI Help
+              </Button>
+            </div>
           </div>
         </div>
       </div>
