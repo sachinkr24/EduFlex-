@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Container, Grid, Card, CardContent, Typography, Button, CardMedia, Avatar } from '@mui/material';
+import { Container,styled, Grid, Card, CardContent, Typography, Button,Box, CardMedia, Avatar } from '@mui/material';
 import UserBar from "./userBar";
 import { useNavigate } from 'react-router-dom';
 
@@ -33,6 +33,12 @@ const courses = [
     imageUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSmoqTAP2SH7Sby2hLs6W_9fdq3sF6n97miAw&s'
   }
 ];
+const GradientText = styled('span')({
+  background: 'linear-gradient(45deg, #000080, #6a5acd)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+});
+
 
 // CourseCard component
 function CourseCard({ course }) {
@@ -69,9 +75,6 @@ function CourseGrid() {
 
   return (
     <Container style={{ marginTop: '20px' }}>
-      <Typography variant="h4" style={{ textAlign: 'center', marginBottom: '20px' }}>
-        Start Learning
-      </Typography>
       <Grid container spacing={3}>
         {courses.map((course, index) => (
           <Grid item xs={12} sm={6} md={4} lg={3} key={index}>
@@ -111,7 +114,10 @@ export default function UserPage() {
         <div style={{
           width: '100%',
           maxWidth: '1200px',
-          padding: '20px',
+          height:'100%',
+          maxHeight: '1200px',
+          
+         
           boxSizing: 'border-box',
           textAlign: 'center',
           background: 'rgba(255, 255, 255, 0.9)',
@@ -119,22 +125,48 @@ export default function UserPage() {
           display: 'flex',
           flexDirection: 'column', // Ensure the image container is flexible in column direction
         }}>
-          <Typography variant="h4" style={{ color: '#333', marginBottom: '10px' }}>
-            Welcome, {username}
-          </Typography>
          
-          <img
-            src="https://img.freepik.com/free-vector/browser-stats-concept-illustration_114360-312.jpg?w=740&t=st=1718699377~exp=1718702977~hmac=36e98f5ed2a54001a0b5e6d0b1e29d6ddd99175c7ec3cf1b9da220d8e5ca0dbc"
-            alt="Welcome"
-            style={{
-              width: '100%',
-              height: 'auto',
-              maxHeight: '50vh', // Ensure the image covers 30% of the viewport height
-              borderRadius: '15px',
-              marginBottom: '20px',
-            }}
-          />
+         
+          <Box
+        sx={{
+          textAlign: 'center',
+          py: { xs: 10, md: 20 }, // Adjust padding for mobile and desktop
+          color: '#ffffff',
+          borderRadius: 2,
+          mb: 0,
+          position: 'relative',
+          overflow: 'hidden',
+          width: '100vw', // Make the Box span the full viewport width
+          height: '10vw',
+          left: '50%',
+          transform: 'translateX(-50%)', // Center the Box horizontally with no margins
+        }}
+      >
+        <Box
+          sx={{
+            position: 'absolute',
+            top: 0,
+            left: 0,
+            width: '100%',
+            height: '100%',
+            zIndex: -1,
+            backgroundImage: `url("https://img.freepik.com/premium-vector/online-course-banners-study-from-home-using-internet-banners-promotional-media_101434-777.jpg?w=1380")`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center', // Ensure the image is centered
+            backgroundBlendMode: 'overlay',
+            opacity: 1.0,
+            borderRadius: 'inherit',
+          }}
+        />
+        
+      </Box>
         </div>
+        <Typography variant="h3" style={{ marginTop: '10px' , fontWeight: 'bold', mb: 2, color:'#000080', borderColor:'#000080' }}>
+        <GradientText>Welcome {username}</GradientText>
+          </Typography>
+        <Typography variant="h1" sx={{ fontWeight: 'bold', mb: 2, color:'#2C2D2D'}}>
+        Start Learning at <GradientText>EduFlex</GradientText>
+        </Typography>
         <CourseGrid />
       </div>
     </>

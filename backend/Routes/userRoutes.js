@@ -5,7 +5,8 @@ import {signUp, login, considerableCourses, purchaseCourse, allBuyings, updateRa
     courseVideos, purschasedFreeCourse, resetPassword, addComment, getComments, 
     deleteComment, addReply, addFeedback,
     getPosts,
-    addPost} from '../Controller/userController.js'
+    addPost,
+    getPostById} from '../Controller/userController.js'
 import authenticateUserJWT from '../Authentication/userAuth.js'
 import { me } from "../Controller/adminController.js";
 
@@ -33,6 +34,7 @@ userRouter.delete('/course/comments/replies/:courseId/:commentId/:replyId', auth
 userRouter.post('/course/feedback/:courseId', authenticateUserJWT,(req, res, next) => {console.log('feedback passed middleware'); next();}, addFeedback);
 userRouter.get('/blog', authenticateUserJWT, getPosts);
 userRouter.post('/blog', authenticateUserJWT, addPost);
+userRouter.get('/blog/:postId', authenticateUserJWT, getPostById);
 //payments
 userRouter.post("/braintree/payment", authenticateUserJWT,brainTreePaymentController);
 userRouter.put('/resetPassword', resetPassword);
