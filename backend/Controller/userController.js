@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken'
 import orderModel from '../Models/orderModel.js'
 import braintree from "braintree";
 import Video from '../Models/Video.js'
+import BlogPost from '../Models/blogPostModel.js'
 
 
 //payment gateway
@@ -356,6 +357,31 @@ export const addFeedback = async (req, res) => {
     res.status(500).json({ message: 'An error occurred', error: err.message });
   }
 }
+
+export const getPosts = async (req, res) => {
+    const posts = await BlogPost.find({});
+    res.json(posts);
+}
+
+export const addPost = async (req, res) => {
+  const newPost = req.body;
+  const post = {
+      title: newPost.title,
+      content: newPost.content,
+      user: {
+          username: req.user.username,
+          email: req.user.email,
+      },
+  };
+
+  try {
+      const blogPost = new BlogPost(post);
+      await blogPost.save();
+      res.status(201).send(blogPost);
+  } catch (error) {
+      res.status(400).send(error);
+  }
+};
 
 
 //payment gateway api

@@ -14,7 +14,12 @@ const CreateBlog = () => {
         };
 
         try {
-            await axios.post('https://example.com/api/posts', newPost); // replace with your API endpoint
+            await axios.post('http://localhost:3000/users/blog', newPost, {
+                headers : {
+                    'contentType': 'application/json',
+                    'authorization': 'Bearer ' + localStorage.getItem('token'),
+                }
+            });
             alert('Blog post created successfully!');
             setTitle('');
             setContent('');
