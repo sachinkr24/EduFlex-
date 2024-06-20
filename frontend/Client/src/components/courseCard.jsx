@@ -5,6 +5,7 @@ export function CourseCard(props) {
     const course = props.course;
     return <div style={{display: "flex",  marginTop: 50, justifyContent: "center", width: "100%"}}>
      <Card style={{
+       
         margin: 10,
         width: 350,
         minHeight: 200,

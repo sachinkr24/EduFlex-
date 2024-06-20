@@ -17,19 +17,21 @@ function Appbar() {
     };
 
     return (
-        <div
-  style={{
-    display: 'flex',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    height: '80px',
-    background: 'linear-gradient(to right, #11998e, #38ef7d)',
-    width: '100vw', 
-    position: 'relative',
-    left: '50%',
-    transform: 'translateX(-50%)', 
-  }}
->
+        
+      <div style={{
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        height: '80px',
+        background: 'linear-gradient(45deg, #000080, 30%, #ffffff 90%)',
+        boxShadow: '0px 6px 10px rgba(0, 0, 0, 0.1)',
+        width: '100vw', 
+        position: 'relative',
+        left: '50%',
+        transform: 'translateX(-50%)', 
+    }}>
+      
+
   <div
     style={{
       display: 'flex',
@@ -41,7 +43,7 @@ function Appbar() {
     }}
   >
     <Logo />
-    <div><h1>EduFlex</h1></div>
+    <div>  <h1 style={{ color: "#fff", margin: "0px 15px" }}>EduFlex</h1></div>
   </div>
   <div
     style={{
@@ -49,29 +51,14 @@ function Appbar() {
       margin: '20px',
     }}
   >
-    <ButtonGroup variant="text" aria-label="text button group">
-      <Button
-       component={Link} to="/signup" onClick={handleSignupClick}
-       style={{
-        color: '#000',
-       //borderColor: '#000',
-        // backgroundColor: addCourseClicked ? '#f0f0f0' : 'transparent',
-        // transition: 'background-color 0.3s ease-in-out', 
-    }}
-       
-       >
-        <h3>SIGNUP</h3>
+    <ButtonGroup style={{ color: '#000080' }} variant="text" aria-label="text button group">
+      <Button   style={{  color: '#000080',borderColor: "#000080",  marginRight:"5px"  }}  variant="outlined" component={Link} to="/signup" onClick={handleSignupClick}>
+        SIGNUP
       </Button>
-      <Button component={Link} to="/signin" onClick={handleSigninClick}
-          style={{
-            color: '#000',
-          // borderColor: '#000',
-            // backgroundColor: addCourseClicked ? '#f0f0f0' : 'transparent',
-            // transition: 'background-color 0.3s ease-in-out', 
-        }}
-      >
-      <h3>SIGNIN</h3>
+      <Button style={{ color: '#000080',borderColor: "#000080" }}  variant="outlined" component={Link} to="/signin" onClick={handleSigninClick}>
+        SIGNIN
       </Button>
+      
     </ButtonGroup>
   </div>
 </div>

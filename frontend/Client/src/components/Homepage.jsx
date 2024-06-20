@@ -1,6 +1,8 @@
 import React from 'react';
 import { Container, Box, Typography, Button, Grid, Card, CardContent, CardMedia, Avatar } from '@mui/material';
 import { Star, PlayCircleFilled } from '@mui/icons-material';
+import styled from '@emotion/styled';
+
 import { Link } from 'react-router-dom';
 import Appbar from './Appbar.jsx';  
 
@@ -59,6 +61,11 @@ const testimonials = [
   },
 ];
 
+const GradientText = styled('span')({
+  background: 'linear-gradient(45deg, #4f38db, #6a5acd)',
+  WebkitBackgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+});
 const Homepage = () => {
   return (
     <Container maxWidth="lg">
@@ -96,10 +103,10 @@ const Homepage = () => {
       borderRadius: 'inherit',
     }}
   />
-  <Typography variant="h2" sx={{ fontWeight: 'bold', mb: 2 }}>
-    Welcome to EduFlex
-  </Typography>
-  <Typography variant="h5" sx={{ mb: 4 }}>
+  <Typography variant="h1"sx={{ fontWeight: 'bold', mb: 2}} >
+      Welcome to <GradientText>EduFlex</GradientText>
+    </Typography>
+  <Typography variant="h4" sx={{  mb: 4 }} >
     Transform your career with expert-led courses
   </Typography>
   {/* <Button variant="contained" size="large" color="secondary" sx={{ mr: 2 }} component={Link} to="/courses">
@@ -114,14 +121,15 @@ const Homepage = () => {
 
       {/* Featured Courses */}
       <Box sx={{ py: 8, mb: 0 }}>
-        <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', fontWeight: 'bold' }}>
+        <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', fontWeight: 'bold' ,textDecoration: 'underline' ,textDecorationColor: '#000080',  textUnderlineOffset: '8px'}}>
           Featured Courses
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
           <Grid container spacing={4}>
             {courses.map((course, index) => (
               <Grid item xs={12} sm={6} md={4} key={index}>
-                <Card sx={{ height: '100%' }}>
+                <Card sx={{ height: '100%' , boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
+                
                   <CardMedia component="img" height="160" image={course.image} alt={course.title} />
                   <CardContent>
                     <Typography variant="h5" component="div" sx={{ fontWeight: 'bold', mb: 1 }}>
@@ -142,20 +150,27 @@ const Homepage = () => {
         </Box>
       </Box>
 
-      {/* Testimonials */}
-      <Box sx={{ py: 8, backgroundColor: '#f5f5f5', borderRadius: 2, mb: 0 }}>
-        <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', fontWeight: 'bold' }}>
-          What Our Students Say
+       {/* Testimonials */}
+       <Box sx={{ py: 8, backgroundColor: '#f5f5f5', borderRadius: 2, mb: 0 }}>
+        <Typography variant="h4" sx={{ mb: 4, textAlign: 'center', fontWeight: 'bold',textDecoration: 'underline' ,textDecorationColor: '#000080',  textUnderlineOffset: '8px' }}>
+        Student Testimonials
         </Typography>
         <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
           <Grid container spacing={4}>
             {testimonials.map((testimonial, index) => (
               <Grid item xs={12} sm={6} key={index}>
-                <Card>
+                <Card sx={{boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
                   <CardContent>
-                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 0, background: `linear-gradient(45deg, #7eff9b 30%, #ffffff 90%)` }}>
+                  <Box 
+                      Box sx={{ 
+                        display: 'flex', 
+                        alignItems: 'center',
+                         mb: 2, 
+                         background: `linear-gradient(45deg, #000080 30%, #ffffff 90%)`,
+                          borderRadius: '30px  30px ' 
+                         }}>
                       <Avatar src={testimonial.avatar} alt={testimonial.name} sx={{ mr: 2 }} />
-                      <Typography variant="h6">{testimonial.name}</Typography>
+                      <Typography style={{color: '#ffffff'}}variant="h6">{testimonial.name}</Typography>
                     </Box>
                     <Typography variant="body2" color="text.secondary">
                       {testimonial.feedback}
@@ -167,21 +182,12 @@ const Homepage = () => {
           </Grid>
         </Box>
       </Box>
-
       {/* Footer */}
-      <Box 
-  sx={{ 
-    py: 4, 
-    textAlign: 'center', 
-    background: `linear-gradient(45deg, rgba(0,0,0,0.3) 30%, rgba(0,0,0,0.9) 90%)`, 
-    borderRadius: 2 
-  }}
->
-  <Typography variant="body2" color="white">
-    &copy; {new Date().getFullYear()} EduFlex. All rights reserved.
-  </Typography>
-</Box>
-
+      <Box sx={{ py: 4, textAlign: 'center', background: `linear-gradient(45deg, #000080 40%, #ffffff 90%)`, borderRadius: 2, boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)'}}>
+        <Typography variant="body2" color="#ffffff">
+          &copy; {new Date().getFullYear()} EduFlex. All rights reserved.
+        </Typography>
+      </Box>
     </Container>
   );
 };

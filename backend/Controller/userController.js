@@ -6,6 +6,7 @@ import jwt from 'jsonwebtoken'
 import orderModel from '../Models/orderModel.js'
 import braintree from "braintree";
 import Video from '../Models/Video.js'
+import BlogPost from '../Models/blogPostModel.js'
 
 
 //payment gateway
@@ -92,7 +93,6 @@ export const purchaseCourse = async (req, res) => {
     const user = await Users.findOne({ email: req.user.email }).populate('purchasedCourses');
     console.log(user);
     if (user) {
-      console.log(user.purchasedCourses);
       const courses = await Promise.all(user.purchasedCourses.map(async (course) => {
         const purchasedCourse = await Course.findById(course);
         if(purchasedCourse){
@@ -149,21 +149,21 @@ export const updateRating = async (req, res) => {
     let ratingCount = course.ratingCount + 1;
     rating = (rating * (ratingCount - 1) + req.body.rating)/ratingCount;
     await course.updateOne({rating: rating, ratingCount: ratingCount});
-    const user = await Users.findOne({ email: req.user.email });
-    if (user) {
-      const courseIndex = user.purchasedCourses.findIndex(course => course.courseId.toString() === courseId);
-  
-      if (courseIndex !== -1) {
-        user.purchasedCourses[courseIndex].rated = true;
-        await user.save();
-        return { success: true, message: 'Course rated updated successfully.' };
-      } else {
-        return { success: false, message: 'Course not found in purchased courses.' };
-      }
-    } else {
-      return { success: false, message: 'User not found.' };
-    }
     res.json(rating);
+    // const user = await Users.findOne({ email: req.user.email });
+    // if (user) {
+    //   const courseIndex = user.purchasedCourses.findIndex(course => course.courseId === req.params.courseId);
+  
+    //   if (courseIndex !== -1) {
+    //     user.purchasedCourses[courseIndex].rated = true;
+    //     await user.save();
+    //     return { success: true, message: 'Course rated updated successfully.' };
+    //   } else {
+    //     return { success: false, message: 'Course not found in purchased courses.' };
+    //   }
+    // } else {
+    //   return { success: false, message: 'User not found.' };
+    // }
   }else {
     res.status(402).json({message: 'Course not found'});
   }
@@ -356,6 +356,31 @@ export const addFeedback = async (req, res) => {
     res.status(500).json({ message: 'An error occurred', error: err.message });
   }
 }
+
+export const getPosts = async (req, res) => {
+    const posts = await BlogPost.find({});
+    res.json(posts);
+}
+
+export const addPost = async (req, res) => {
+  const newPost = req.body;
+  const post = {
+      title: newPost.title,
+      content: newPost.content,
+      user: {
+          username: req.user.username,
+          email: req.user.email,
+      },
+  };
+
+  try {
+      const blogPost = new BlogPost(post);
+      await blogPost.save();
+      res.status(201).send(blogPost);
+  } catch (error) {
+      res.status(400).send(error);
+  }
+};
 
 
 //payment gateway api

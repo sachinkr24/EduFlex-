@@ -6,39 +6,43 @@ import CardMedia from '@mui/material/CardMedia';
 import Typography from '@mui/material/Typography';
 import altimg from '../images/alt_course_img.webp';
 import { Button, IconButton } from '@mui/material';
-import { CardActionArea } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import UserBar from './userBar';
+import UserBar from './userBar.jsx';
 import StarIcon from '@mui/icons-material/Star';
 import StarBorderIcon from '@mui/icons-material/StarBorder';
+import axios from 'axios';
 
 function UserCourses() {
   const [courses, setCourses] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
-    function callback2(data) {
-      setCourses(data.courses);
-    }
-    function callback1(res) {
-      res.json().then(callback2);
-    }
-    fetch('http://localhost:3000/users/purchasedCourses', {
-      method: 'GET',
-      headers: {
-        'Content-Type': 'application/json',
-        authorization: 'Bearer ' + localStorage.getItem('token'),
-      },
-    }).then(callback1);
+    const fetchCourses = async () => {
+      try {
+        const response = await fetch('http://localhost:3000/users/purchasedCourses', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+            authorization: 'Bearer ' + localStorage.getItem('token'),
+          },
+        });
+        const data = await response.json();
+        setCourses(data.courses);
+      } catch (error) {
+        console.error('Error fetching courses:', error);
+      }
+    };
+
+    fetchCourses();
   }, []);
 
   return (
     <div>
       <UserBar />
       <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center' }}>
-        {courses.map(course => {
-          return <Course key={course._id} course={course} />;
-        })}
+        {courses.map(course => (
+          <Course key={course._id} course={course} />
+        ))}
       </div>
     </div>
   );
@@ -48,17 +52,17 @@ export function Course({ course }) {
   const navigate = useNavigate();
   const [rating, setRating] = useState(course.rating);
 
-  const handleRatingClick = async (value, courseId) => {
+  const handleRatingClick = async (value) => {
     try {
-      const response = await axios.post(`http://localhost:3000/users/updateRating/${courseId}`, { rating: value }, {
+      const response = await axios.post(`http://localhost:3000/users/updateRating/${course._id}`, { rating: value }, {
         headers: {
           'Content-Type': 'application/json',
-          "authorization": 'Bearer ' + localStorage.getItem('token'),
+          authorization: 'Bearer ' + localStorage.getItem('token'),
         }
       });
-  
-      if (response && response.data) {
-        setRating(response.data); 
+
+      if (response.data) {
+        setRating(response.data); // Update rating locally to reflect the change immediately
       } else {
         console.error('Rating update response is not in the expected format.', response);
       }
@@ -69,45 +73,26 @@ export function Course({ course }) {
 
   return (
     <Card sx={{ maxWidth: 345 }} style={{ margin: 10, width: 300, minHeight: 200, padding: 0 }}>
-      <CardMedia component="img" image={course.image ? course.image : altimg} style={{height: 200, width: '100%'}} />
+      <CardMedia component="img" image={course.image ? course.image : altimg} style={{ height: 200, width: '100%' }} />
       <CardContent>
         <Typography gutterBottom variant="h5" component="div" style={{ textAlign: 'center', width: '100%' }}>
           {course.title}
         </Typography>
-        <Typography variant="body2" color="text.secondary" style={{maxHeight: 100, overflow: "auto"}}>
+        <Typography variant="body2" color="text.secondary" style={{ maxHeight: 100, overflow: "auto" }}>
           {course.description}
         </Typography>
-        <div style={{ display: 'flex', marginTop: 20}}>
+        <div style={{ display: 'flex', marginTop: 20 }}>
+          <Typography variant="subtitle2">Rating:</Typography>
           <div>
-            <Typography variant="subtitle2">Rating:</Typography>
+            {[1, 2, 3, 4, 5].map(value => (
+              <IconButton key={value} onClick={() => handleRatingClick(value)}>
+                {rating >= value ? <StarIcon /> : <StarBorderIcon value = {rating} />}
+              </IconButton>
+            ))}
           </div>
-            {course.rated == false ? (
-              <div>
-                <IconButton onClick={() => handleRatingClick(1, course._id)}>
-                  <StarBorderIcon />
-                </IconButton>
-                <IconButton onClick={() => handleRatingClick(2, course._id)}>
-                  <StarBorderIcon />
-                </IconButton>
-                <IconButton onClick={() => handleRatingClick(3, course._id)}>
-                  <StarBorderIcon />
-                </IconButton>
-                <IconButton onClick={() => handleRatingClick(4, course._id)}>
-                  <StarBorderIcon />
-                </IconButton>
-                <IconButton onClick={() => handleRatingClick(5, course._id)}>
-                  <StarBorderIcon />
-                </IconButton>
-              </div>
-            ) : (
-              <div>
-                <Typography variant='body2'>{rating}</Typography>
-              </div>
-            )}
         </div>
       </CardContent>
       <CardActions>
-        {/* Render View button */}
         <Button
           size="small"
           onClick={() => {
