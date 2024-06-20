@@ -9,7 +9,7 @@ const __dirname = fileURLToPath(import.meta.url);
 const dirName = dirname(__dirname);
 dotenv.config({path : path.join(dirName + './../.env')});
 
-const DB_URI = process.env.MONGO_DB;
+const DB_URI = `mongodb+srv://kapilCoursella123:rH91WvmqQxBfytya@users.zmyaiem.mongodb.net/COURSELLA`;
 
 const connectDB = () => {
     
