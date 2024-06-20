@@ -67,11 +67,11 @@ function GrayTopper({ title, feed, setChatOpen }) {
             <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%", margin:5 }}>
               <Feedback courseId={useParams().courseId} text={feed} />
             </div>
-            <div>
+            {/* <div>
               <Button variant="contained" onClick={() => setChatOpen(true)} style={{margin: 5}}>
                 AI Help
               </Button>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>
