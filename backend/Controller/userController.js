@@ -9,6 +9,7 @@ import Video from '../Models/Video.js'
 import BlogPost from '../Models/blogPostModel.js'
 
 
+
 //payment gateway
 var gateway = new braintree.BraintreeGateway({
   environment: braintree.Environment.Sandbox,
@@ -362,6 +363,32 @@ export const getPosts = async (req, res) => {
     res.json(posts);
 }
 
+export const getPostById = async (req, res) => {
+  try {
+      const post = await BlogPost.findById(req.params.postId);
+      
+     
+      if (!post) {
+          return res.status(404).json({ message: 'Post not found' });
+      }
+
+     
+
+      res.json({
+          title: post.title,
+          content: post.content,
+          date: post.date,
+          user: {
+              username: post.user.username,
+              email: post.user.email,
+          },
+          _id: post._id
+      });
+  } catch (error) {
+      console.error('Error fetching post:', error);
+      res.status(500).json({ message: 'Internal server error' });
+  }
+};
 export const addPost = async (req, res) => {
   const newPost = req.body;
   const post = {
@@ -371,6 +398,7 @@ export const addPost = async (req, res) => {
           username: req.user.username,
           email: req.user.email,
       },
+      date: new Date().toISOString(),
   };
 
   try {
