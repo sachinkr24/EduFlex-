@@ -20,9 +20,12 @@ EduFlex is a user-friendly online platform where users can discover, purchase, a
 - Provide discussion forums or chat rooms where students can engage with each other and with the instructor to ask questions, discuss topics, and collaborate on assignments.
 
 ## Advanced Features:
-- Integrate live streaming functionality for instructors to conduct real-time classes, webinars, or Q&A sessions with students.
+- Students can earn points while writting blogs and publish it for public view and modify it, public can sumaarise the whole content and add
+- AI helping support system in case of any doubts
+- User can rate the course add comments and replies
+- Payment and transactions through card and PayPal account.
 - Provide interactive quizzes, polls, and assessments within course content to enhance student engagement and learning outcomes.
-- Implement features for students to submit assignments digitally and for instructors to review, grade, and provide feedback efficiently.
+- Student can ask doubts directly from the specific teacher, message sent through discord webhook to the channel of particular teacher with all information
 
 ## Technology Stack (Proposed):
 - HTML
@@ -35,6 +38,7 @@ EduFlex is a user-friendly online platform where users can discover, purchase, a
 
 ## External Libraries/APIs:
 - React Library
+- Material UI
 - unsplash API
 - OpenAI API
 
