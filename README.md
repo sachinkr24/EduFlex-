@@ -35,6 +35,10 @@ EduFlex is a user-friendly online platform where users can discover, purchase, a
 
 ## External Libraries/APIs:
 - React Library
+- unsplash API
+- OpenAI API
+
+##Website View
 ![Screenshot 2024-06-21 153540](https://github.com/kapil000001/Coursella/assets/85781890/1f4ec275-4547-4697-bcd0-716376e1e96f)
 ![Screenshot 2024-06-21 153728](https://github.com/kapil000001/Coursella/assets/85781890/1c29110d-acea-4c47-b735-8c78342998e4)
 ![Screenshot 2024-06-21 153852](https://github.com/kapil000001/Coursella/assets/85781890/ef7fb1f4-69b2-4b53-87b8-cb3e8cfcbb66)
