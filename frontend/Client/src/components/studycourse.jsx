@@ -1,7 +1,9 @@
 import { Card, Grid, InputLabel, TextField } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Typography, Button } from "@mui/material";
+import { Typography, Button,Dialog,
+  DialogContent,
+  DialogTitle, } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import axios from "axios";
 import Feedback from "./feedback.jsx";
@@ -10,75 +12,99 @@ import ChatBox from "./chatbot.jsx";
 import { Accordion, AccordionSummary, AccordionDetails } from "@mui/material";
 import { useLocation } from "react-router-dom";
 import { set } from "mongoose";
+import Banner from "./banner.jsx";
+import UserBar from "./userBar.jsx";
 
 function Title() {
   const location = useLocation();
   const course = location.state?.course;
 
-  const [chatOpen, setChatOpen] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
 
   return (
     <div>
-      <GrayTopper title={course.title} feed = {course.feedback} setChatOpen = {setChatOpen} />
+      <GrayTopper
+        title={course.title}
+        feed={course.feedback}
+        setShowPopup={setShowPopup}
+      />
       <Grid container>
         <Grid item lg={8} md={12} sm={12}>
           <StudyCourse />
         </Grid>
         <Grid item lg={4} md={12} sm={12}>
-          {chatOpen === true ? <ChatBox onClose={() => setChatOpen(false)} /> : <CommentsCard />}
+          <CommentsCard />
         </Grid>
       </Grid>
+      <Dialog
+        open={showPopup}
+        onClose={() => setShowPopup(false)}
+        
+      >
+       
+        <DialogContent>
+          <ChatBox onClose={() => setShowPopup(false)} />
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }
 
-function GrayTopper({ title, feed, setChatOpen }) {
+function GrayTopper({ title, feed, setShowPopup }) {
   return (
+    
     <div
       style={{
-        height: 250,
-        background: "#212121",
+        position: 'relative',
+        height: 400,
+        background: '#000080 90%',
         top: 0,
-        width: "100vw",
+        
+        width: '100vw',
         zIndex: 0,
         marginBottom: -250,
       }}
     >
+      <UserBar style={{margintop:'100px'}}/>
+      <Banner />
       <div
         style={{
-          height: 250,
-          display: "flex",
-          justifyContent: "center",
-          flexDirection: "column",
+          height: 400,
+          display: 'flex',
+          justifyContent: 'center',
+          flexDirection: 'column',
         }}
       >
         <div>
           <Typography
-            style={{ color: "white", fontWeight: 600 }}
+            style={{ color: 'white', fontWeight: 600 }}
             variant="h3"
-            textAlign={"center"}
+            textAlign="center"
           >
             {title}
           </Typography>
-          <div style={{
-            display: "flex",
-            justifyContent: "center",
-          }}>
-            <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "100%", margin:5 }}>
-              <Feedback courseId={useParams().courseId} text={feed} />
-            </div>
-            * <div>
-              <Button variant="contained" onClick={() => setChatOpen(true)} style={{margin: 5}}>
-                AI Help
-              </Button>
-            </div> 
+          <div
+            style={{
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+              marginTop: 10,
+            }}
+          >
+            <Feedback courseId={useParams().courseId} text={feed} />
+            <Button
+              variant="contained"
+              onClick={() => setShowPopup(true)}
+              style={{ marginLeft: 10 }}
+            >
+              AI Help
+            </Button>
           </div>
         </div>
       </div>
     </div>
   );
 }
-
 function StudyCourse() {
   const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
