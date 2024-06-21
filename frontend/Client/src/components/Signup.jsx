@@ -9,6 +9,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { signUp } from '../Logics/Signup.js';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
+import Banner from './banner.jsx';
 
 export default function Signup() {
 
@@ -54,6 +55,7 @@ export default function Signup() {
 
     return <div>
         <Appbar />
+       <Banner/>
         <div style={{
             paddingTop: 150,
             marginBottom: '10',
@@ -61,7 +63,10 @@ export default function Signup() {
             justifyContent: 'center',
         }}>
             <Typography variant="h6">
-                Welcome to SkillSync !! Signup Below
+            <Typography variant="h5" sx={{ color: '#ffffff' }}>
+            Welcome to EduFlex !! Signup Below
+</Typography>
+                
             </Typography>
         </div>
         <div style={{

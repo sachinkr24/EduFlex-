@@ -1,28 +1,25 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import DropIn from "braintree-web-drop-in-react";
 import axios from "axios";
-import { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { useNavigate } from 'react-router-dom';
+import { useParams, useNavigate } from 'react-router-dom';
 import { toast } from 'react-hot-toast';
-import { set } from 'mongoose';
-
+import { Container, Typography, Box, Button, CircularProgress, Card, CardContent, Alert } from '@mui/material';
+import UserBar from './userBar';
+import Banner from './banner';
 function Payment() {
+  const [clientToken, setClientToken] = useState("");
+  const [instance, setInstance] = useState(null);
+  const [cart, setCart] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [paymentFailed, setPaymentFailed] = useState(false);
+  const params = useParams();
+  const navigate = useNavigate();
 
-    const [clientToken, setClientToken] = useState("");
-    const [instance, setInstance] = useState("");
-    const [cart, setCart] = useState({});
-    const [loading, setLoading]= useState(false);
-    const params = useParams();
-    const [paymentFailed, setPaymentFailed] = useState(false);
-
-    const navigate = useNavigate();
-
-      //get payment gateway token
+  // Get payment gateway token
   const getToken = async () => {
     try {
-      const { data } = await axios.get("http://localhost:3000/users/braintree/token");                       
-      setClientToken(data?.clientToken);
+      const { data } = await axios.get("http://localhost:3000/users/braintree/token");
+      setClientToken(data.clientToken);
     } catch (error) {
       console.log(error);
     }
@@ -30,34 +27,32 @@ function Payment() {
 
   const getCourse = async () => {
     const courseId = params.courseId;
-    axios.get("http://localhost:3000/users/courses/" + courseId, {
+    try {
+      const { data } = await axios.get(`http://localhost:3000/users/courses/${courseId}`, {
         headers: {
-            "authorization": "Bearer " + localStorage.getItem("token")
+          "Authorization": `Bearer ${localStorage.getItem("token")}`
         }
-    }).then(res => {
-        setCart(res.data);
-    });
-}
+      });
+      setCart(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   useEffect(() => {
     getToken();
     getCourse();
   }, []);
 
-   //handle payments
-   const handlePayment = async () => {
+  // Handle payments
+  const handlePayment = async () => {
     try {
       setLoading(true);
-
-      const { nonce } = await instance.requestPaymentMethod();         // /api/v1/product/braintree/payment
-      
-      await axios.post("http://localhost:3000/users/braintree/payment", {
-        nonce,
-        cart,
-      }, {
-        headers : {
-            'Content-Type': 'application/json',
-            'authorization' : "Bearer " + localStorage.getItem("token"),
+      const { nonce } = await instance.requestPaymentMethod();
+      await axios.post("http://localhost:3000/users/braintree/payment", { nonce, cart }, {
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${localStorage.getItem("token")}`
         }
       });
       setLoading(false);
@@ -67,47 +62,70 @@ function Payment() {
       toast.success("Payment Completed Successfully");
     } catch (error) {
       console.log(error);
-      setLoading(true);
+      setLoading(false);
       setPaymentFailed(true);
     }
   };
 
   useEffect(() => {
     if (paymentFailed) {
-      alert("Payment Failed");
+      toast.error("Payment Failed");
       navigate("/users/courses");
     }
-  }, [paymentFailed]);
+  }, [paymentFailed, navigate]);
 
   return (
-    <div className="mt-2">
-              {!clientToken  ? (
-                ""
-              ) : 
-              (
-                <>
-                  <DropIn
-                    options={{
-                      authorization: clientToken,
-                      paypal: {
-                        flow: "vault",
-                      },
-                    }}
-                    onInstance={(instance) => setInstance(instance)}
-                  />
-
-                  <button
-                    className="btn btn-primary"
-                    onClick={handlePayment}  
-                    disabled={loading ||!instance}        //loading || !instance || !auth?.user?.address
-                  >
-                    {loading ? "Processing ...." : "Make Payment"}
-                  </button>
-                </>
-              )}
-            </div>
-
-  )
+    <div><UserBar/>
+      <Banner/>
+    <Container maxWidth="sm" sx={{ mt: 5 }}>
+      
+      <Card>
+        <CardContent>
+          <Typography variant="h4" gutterBottom>
+            Payment for Course
+          </Typography>
+          {cart.title && (
+            <Typography variant="h6" gutterBottom>
+              {cart.title}
+            </Typography>
+          )}
+          {loading ? (
+            <Box sx={{ display: 'flex', justifyContent: 'center', mt: 2 }}>
+              <CircularProgress />
+            </Box>
+          ) : (
+            clientToken && (
+              <Box sx={{ mt: 3 }}>
+                <DropIn
+                  options={{
+                    authorization: clientToken,
+                    paypal: { flow: "vault" },
+                  }}
+                  onInstance={(instance) => setInstance(instance)}
+                />
+                <Button
+                  variant="contained"
+                  color="primary"
+                  fullWidth
+                  onClick={handlePayment}
+                  disabled={!instance || loading}
+                  sx={{ mt: 2 }}
+                >
+                  {loading ? "Processing..." : "Make Payment"}
+                </Button>
+              </Box>
+            )
+          )}
+          {!clientToken && !loading && (
+            <Alert severity="info" sx={{ mt: 2 }}>
+              Loading payment options...
+            </Alert>
+          )}
+        </CardContent>
+      </Card>
+    </Container>
+    </div>
+  );
 }
 
-export default Payment
+export default Payment;

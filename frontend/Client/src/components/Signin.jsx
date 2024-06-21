@@ -10,6 +10,7 @@ import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
 import { signIn } from '../Logics/Signin.js';
 import { z } from 'zod';
 import axios from 'axios';
+import Banner from './banner.jsx';
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -77,6 +78,7 @@ export default function Signup() {
   return (
     <div>
       <Appbar />
+      <Banner/>
       {reset ? (
         <div style={{
           paddingTop: 150,
@@ -154,7 +156,10 @@ export default function Signup() {
               justifyContent: 'center',
             }}
           >
-            <Typography variant="h6">Welcome Back!! Sign in Below</Typography>
+           <Typography variant="h5" sx={{ color: '#ffffff' }}>
+  Welcome Back!! Sign in Below
+</Typography>
+
           </div>
           <div
             style={{

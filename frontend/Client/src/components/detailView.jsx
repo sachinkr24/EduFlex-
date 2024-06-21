@@ -5,8 +5,6 @@ import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import UserBar from './userBar';
 
-const UNSPLASH_ACCESS_KEY = 'YOUR_UNSPLASH_ACCESS_KEY'; // Replace with your Unsplash access key
-
 const GradientText = styled('span')({
   background: 'linear-gradient(45deg, #4f38db, #6a5acd)',
   WebkitBackgroundClip: 'text',
@@ -39,30 +37,6 @@ const DetailView = () => {
     fetchPost();
   }, [postId]); // Fetch data whenever postId changes
 
-  const getImageUrl = async (title) => {
-    try {
-      const response = await axios.get('https://api.unsplash.com/search/photos', {
-        params: { query: title, per_page: 1, order_by: 'latest' },
-        headers: {
-          Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
-        },
-      });
-      if (response.data.results.length > 0) {
-        return response.data.results[0].urls.small;
-      } else {
-        return `https://via.placeholder.com/150?text=${encodeURIComponent(title)}`; // Placeholder with title text
-      }
-    } catch (error) {
-      console.error('Error fetching image:', error);
-      return `https://via.placeholder.com/150?text=${encodeURIComponent(title)}`; // Placeholder with title text on error
-    }
-  };
-
-  const truncateText = (text, length = 500) => {
-    if (text.length <= length) return text;
-    return text.substring(0, length) + '...';
-  };
-
   if (loading) {
     return (
       <Container>
@@ -84,24 +58,20 @@ const DetailView = () => {
       <UserBar />
       <Box
         sx={{
-          position: 'relative',
-          backgroundColor: '#000',
-          color: '#fff',
-          py: { xs: 10, md: 20 },
           textAlign: 'center',
-          backgroundImage: `url(${post.image ? post.image : 'https://via.placeholder.com/150'})`,
+          py: { xs: 8, md: 12 },
+          color: '#ffffff',
+          borderRadius: 2,
+          mb: 4,
+          position: 'relative',
+          overflow: 'hidden',
+          width: '100%',
+          backgroundImage: `url("https://img.freepik.com/premium-photo/robot-humanoid-use-laptop-sit-table-future-office_31965-8702.jpg?w=1380"), linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7))`,
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          '&::before': {
-            content: '""',
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
-            zIndex: 0,
-          },
+          backgroundBlendMode: 'overlay',
+          borderRadius: 2,
+         
         }}
       >
         <Typography variant="h1" sx={{ fontWeight: 'bold', zIndex: 1, position: 'relative' }}>

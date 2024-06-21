@@ -1,3 +1,4 @@
+// DisplayBlogs.jsx
 import React, { useEffect, useState } from 'react';
 import { Container, Typography, Card, Box, Grid, CardContent, CircularProgress, Alert, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
@@ -5,8 +6,7 @@ import axios from 'axios';
 import { useNavigate, useParams } from "react-router-dom";
 import UserBar from './userBar.jsx';
 import Categories from './Categories.jsx';
-
-const UNSPLASH_ACCESS_KEY = '3F2LoccWCog6Kkc0nD-7oKDlMDUQsg7c9_y6KGje7qY';
+import { fetchImages } from './Image_api.jsx';
 
 const StyledCard = styled(Card)(({ theme }) => ({
   backgroundColor: theme.palette.background.paper,
@@ -18,6 +18,9 @@ const StyledCard = styled(Card)(({ theme }) => ({
   display: 'flex',
   flexDirection: 'column',
   height: '100%',
+  [theme.breakpoints.down('sm')]: {
+    height: 'auto',
+  },
 }));
 
 const GradientText = styled('span')({
@@ -28,7 +31,7 @@ const GradientText = styled('span')({
 
 const DisplayBlogs = () => {
   const navigate = useNavigate();
-  const { postId } = useParams(); // Accessing postId parameter from URL
+  const { postId } = useParams();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -44,7 +47,8 @@ const DisplayBlogs = () => {
           },
         });
         setPosts(response.data);
-        fetchImages(response.data);
+        const urls = await fetchImages(response.data);
+        setImageUrls(urls);
       } catch (error) {
         setError('There was an error fetching the blog posts!');
       } finally {
@@ -54,34 +58,6 @@ const DisplayBlogs = () => {
 
     fetchPosts();
   }, []);
-
-  const fetchImages = async (posts) => {
-    const urls = {};
-    for (const post of posts) {
-      const url = await getImageUrl(post.title);
-      urls[post.id] = url;
-    }
-    setImageUrls(urls);
-  };
-
-  const getImageUrl = async (title) => {
-    try {
-      const response = await axios.get('https://api.unsplash.com/search/photos', {
-        params: { query: title, per_page: 1, order_by: 'latest' },
-        headers: {
-          Authorization: `Client-ID ${UNSPLASH_ACCESS_KEY}`,
-        },
-      });
-      if (response.data.results.length > 0) {
-        return response.data.results[0].urls.small;
-      } else {
-        return `https://via.placeholder.com/150?text=${encodeURIComponent(title)}`; // Placeholder with title text
-      }
-    } catch (error) {
-      console.error('Error fetching image:', error);
-      return `https://via.placeholder.com/150?text=${encodeURIComponent(title)}`; // Placeholder with title text on error
-    }
-  };
 
   const truncateText = (text, length) => {
     if (text.length <= length) return text;
@@ -110,33 +86,20 @@ const DisplayBlogs = () => {
       <Box
         sx={{
           textAlign: 'center',
-          py: { xs: 10, md: 20 },
+          py: { xs: 8, md: 12 },
           color: '#ffffff',
           borderRadius: 2,
-          mb: 0,
+          mb: 4,
           position: 'relative',
           overflow: 'hidden',
-          width: '100vw',
-          left: '50%',
-          transform: 'translateX(-50%)',
+          width: '100%',
+          backgroundImage: `url("https://www.shutterstock.com/image-photo/banner-blogger-woman-hands-typing-600nw-2137810931.jpg"), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          backgroundBlendMode: 'overlay',
+          borderRadius: 2,
         }}
       >
-        <Box
-          sx={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            width: '100%',
-            height: '100%',
-            zIndex: -1,
-            backgroundImage: `url("https://www.shutterstock.com/image-photo/banner-blogger-woman-hands-typing-600nw-2137810931.jpg"), linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5))`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            backgroundBlendMode: 'overlay',
-            opacity: 1.0,
-            borderRadius: 'inherit',
-          }}
-        />
         <Typography variant="h1" sx={{ fontWeight: 'bold', mb: 2 }}>
           Write Blogs on <GradientText>EduFlex</GradientText>
         </Typography>
@@ -164,7 +127,7 @@ const DisplayBlogs = () => {
         <Categories />
       </Box>
 
-      <Container>
+      <Container sx={{ mb: 4 }}>
         <Typography variant="h4" gutterBottom style={{ textAlign: 'center', marginTop: '20px' }}>
           Blog Posts
         </Typography>
@@ -194,7 +157,7 @@ const DisplayBlogs = () => {
                     {post.title}
                   </Typography>
                   <Typography variant="body2" component="p">
-                    {truncateText(post.content, 100)} 
+                    {truncateText(post.content, 100)}
                   </Typography>
                   <Button
                     style={{
@@ -205,7 +168,7 @@ const DisplayBlogs = () => {
                       fontWeight: 'bold',
                     }}
                     type="button"
-                    onClick={() => navigate(`/users/detailView/${post._id}`)} // Navigate to DetailView with postId parameter
+                    onClick={() => navigate(`/users/detailView/${post._id}`)}
                     variant="outlined"
                     color="primary"
                   >
