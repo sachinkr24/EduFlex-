@@ -27,20 +27,63 @@ EduFlex is a user-friendly online platform where users can discover, purchase, a
 - Provide interactive quizzes, polls, and assessments within course content to enhance student engagement and learning outcomes.
 - Student can ask doubts directly from the specific teacher, message sent through discord webhook to the channel of particular teacher with all information
 
-## Technology Stack (Proposed):
-- HTML
-- CSS
+## Technology Stack (Proposed)
+EduFlex leverages a modern technology stack to deliver a robust and scalable platform for educational resources and collaborative tools.
 
-- JavaScript
-- MongoDB/SQL/Firebase
-- Express
-- Node.js
+- **HTML & CSS:** The foundational technologies for building the structure and styling of the web pages.
+- **JavaScript:** The programming language used for both frontend and backend development to create interactive and dynamic user experiences.
+- **MongoDB/SQL/Firebase:** Flexible database options for storing and managing application data, allowing for scalability and high performance.
+- **Express:** A minimalist web framework for Node.js, used to build the backend API and handle server-side logic.
+- **Node.js:** A powerful JavaScript runtime for building fast and scalable network applications.
 
-## External Libraries/APIs:
-- React Library
-- Material UI
-- unsplash API
-- OpenAI API
+## External Libraries/APIs
+EduFlex integrates several external libraries and APIs to enhance functionality and user experience.
+
+- **React Library:** A popular JavaScript library for building user interfaces, enabling the creation of reusable UI components and efficient rendering.
+- **Material UI:** A comprehensive library of UI components for React, providing a consistent and attractive design system.
+- **Unsplash API:** An API that provides access to a vast collection of high-quality images, used to enrich the visual content of the platform.
+- **OpenAI API:** An advanced API that offers natural language processing capabilities, used to implement intelligent features such as chatbots and content generation.
+
+
+## Getting Started
+
+### Prerequisites
+
+Ensure that `Node.js` and `MongoDB` are installed on your machine.
+
+Add your own configurations for environment variables used to environment file.
+
+
+
+## 🛠️ Installation
+
+1. Clone the repository
+```bash
+git clone https://github.com/sachinkr24/EduFlex-.git
+```
+2. Navigate to the project's client directory:
+```
+cd client
+```
+3. Install dependencies
+```
+npm install
+```
+4. Navigate to the project's backend directory:
+```
+cd.. 
+cd backend
+```
+5. Install dependencies
+```
+npm install
+```
+
+6. Start the development server at backend directory:
+```
+npm run both
+```
+
 
 
 
