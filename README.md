@@ -46,22 +46,25 @@ EduFlex is a user-friendly online platform where users can discover, purchase, a
 
 ##Website View
 
-![Screenshot 2024-06-21 164132](https://github.com/kapil000001/Coursella/assets/85781890/f439c8e2-46d9-464c-970b-4c0f03905f30)
-![Screenshot 2024-06-21 165108](https://github.com/kapil000001/Coursella/assets/85781890/5f4891f4-888c-4d68-a974-c8316a3c8927)
+![Screenshot 2024-06-21 164132](https://github.com/kapil000001/Coursella/assets/85781890/f439c8e2-46d9-464c-970b-4c0f03905f30
+![Screenshot 2024-06-21 183958](https://github.com/kapil000001/Coursella/assets/85781890/012fa5b2-ed68-41ef-bb28-3bd8bd3a0dd7)
+
+
 ![Screenshot 2024-06-21 153728](https://github.com/kapil000001/Coursella/assets/85781890/1c29110d-acea-4c47-b735-8c78342998e4)
 
 ![Screenshot 2024-06-21 163015](https://github.com/kapil000001/Coursella/assets/85781890/ca25c50c-d4bc-4a30-98c8-84b56ddb5906)
 ![Screenshot 2024-06-21 163109](https://github.com/kapil000001/Coursella/assets/85781890/d9f10299-f977-41c7-a542-6417b5a934ab)
-![Screenshot 2024-06-21 184221](https://github.com/kapil000001/Coursella/assets/85781890/9d1659bf-8f07-49cb-a7ab-8806e9df81de)
-
-![Screenshot 2024-06-21 153852](https://github.com/kapil000001/Coursella/assets/85781890/ef7fb1f4-69b2-4b53-87b8-cb3e8cfcbb66)
-![Screenshot 2024-06-21 153540](https://github.com/kapil000001/Coursella/assets/85781890/1f4ec275-4547-4697-bcd0-716376e1e96f)
 ![Screenshot 2024-06-21 155825](https://github.com/kapil000001/Coursella/assets/85781890/ab77ef21-8ef0-4f49-95e0-b42fd3f42fba)
 ![Screenshot 2024-06-21 162248](https://github.com/kapil000001/Coursella/assets/85781890/d35f57b0-bd72-4ad3-b2ed-d033107a7b95)
 
 ![Screenshot 2024-06-21 163840](https://github.com/kapil000001/Coursella/assets/85781890/60cecd14-2a1f-4aee-b578-b4e3edab6c87)
 ![Screenshot 2024-06-21 183931](https://github.com/kapil000001/Coursella/assets/85781890/cb939797-7906-4fcf-9b6b-9dbface902f4)
-![Screenshot 2024-06-21 183958](https://github.com/kapil000001/Coursella/assets/85781890/012fa5b2-ed68-41ef-bb28-3bd8bd3a0dd7)
+
+![Screenshot 2024-06-21 165108](https://github.com/kapil000001/Coursella/assets/85781890/5f4891f4-888c-4d68-a974-c8316a3c8927)
+![Screenshot 2024-06-21 184221](https://github.com/kapil000001/Coursella/assets/85781890/9d1659bf-8f07-49cb-a7ab-8806e9df81de)
+![Screenshot 2024-06-21 153852](https://github.com/kapil000001/Coursella/assets/85781890/ef7fb1f4-69b2-4b53-87b8-cb3e8cfcbb66)
+![Screenshot 2024-06-21 153540](https://github.com/kapil000001/Coursella/assets/85781890/1f4ec275-4547-4697-bcd0-716376e1e96f)
+
 
 
 
