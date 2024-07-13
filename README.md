@@ -46,7 +46,7 @@ EduFlex is a user-friendly online platform where users can discover, purchase, a
 
 ##Website View
 
-![Screenshot 2024-06-21 164132](https://github.com/kapil000001/Coursella/assets/85781890/f439c8e2-46d9-464c-970b-4c0f03905f30
+
 ![Screenshot 2024-06-21 183958](https://github.com/kapil000001/Coursella/assets/85781890/012fa5b2-ed68-41ef-bb28-3bd8bd3a0dd7)
 
 
@@ -59,7 +59,7 @@ EduFlex is a user-friendly online platform where users can discover, purchase, a
 
 ![Screenshot 2024-06-21 163840](https://github.com/kapil000001/Coursella/assets/85781890/60cecd14-2a1f-4aee-b578-b4e3edab6c87)
 ![Screenshot 2024-06-21 183931](https://github.com/kapil000001/Coursella/assets/85781890/cb939797-7906-4fcf-9b6b-9dbface902f4)
-
+![Screenshot 2024-06-21 164132](https://github.com/kapil000001/Coursella/assets/85781890/f439c8e2-46d9-464c-970b-4c0f03905f30)
 ![Screenshot 2024-06-21 165108](https://github.com/kapil000001/Coursella/assets/85781890/5f4891f4-888c-4d68-a974-c8316a3c8927)
 ![Screenshot 2024-06-21 184221](https://github.com/kapil000001/Coursella/assets/85781890/9d1659bf-8f07-49cb-a7ab-8806e9df81de)
 ![Screenshot 2024-06-21 153852](https://github.com/kapil000001/Coursella/assets/85781890/ef7fb1f4-69b2-4b53-87b8-cb3e8cfcbb66)
